@@ -35,7 +35,7 @@
       "split": "dev"
     },
     "nemotron_test_5k": {
-      "definition": "sample(test, 5000, seed=0): in-distribution held-out test set",
+      "definition": "sample(test, 5000, seed=0): held-out test set, same generator, mostly unseen domains",
       "documents": 5000,
       "load_options": {
         "merge_adjacent": true,

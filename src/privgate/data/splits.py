@@ -92,7 +92,7 @@ EVALUATION_SETS: tuple[EvaluationSetSpec, ...] = (
     ),
     EvaluationSetSpec(
         "nemotron_test_5k", "nemotron_test_file", "test", 5000, 0,
-        "sample(test, 5000, seed=0): in-distribution held-out test set",
+        "sample(test, 5000, seed=0): held-out test set, same generator, mostly unseen domains",
     ),
     EvaluationSetSpec(
         "gretel_en_test", "gretel_en_test_file", "test", None, None,

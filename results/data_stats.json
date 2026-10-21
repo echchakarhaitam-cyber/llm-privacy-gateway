@@ -1,0 +1,723 @@
+{
+  "evaluation_sets": {
+    "gretel_en_test": {
+      "characters": 4082069,
+      "documents": 2891,
+      "pii_char_share": 0.056896,
+      "pii_characters": 232254,
+      "sha256": "2a4f2ff50ec6304081d0d89a3838086a6c13b6fb3e38fe588a81ed973ede9f2a",
+      "spans": 12719,
+      "spans_per_label": {
+        "CREDIT_CARD": 83,
+        "DATE": 1085,
+        "EMAIL": 320,
+        "IBAN": 69,
+        "ID_NUMBER": 528,
+        "IP_ADDRESS": 123,
+        "LOCATION": 2244,
+        "ORGANIZATION": 3443,
+        "OTHER": 693,
+        "PERSON": 3654,
+        "PHONE": 477,
+        "URL": 0
+      },
+      "top_domains": [
+        [
+          "finance",
+          2891
+        ]
+      ]
+    },
+    "nemotron_dev_2k": {
+      "characters": 1961701,
+      "documents": 2000,
+      "pii_char_share": 0.127231,
+      "pii_characters": 249590,
+      "sha256": "47354466ff6a39052d29d4afa50e3c96184931ea983b873149bd0b22b8baeebd",
+      "spans": 15567,
+      "spans_per_label": {
+        "CREDIT_CARD": 205,
+        "DATE": 2116,
+        "EMAIL": 955,
+        "IBAN": 0,
+        "ID_NUMBER": 2024,
+        "IP_ADDRESS": 278,
+        "LOCATION": 1898,
+        "ORGANIZATION": 1620,
+        "OTHER": 3505,
+        "PERSON": 1434,
+        "PHONE": 689,
+        "URL": 843
+      },
+      "top_domains": [
+        [
+          "Cybersecurity",
+          87
+        ],
+        [
+          "Telecommunications",
+          87
+        ],
+        [
+          "Technology",
+          85
+        ],
+        [
+          "Government",
+          82
+        ],
+        [
+          "Identity Verification Services",
+          82
+        ],
+        [
+          "Construction",
+          80
+        ],
+        [
+          "Education",
+          78
+        ],
+        [
+          "Identity Management",
+          74
+        ],
+        [
+          "Entertainment",
+          73
+        ],
+        [
+          "Healthcare",
+          73
+        ]
+      ]
+    },
+    "nemotron_test_5k": {
+      "characters": 4755743,
+      "documents": 5000,
+      "pii_char_share": 0.128211,
+      "pii_characters": 609739,
+      "sha256": "b274c139516e71132a77f47896e8c0a36ab24e47af34d50985ecc830b7bdc2a7",
+      "spans": 40000,
+      "spans_per_label": {
+        "CREDIT_CARD": 668,
+        "DATE": 5151,
+        "EMAIL": 2687,
+        "IBAN": 0,
+        "ID_NUMBER": 5063,
+        "IP_ADDRESS": 488,
+        "LOCATION": 4923,
+        "ORGANIZATION": 2647,
+        "OTHER": 9930,
+        "PERSON": 5148,
+        "PHONE": 1492,
+        "URL": 1803
+      },
+      "top_domains": [
+        [
+          "Health",
+          227
+        ],
+        [
+          "Brokerage",
+          205
+        ],
+        [
+          "Banking",
+          203
+        ],
+        [
+          "Credit",
+          202
+        ],
+        [
+          "Disability",
+          195
+        ],
+        [
+          "Information Technology",
+          193
+        ],
+        [
+          "Elections",
+          187
+        ],
+        [
+          "Consulting",
+          184
+        ],
+        [
+          "Investment",
+          183
+        ],
+        [
+          "Human Resources",
+          181
+        ]
+      ]
+    }
+  },
+  "file_facts": {
+    "gretel_en_test_file": {
+      "distinct_ids": 2891,
+      "domains": [
+        "finance"
+      ],
+      "rows": 2891,
+      "rows_per_id": {
+        "1": 2891
+      }
+    },
+    "nemotron_test_file": {
+      "distinct_ids": 50000,
+      "domains": [
+        "Access Control Systems",
+        "Advertising",
+        "Automobile",
+        "Banking",
+        "Brokerage",
+        "Casualty",
+        "Consulting",
+        "Credit",
+        "Disability",
+        "Elections",
+        "Environmental",
+        "Fitness",
+        "Health",
+        "Healthcare Providers",
+        "Human Resources",
+        "Information Technology",
+        "Insurance",
+        "Investment",
+        "Life",
+        "Marketing",
+        "Mortgage",
+        "Product",
+        "Property",
+        "Public Safety",
+        "Services",
+        "Social Science",
+        "Sports",
+        "Travel",
+        "User Account and Transaction Services"
+      ],
+      "rows": 100000,
+      "rows_per_id": {
+        "2": 50000
+      }
+    },
+    "nemotron_train_file": {
+      "distinct_ids": 50000,
+      "domains": [
+        "Agriculture",
+        "Automotive",
+        "Biotechnology",
+        "Chemicals",
+        "Civil Rights",
+        "Construction",
+        "Consumer Goods",
+        "Cybersecurity",
+        "Ecommerce",
+        "Education",
+        "Energy",
+        "Entertainment",
+        "Finance",
+        "Government",
+        "Healthcare",
+        "Hospitality",
+        "Identity Management",
+        "Identity Verification Services",
+        "Insurance",
+        "Legal",
+        "Logistics",
+        "Manufacturing",
+        "Media",
+        "Non-Profit",
+        "Pharmaceuticals",
+        "Real Estate",
+        "Retail",
+        "Technology",
+        "Telecommunications",
+        "Transportation"
+      ],
+      "rows": 100000,
+      "rows_per_id": {
+        "2": 50000
+      }
+    }
+  },
+  "generated_by": "scripts/data_stats.py",
+  "load_reports": {
+    "gretel_en_test_file": {
+      "case_only_mismatches": 0,
+      "dataset": "gretel-finance-en",
+      "documents": 2891,
+      "kept_label_counts": {
+        "CREDIT_CARD": 83,
+        "DATE": 1085,
+        "EMAIL": 320,
+        "IBAN": 69,
+        "ID_NUMBER": 528,
+        "IP_ADDRESS": 123,
+        "LOCATION": 2244,
+        "ORGANIZATION": 3443,
+        "OTHER": 693,
+        "PERSON": 3654,
+        "PHONE": 477
+      },
+      "options": {
+        "merge_adjacent": true,
+        "offset_check": "casefold",
+        "overlap_policy": "resolve",
+        "strict_labels": false
+      },
+      "overlapping_pairs": 106,
+      "raw_label_counts": {
+        "account_pin": 80,
+        "api_key": 54,
+        "bank_routing_number": 81,
+        "bban": 93,
+        "company": 3476,
+        "credit_card_number": 83,
+        "credit_card_security_code": 76,
+        "customer_id": 94,
+        "date": 923,
+        "date_of_birth": 126,
+        "date_time": 38,
+        "driver_license_number": 68,
+        "email": 330,
+        "employee_id": 114,
+        "first_name": 159,
+        "iban": 69,
+        "ipv4": 62,
+        "ipv6": 61,
+        "last_name": 82,
+        "local_latlng": 58,
+        "name": 3489,
+        "passport_number": 76,
+        "password": 47,
+        "phone_number": 480,
+        "ssn": 85,
+        "street_address": 2194,
+        "swift_bic_code": 112,
+        "time": 211,
+        "user_name": 32
+      },
+      "spans_dropped": {
+        "empty_after_trim": 0,
+        "offset_mismatch": 0,
+        "out_of_bounds": 0,
+        "overlap": 106
+      },
+      "spans_kept": 12719,
+      "spans_merged": 28,
+      "spans_read": 12853,
+      "spans_trimmed": 3,
+      "unknown_labels": {}
+    },
+    "nemotron_test_file": {
+      "case_only_mismatches": 6195,
+      "dataset": "nemotron-pii",
+      "documents": 100000,
+      "kept_label_counts": {
+        "CREDIT_CARD": 12866,
+        "DATE": 105137,
+        "EMAIL": 53917,
+        "ID_NUMBER": 102734,
+        "IP_ADDRESS": 9216,
+        "LOCATION": 98489,
+        "ORGANIZATION": 54837,
+        "OTHER": 197825,
+        "PERSON": 97061,
+        "PHONE": 30353,
+        "URL": 37847
+      },
+      "options": {
+        "merge_adjacent": true,
+        "offset_check": "casefold",
+        "overlap_policy": "resolve",
+        "strict_labels": false
+      },
+      "overlapping_pairs": 34,
+      "raw_label_counts": {
+        "account_number": 16693,
+        "age": 7167,
+        "api_key": 4667,
+        "bank_routing_number": 8354,
+        "biometric_identifier": 11379,
+        "blood_type": 5539,
+        "certificate_license_number": 3002,
+        "city": 18347,
+        "company_name": 54837,
+        "coordinate": 7659,
+        "country": 23475,
+        "county": 8465,
+        "credit_debit_card": 12867,
+        "customer_id": 20502,
+        "cvv": 4843,
+        "date": 73867,
+        "date_of_birth": 18079,
+        "date_time": 13221,
+        "device_identifier": 2507,
+        "education_level": 9378,
+        "email": 53930,
+        "employee_id": 8878,
+        "employment_status": 11018,
+        "fax_number": 6423,
+        "first_name": 84043,
+        "gender": 7645,
+        "health_plan_beneficiary_number": 10558,
+        "http_cookie": 4892,
+        "ipv4": 6078,
+        "ipv6": 3139,
+        "language": 8651,
+        "last_name": 59596,
+        "license_plate": 4078,
+        "mac_address": 4250,
+        "medical_record_number": 11098,
+        "national_id": 2847,
+        "occupation": 36888,
+        "password": 6985,
+        "phone_number": 23930,
+        "pin": 6456,
+        "political_view": 6402,
+        "postcode": 6279,
+        "race_ethnicity": 9248,
+        "religious_belief": 6257,
+        "sexuality": 3312,
+        "ssn": 6062,
+        "state": 18318,
+        "street_address": 16879,
+        "swift_bic": 5559,
+        "tax_id": 1302,
+        "time": 24506,
+        "unique_id": 1777,
+        "url": 37847,
+        "user_name": 15800,
+        "vehicle_identifier": 4561
+      },
+      "spans_dropped": {
+        "empty_after_trim": 0,
+        "offset_mismatch": 0,
+        "out_of_bounds": 0,
+        "overlap": 24
+      },
+      "spans_kept": 800282,
+      "spans_merged": 50034,
+      "spans_read": 850340,
+      "spans_trimmed": 4,
+      "unknown_labels": {}
+    },
+    "nemotron_train_file": {
+      "case_only_mismatches": 6770,
+      "dataset": "nemotron-pii",
+      "documents": 100000,
+      "kept_label_counts": {
+        "CREDIT_CARD": 9049,
+        "DATE": 104193,
+        "EMAIL": 49929,
+        "ID_NUMBER": 101350,
+        "IP_ADDRESS": 13744,
+        "LOCATION": 104854,
+        "ORGANIZATION": 85441,
+        "OTHER": 173569,
+        "PERSON": 67827,
+        "PHONE": 32369,
+        "URL": 44803
+      },
+      "options": {
+        "merge_adjacent": true,
+        "offset_check": "casefold",
+        "overlap_policy": "resolve",
+        "strict_labels": false
+      },
+      "overlapping_pairs": 24,
+      "raw_label_counts": {
+        "account_number": 9998,
+        "age": 4162,
+        "api_key": 6086,
+        "bank_routing_number": 6759,
+        "biometric_identifier": 11188,
+        "blood_type": 4517,
+        "certificate_license_number": 7920,
+        "city": 19313,
+        "company_name": 85441,
+        "coordinate": 8438,
+        "country": 27781,
+        "county": 6462,
+        "credit_debit_card": 9049,
+        "customer_id": 17211,
+        "cvv": 3554,
+        "date": 77130,
+        "date_of_birth": 12710,
+        "date_time": 14368,
+        "device_identifier": 5255,
+        "education_level": 10633,
+        "email": 49934,
+        "employee_id": 12067,
+        "employment_status": 7654,
+        "fax_number": 7357,
+        "first_name": 59391,
+        "gender": 4304,
+        "health_plan_beneficiary_number": 6345,
+        "http_cookie": 5786,
+        "ipv4": 8954,
+        "ipv6": 4794,
+        "language": 6531,
+        "last_name": 43962,
+        "license_plate": 7134,
+        "mac_address": 6096,
+        "medical_record_number": 7095,
+        "national_id": 3171,
+        "occupation": 31105,
+        "password": 8285,
+        "phone_number": 25012,
+        "pin": 6548,
+        "political_view": 4013,
+        "postcode": 8030,
+        "race_ethnicity": 7130,
+        "religious_belief": 4740,
+        "sexuality": 2370,
+        "ssn": 4937,
+        "state": 19067,
+        "street_address": 16830,
+        "swift_bic": 5821,
+        "tax_id": 2563,
+        "time": 21054,
+        "unique_id": 2387,
+        "url": 44803,
+        "user_name": 12872,
+        "vehicle_identifier": 9339
+      },
+      "spans_dropped": {
+        "empty_after_trim": 0,
+        "offset_mismatch": 0,
+        "out_of_bounds": 0,
+        "overlap": 21
+      },
+      "spans_kept": 787128,
+      "spans_merged": 38307,
+      "spans_read": 825456,
+      "spans_trimmed": 2,
+      "unknown_labels": {}
+    }
+  },
+  "splits": {
+    "gretel_en_test": {
+      "characters": 4082069,
+      "documents": 2891,
+      "pii_char_share": 0.056896,
+      "pii_characters": 232254,
+      "spans": 12719,
+      "spans_per_label": {
+        "CREDIT_CARD": 83,
+        "DATE": 1085,
+        "EMAIL": 320,
+        "IBAN": 69,
+        "ID_NUMBER": 528,
+        "IP_ADDRESS": 123,
+        "LOCATION": 2244,
+        "ORGANIZATION": 3443,
+        "OTHER": 693,
+        "PERSON": 3654,
+        "PHONE": 477,
+        "URL": 0
+      },
+      "top_domains": [
+        [
+          "finance",
+          2891
+        ]
+      ]
+    },
+    "nemotron_dev": {
+      "characters": 10151553,
+      "documents": 10140,
+      "pii_char_share": 0.127293,
+      "pii_characters": 1292217,
+      "spans": 79699,
+      "spans_per_label": {
+        "CREDIT_CARD": 985,
+        "DATE": 10816,
+        "EMAIL": 5013,
+        "IBAN": 0,
+        "ID_NUMBER": 10161,
+        "IP_ADDRESS": 1447,
+        "LOCATION": 10191,
+        "ORGANIZATION": 8368,
+        "OTHER": 17948,
+        "PERSON": 7027,
+        "PHONE": 3332,
+        "URL": 4411
+      },
+      "top_domains": [
+        [
+          "Cybersecurity",
+          444
+        ],
+        [
+          "Technology",
+          422
+        ],
+        [
+          "Identity Verification Services",
+          416
+        ],
+        [
+          "Government",
+          410
+        ],
+        [
+          "Healthcare",
+          394
+        ],
+        [
+          "Civil Rights",
+          392
+        ],
+        [
+          "Finance",
+          390
+        ],
+        [
+          "Retail",
+          388
+        ],
+        [
+          "Ecommerce",
+          370
+        ],
+        [
+          "Identity Management",
+          356
+        ]
+      ]
+    },
+    "nemotron_test": {
+      "characters": 95853844,
+      "documents": 100000,
+      "pii_char_share": 0.128462,
+      "pii_characters": 12313593,
+      "spans": 800282,
+      "spans_per_label": {
+        "CREDIT_CARD": 12866,
+        "DATE": 105137,
+        "EMAIL": 53917,
+        "IBAN": 0,
+        "ID_NUMBER": 102734,
+        "IP_ADDRESS": 9216,
+        "LOCATION": 98489,
+        "ORGANIZATION": 54837,
+        "OTHER": 197825,
+        "PERSON": 97061,
+        "PHONE": 30353,
+        "URL": 37847
+      },
+      "top_domains": [
+        [
+          "Banking",
+          3840
+        ],
+        [
+          "User Account and Transaction Services",
+          3794
+        ],
+        [
+          "Information Technology",
+          3786
+        ],
+        [
+          "Brokerage",
+          3762
+        ],
+        [
+          "Access Control Systems",
+          3728
+        ],
+        [
+          "Credit",
+          3714
+        ],
+        [
+          "Disability",
+          3634
+        ],
+        [
+          "Life",
+          3632
+        ],
+        [
+          "Marketing",
+          3622
+        ],
+        [
+          "Consulting",
+          3620
+        ]
+      ]
+    },
+    "nemotron_train": {
+      "characters": 90193319,
+      "documents": 89860,
+      "pii_char_share": 0.126684,
+      "pii_characters": 11426010,
+      "spans": 707429,
+      "spans_per_label": {
+        "CREDIT_CARD": 8064,
+        "DATE": 93377,
+        "EMAIL": 44916,
+        "IBAN": 0,
+        "ID_NUMBER": 91189,
+        "IP_ADDRESS": 12297,
+        "LOCATION": 94663,
+        "ORGANIZATION": 77073,
+        "OTHER": 155621,
+        "PERSON": 60800,
+        "PHONE": 29037,
+        "URL": 40392
+      },
+      "top_domains": [
+        [
+          "Finance",
+          3600
+        ],
+        [
+          "Technology",
+          3566
+        ],
+        [
+          "Cybersecurity",
+          3446
+        ],
+        [
+          "Identity Management",
+          3394
+        ],
+        [
+          "Telecommunications",
+          3322
+        ],
+        [
+          "Identity Verification Services",
+          3306
+        ],
+        [
+          "Healthcare",
+          3236
+        ],
+        [
+          "Transportation",
+          3166
+        ],
+        [
+          "Government",
+          3156
+        ],
+        [
+          "Civil Rights",
+          3154
+        ]
+      ]
+    }
+  }
+}

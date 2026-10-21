@@ -22,6 +22,7 @@ from privgate.data.splits import (
     sample,
     write_jsonl,
 )
+from privgate.data.stats import SetStats
 
 __all__ = [
     "EVALUATION_SETS",
@@ -30,6 +31,7 @@ __all__ = [
     "LoadOptions",
     "LoadReport",
     "RawSpan",
+    "SetStats",
     "UnknownLabelError",
     "assign_split",
     "build_document",
