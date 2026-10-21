@@ -12,15 +12,21 @@ dependencies = []
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.5"]
 data = ["pyarrow>=14"]
+# The spaCy model en_core_web_lg 3.8.0 is not on PyPI: install it with
+# scripts/install_model.py (official GitHub release wheel, hash-checked).
+detectors = ["spacy==3.8.16", "presidio-analyzer==2.2.364"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-# Integration tests on the real downloaded datasets are opt-in: `pytest -m data`.
-addopts = "-m 'not data'"
-markers = ["data: integration tests that need the real datasets in data/raw/"]
+# Integration tests are opt-in: `pytest -m data`, `pytest -m models`, `pytest -m "data or models"`.
+addopts = "-m 'not data and not models'"
+markers = [
+    "data: integration tests that need the real datasets in data/raw/",
+    "models: integration tests that need the spaCy model en_core_web_lg",
+]
 
 [tool.ruff]
 line-length = 100

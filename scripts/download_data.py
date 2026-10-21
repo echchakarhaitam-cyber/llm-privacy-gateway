@@ -73,8 +73,11 @@ def sha256_of(path: Path) -> str:
     return digest.hexdigest()
 
 
-def fetch(url: str, dest: Path, expected_size: int) -> None:
-    """Stream ``url`` to ``dest`` via a .part file; raise if the byte count is wrong."""
+def fetch(url: str, dest: Path, expected_size: int | None) -> None:
+    """Stream ``url`` to ``dest`` via a .part file; raise if the byte count is wrong.
+
+    ``expected_size=None`` skips the size check (used when only a hash is pinned).
+    """
     dest.parent.mkdir(parents=True, exist_ok=True)
     part = dest.with_name(dest.name + ".part")
     written = 0
@@ -82,7 +85,7 @@ def fetch(url: str, dest: Path, expected_size: int) -> None:
         for block in iter(lambda: resp.read(CHUNK), b""):
             out.write(block)
             written += len(block)
-    if written != expected_size:
+    if expected_size is not None and written != expected_size:
         part.unlink()
         raise OSError(f"{url}: expected {expected_size} bytes, got {written}")
     os.replace(part, dest)
