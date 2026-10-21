@@ -69,6 +69,7 @@ class RegexDetector:
     """Regex + validator baseline for structured identifiers."""
 
     name = "regex"
+    supported_labels: frozenset[EntityType] = frozenset(PRIORITY)
 
     def detect(self, text: str) -> list[Span]:
         candidates: list[Span] = []
