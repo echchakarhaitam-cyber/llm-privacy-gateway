@@ -15,17 +15,21 @@ data = ["pyarrow>=14"]
 # The spaCy model en_core_web_lg 3.8.0 is not on PyPI: install it with
 # scripts/install_model.py (official GitHub release wheel, hash-checked).
 detectors = ["spacy==3.8.16", "presidio-analyzer==2.2.364"]
+ml = ["sklearn-crfsuite==0.5.0", "python-crfsuite==0.9.12", "scikit-learn==1.7.2"]
+plots = ["matplotlib==3.10.9"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-# Integration tests are opt-in: `pytest -m data`, `pytest -m models`, `pytest -m "data or models"`.
-addopts = "-m 'not data and not models'"
+# Integration tests are opt-in: `pytest -m data`, `pytest -m models`, `pytest -m slow`,
+# `pytest -m "data or models"`.
+addopts = "-m 'not data and not models and not slow'"
 markers = [
     "data: integration tests that need the real datasets in data/raw/",
     "models: integration tests that need the spaCy model en_core_web_lg",
+    "slow: real-data training tests (minutes); run with -m slow",
 ]
 
 [tool.ruff]
