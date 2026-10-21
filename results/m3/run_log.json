@@ -41,7 +41,181 @@
       "seconds": 5.062,
       "set": "nemotron_dev_2k",
       "step": "score"
+    },
+    {
+      "detector": "regex",
+      "seconds": 1.796,
+      "set": "nemotron_test_5k",
+      "step": "detect"
+    },
+    {
+      "detector": "regex",
+      "seconds": 8.326,
+      "set": "nemotron_test_5k",
+      "step": "score"
+    },
+    {
+      "detector": "spacy",
+      "seconds": 217.055,
+      "set": "nemotron_test_5k",
+      "step": "detect"
+    },
+    {
+      "detector": "spacy",
+      "seconds": 9.123,
+      "set": "nemotron_test_5k",
+      "step": "score"
+    },
+    {
+      "detector": "presidio",
+      "seconds": 539.568,
+      "set": "nemotron_test_5k",
+      "step": "detect"
+    },
+    {
+      "detector": "presidio",
+      "seconds": 13.375,
+      "set": "nemotron_test_5k",
+      "step": "score"
+    },
+    {
+      "detector": "regex",
+      "seconds": 1.369,
+      "set": "gretel_en_test",
+      "step": "detect"
+    },
+    {
+      "detector": "regex",
+      "seconds": 5.245,
+      "set": "gretel_en_test",
+      "step": "score"
+    },
+    {
+      "detector": "spacy",
+      "seconds": 229.853,
+      "set": "gretel_en_test",
+      "step": "detect"
+    },
+    {
+      "detector": "spacy",
+      "seconds": 6.942,
+      "set": "gretel_en_test",
+      "step": "score"
+    },
+    {
+      "detector": "presidio",
+      "seconds": 517.712,
+      "set": "gretel_en_test",
+      "step": "detect"
+    },
+    {
+      "detector": "presidio",
+      "seconds": 6.638,
+      "set": "gretel_en_test",
+      "step": "score"
+    },
+    {
+      "detector": "regex+spacy",
+      "seconds": 0.171,
+      "set": "nemotron_dev_2k",
+      "step": "ensemble"
+    },
+    {
+      "detector": "regex+spacy",
+      "seconds": 4.681,
+      "set": "nemotron_dev_2k",
+      "step": "score"
+    },
+    {
+      "detector": "regex+presidio",
+      "seconds": 0.21,
+      "set": "nemotron_dev_2k",
+      "step": "ensemble"
+    },
+    {
+      "detector": "regex+presidio",
+      "seconds": 5.155,
+      "set": "nemotron_dev_2k",
+      "step": "score"
+    },
+    {
+      "detector": "regex+spacy",
+      "seconds": 0.389,
+      "set": "nemotron_test_5k",
+      "step": "ensemble"
+    },
+    {
+      "detector": "regex+spacy",
+      "seconds": 13.094,
+      "set": "nemotron_test_5k",
+      "step": "score"
+    },
+    {
+      "detector": "regex+presidio",
+      "seconds": 0.519,
+      "set": "nemotron_test_5k",
+      "step": "ensemble"
+    },
+    {
+      "detector": "regex+presidio",
+      "seconds": 12.838,
+      "set": "nemotron_test_5k",
+      "step": "score"
+    },
+    {
+      "detector": "regex+spacy",
+      "seconds": 0.44,
+      "set": "gretel_en_test",
+      "step": "ensemble"
+    },
+    {
+      "detector": "regex+spacy",
+      "seconds": 6.617,
+      "set": "gretel_en_test",
+      "step": "score"
+    },
+    {
+      "detector": "regex+presidio",
+      "seconds": 0.373,
+      "set": "gretel_en_test",
+      "step": "ensemble"
+    },
+    {
+      "detector": "regex+presidio",
+      "seconds": 6.19,
+      "set": "gretel_en_test",
+      "step": "score"
+    },
+    {
+      "detector": "regex",
+      "seconds": 0.26,
+      "set": "nemotron_dev_2k",
+      "step": "errors"
+    },
+    {
+      "detector": "spacy",
+      "seconds": 0.384,
+      "set": "nemotron_dev_2k",
+      "step": "errors"
+    },
+    {
+      "detector": "presidio",
+      "seconds": 0.404,
+      "set": "nemotron_dev_2k",
+      "step": "errors"
+    },
+    {
+      "detector": "regex+spacy",
+      "seconds": 0.324,
+      "set": "nemotron_dev_2k",
+      "step": "errors"
+    },
+    {
+      "detector": "regex+presidio",
+      "seconds": 0.339,
+      "set": "nemotron_dev_2k",
+      "step": "errors"
     }
   ],
-  "total_seconds": 338.369
+  "total_seconds": 1947.759
 }
