@@ -1,0 +1,47 @@
+{
+  "steps": [
+    {
+      "detector": "regex",
+      "seconds": 0.721,
+      "set": "nemotron_dev_2k",
+      "step": "detect"
+    },
+    {
+      "detector": "regex",
+      "seconds": 3.413,
+      "set": "nemotron_dev_2k",
+      "step": "score"
+    },
+    {
+      "detector": "spacy",
+      "seconds": 92.305,
+      "set": "nemotron_dev_2k",
+      "step": "detect"
+    },
+    {
+      "detector": "spacy",
+      "seconds": 3.832,
+      "set": "nemotron_dev_2k",
+      "step": "score"
+    },
+    {
+      "detector": "presidio",
+      "seconds": 225.056,
+      "set": "nemotron_dev_2k",
+      "step": "detect"
+    },
+    {
+      "detector": "presidio",
+      "seconds": 7.98,
+      "set": "nemotron_dev_2k",
+      "step": "sweep"
+    },
+    {
+      "detector": "presidio",
+      "seconds": 5.062,
+      "set": "nemotron_dev_2k",
+      "step": "score"
+    }
+  ],
+  "total_seconds": 338.369
+}

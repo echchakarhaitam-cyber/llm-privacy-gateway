@@ -1,0 +1,99 @@
+{
+  "eligible_thresholds": [
+    0.0
+  ],
+  "leakage_tolerance": 0.01,
+  "minimum_leakage_rate": 0.3849393004527425,
+  "rows": [
+    {
+      "char_precision": 0.8839961303251218,
+      "leakage_rate": 0.3849393004527425,
+      "partial_f1": 0.5910940076965366,
+      "pred_spans": 11718,
+      "strict_f1": 0.49573025471870985,
+      "threshold": 0.0,
+      "type_agnostic_f1": 0.7434121312076233,
+      "type_agnostic_precision": 0.8655060590544461,
+      "type_agnostic_recall": 0.6515063917260873
+    },
+    {
+      "char_precision": 0.8827366549509293,
+      "leakage_rate": 0.3992587844064266,
+      "partial_f1": 0.5837599491797766,
+      "pred_spans": 11194,
+      "strict_f1": 0.49557191435297626,
+      "threshold": 0.3,
+      "type_agnostic_f1": 0.7277007585665707,
+      "type_agnostic_precision": 0.86984098624263,
+      "type_agnostic_recall": 0.6254898182051776
+    },
+    {
+      "char_precision": 0.8830332957786994,
+      "leakage_rate": 0.4096317961456789,
+      "partial_f1": 0.5746262994157372,
+      "pred_spans": 10791,
+      "strict_f1": 0.486835116473177,
+      "threshold": 0.4,
+      "type_agnostic_f1": 0.717125730328553,
+      "type_agnostic_precision": 0.8758224446297841,
+      "type_agnostic_recall": 0.6071176206076958
+    },
+    {
+      "char_precision": 0.8783959415084981,
+      "leakage_rate": 0.4394687287150928,
+      "partial_f1": 0.5564226627126581,
+      "pred_spans": 10061,
+      "strict_f1": 0.4732324020602466,
+      "threshold": 0.5,
+      "type_agnostic_f1": 0.6823786483533635,
+      "type_agnostic_precision": 0.8690984991551536,
+      "type_agnostic_recall": 0.5617010342390956
+    },
+    {
+      "char_precision": 0.8794590079671035,
+      "leakage_rate": 0.4515845987419368,
+      "partial_f1": 0.555533713387065,
+      "pred_spans": 9868,
+      "strict_f1": 0.4747788480440338,
+      "threshold": 0.6,
+      "type_agnostic_f1": 0.6759190092392373,
+      "type_agnostic_precision": 0.8710985002026753,
+      "type_agnostic_recall": 0.5521937431746644
+    },
+    {
+      "char_precision": 0.8576547052505311,
+      "leakage_rate": 0.5617092030930726,
+      "partial_f1": 0.5108616060532096,
+      "pred_spans": 9015,
+      "strict_f1": 0.4504108697420877,
+      "threshold": 0.7,
+      "type_agnostic_f1": 0.632169880400293,
+      "type_agnostic_precision": 0.8618968386023295,
+      "type_agnostic_recall": 0.49913278088263635
+    },
+    {
+      "char_precision": 0.8515291359623597,
+      "leakage_rate": 0.5837814014984575,
+      "partial_f1": 0.4900459418070443,
+      "pred_spans": 8594,
+      "strict_f1": 0.42854186498903185,
+      "threshold": 0.85,
+      "type_agnostic_f1": 0.6085840817846943,
+      "type_agnostic_precision": 0.8554805678380265,
+      "type_agnostic_recall": 0.4722811074709321
+    }
+  ],
+  "rule": "On nemotron_dev_2k (all gold spans): keep thresholds whose leakage_rate is within 0.01 of the minimum leakage_rate over [0.0, 0.3, 0.4, 0.5, 0.6, 0.7, 0.85]; choose the highest type-agnostic micro F1 among them; ties go to the lower threshold.",
+  "selected_threshold": 0.0,
+  "set": "nemotron_dev_2k",
+  "set_sha256": "47354466ff6a39052d29d4afa50e3c96184931ea983b873149bd0b22b8baeebd",
+  "thresholds": [
+    0.0,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.85
+  ]
+}
