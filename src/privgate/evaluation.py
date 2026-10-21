@@ -165,6 +165,17 @@ def _match(
     return pairs, unmatched_gold, unmatched_pred
 
 
+def match_spans(
+    gold: Sequence[Span], pred: Sequence[Span], mode: str
+) -> tuple[list[tuple[Span, Span]], list[Span], list[Span]]:
+    """The one-to-one matching behind every score: (pairs, missed gold, spurious predictions).
+
+    Public so that error analysis inspects exactly the false negatives and false positives
+    the metrics count.
+    """
+    return _match(gold, pred, mode)
+
+
 def evaluate_mode(gold: Sequence[Span], pred: Sequence[Span], mode: str) -> ModeReport:
     """Per-label counts for one document and one matching mode."""
     pairs, missed, spurious = _match(gold, pred, mode)

@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import ast
 import json
-from collections.abc import Iterator
+from collections.abc import Iterator, Mapping
 from pathlib import Path
 
 from privgate.data._parquet import iter_rows
@@ -62,6 +62,11 @@ def parse_spans(field: str) -> list[RawSpan]:
     return spans
 
 
+def doc_id(row: Mapping) -> str:
+    """privgate id of a raw row: the uid alone is not unique (us and intl renderings)."""
+    return f"nemotron:{row['uid']}:{row['locale']}"
+
+
 def iter_nemotron(
     path: str | Path, tally: LoadTally, limit: int | None = None
 ) -> Iterator[Document]:
@@ -76,7 +81,7 @@ def iter_nemotron(
             raise ValueError(f"{path}: uid {uid} ({row['locale']}): {exc}") from exc
         meta = {c: row[c] for c in META_COLUMNS if row[c] is not None}
         meta["group_id"] = uid
-        yield build_document(f"nemotron:{uid}:{row['locale']}", row["text"], raw, tally, meta)
+        yield build_document(doc_id(row), row["text"], raw, tally, meta)
 
 
 def load_nemotron(

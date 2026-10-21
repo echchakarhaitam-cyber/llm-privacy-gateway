@@ -13,7 +13,7 @@ check that spans lie inside the text.
 from __future__ import annotations
 
 import json
-from collections.abc import Iterator
+from collections.abc import Iterator, Mapping
 from pathlib import Path
 
 from privgate.data._parquet import iter_rows
@@ -47,6 +47,11 @@ def parse_spans(field: str) -> list[RawSpan]:
     return spans
 
 
+def doc_id(row: Mapping) -> str:
+    """privgate id of a raw row, from the unique pandas index column."""
+    return f"gretel:{row['__index_level_0__']}"
+
+
 def iter_gretel(
     path: str | Path, tally: LoadTally, limit: int | None = None
 ) -> Iterator[Document]:
@@ -60,7 +65,7 @@ def iter_gretel(
         except (ValueError, TypeError) as exc:
             raise ValueError(f"{path}: index {index}: {exc}") from exc
         meta = {c: row[c] for c in META_COLUMNS if row[c] is not None}
-        yield build_document(f"gretel:{index}", row["generated_text"], raw, tally, meta)
+        yield build_document(doc_id(row), row["generated_text"], raw, tally, meta)
 
 
 def load_gretel(
