@@ -9,3 +9,4 @@ data/raw/
 results/*/runs.csv
 models/
 *.bundle
+data/processed/

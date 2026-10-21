@@ -11,12 +11,16 @@ dependencies = []
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.5"]
+data = ["pyarrow>=14"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# Integration tests on the real downloaded datasets are opt-in: `pytest -m data`.
+addopts = "-m 'not data'"
+markers = ["data: integration tests that need the real datasets in data/raw/"]
 
 [tool.ruff]
 line-length = 100
