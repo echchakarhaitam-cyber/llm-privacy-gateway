@@ -11,7 +11,9 @@ from privgate.data.documents import (
     build_document,
     merge_adjacent,
 )
+from privgate.data.gretel import load_gretel
 from privgate.data.mapping import LABEL_MAPS, UnknownLabelError, map_label
+from privgate.data.nemotron import load_nemotron
 
 __all__ = [
     "LABEL_MAPS",
@@ -21,6 +23,8 @@ __all__ = [
     "RawSpan",
     "UnknownLabelError",
     "build_document",
+    "load_gretel",
+    "load_nemotron",
     "map_label",
     "merge_adjacent",
 ]
