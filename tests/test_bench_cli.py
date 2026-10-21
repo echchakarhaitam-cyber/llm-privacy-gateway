@@ -139,3 +139,43 @@ def test_rerun_is_deterministic(roots, monkeypatch):
     run(roots, "run", "--set", "gretel_en_test", "--detector", "regex")
     second = json.loads((out / "gretel_en_test" / "regex" / "metrics.json").read_text())
     assert first["views"] == second["views"]  # scores and CIs identical; only timings vary
+
+
+def test_tables_are_generated_from_results(roots, monkeypatch, tmp_path):
+    import importlib.util
+    import shutil
+    import sys
+    from pathlib import Path
+
+    monkeypatch.setattr(cli, "make_detector", fake_factory)
+    data, out = roots
+    run(roots, "all")
+    manifest = json.loads((data / "manifest.json").read_text())
+    manifest["models"] = {"en_core_web_lg": {
+        "name": "en_core_web_lg", "version": "3.8.0", "license": "MIT", "wheel": "w.whl",
+        "url": "https://example.invalid/w.whl", "size": 1, "sha256": "0" * 64}}
+    (data / "manifest.json").write_text(json.dumps(manifest))
+    repo = Path(__file__).resolve().parents[1]
+    docs = {}
+    for name in ("results-detection.md", "DETECTORS.md"):
+        docs[name] = tmp_path / name
+        shutil.copy(repo / "docs" / name, docs[name])
+    spec = importlib.util.spec_from_file_location(
+        "make_detection_tables", repo / "scripts" / "make_detection_tables.py")
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules["make_detection_tables"] = mod
+    spec.loader.exec_module(mod)
+    mod.main(["--results", str(out), "--data-root", str(data),
+              "--results-doc", str(docs["results-detection.md"]),
+              "--detectors-doc", str(docs["DETECTORS.md"])])
+    text = docs["results-detection.md"].read_text(encoding="utf-8")
+    assert "**selected threshold: 0.50**" in text
+    assert "| `gretel_en_test` | `regex+spacy` |" in text
+    assert "NOT MEASURED" in text           # no raw files in this fixture -> no raw labels
+    assert "spacy==3.8.16" in docs["DETECTORS.md"].read_text(encoding="utf-8")
+    # regenerating is idempotent
+    before = text
+    mod.main(["--results", str(out), "--data-root", str(data),
+              "--results-doc", str(docs["results-detection.md"]),
+              "--detectors-doc", str(docs["DETECTORS.md"])])
+    assert docs["results-detection.md"].read_text(encoding="utf-8") == before
