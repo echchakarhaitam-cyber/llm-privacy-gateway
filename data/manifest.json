@@ -1,4 +1,57 @@
 {
+  "evaluation_sets": {
+    "gretel_en_test": {
+      "definition": "every row of the Gretel English test file: out-of-distribution set",
+      "documents": 2891,
+      "load_options": {
+        "merge_adjacent": true,
+        "offset_check": "casefold",
+        "overlap_policy": "resolve",
+        "strict_labels": false
+      },
+      "path": "data/processed/gretel_en_test.jsonl",
+      "seed": null,
+      "sha256": "2a4f2ff50ec6304081d0d89a3838086a6c13b6fb3e38fe588a81ed973ede9f2a",
+      "size": null,
+      "source_file": "data/raw/gretelai__synthetic_pii_finance_multilingual/English_test-00000-of-00001.parquet",
+      "spans": 12719,
+      "split": "test"
+    },
+    "nemotron_dev_2k": {
+      "definition": "sample(dev, 2000, seed=0): in-distribution development set",
+      "documents": 2000,
+      "load_options": {
+        "merge_adjacent": true,
+        "offset_check": "casefold",
+        "overlap_policy": "resolve",
+        "strict_labels": false
+      },
+      "path": "data/processed/nemotron_dev_2k.jsonl",
+      "seed": 0,
+      "sha256": "47354466ff6a39052d29d4afa50e3c96184931ea983b873149bd0b22b8baeebd",
+      "size": 2000,
+      "source_file": "data/raw/nvidia__Nemotron-PII/train-00000-of-00001.parquet",
+      "spans": 15567,
+      "split": "dev"
+    },
+    "nemotron_test_5k": {
+      "definition": "sample(test, 5000, seed=0): in-distribution held-out test set",
+      "documents": 5000,
+      "load_options": {
+        "merge_adjacent": true,
+        "offset_check": "casefold",
+        "overlap_policy": "resolve",
+        "strict_labels": false
+      },
+      "path": "data/processed/nemotron_test_5k.jsonl",
+      "seed": 0,
+      "sha256": "b274c139516e71132a77f47896e8c0a36ab24e47af34d50985ecc830b7bdc2a7",
+      "size": 5000,
+      "source_file": "data/raw/nvidia__Nemotron-PII/test-00000-of-00001.parquet",
+      "spans": 40000,
+      "split": "test"
+    }
+  },
   "files": [
     {
       "downloaded_at": "2026-10-21T00:07:01+00:00",
@@ -30,5 +83,6 @@
       "size": 2720729,
       "url": "https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual/resolve/7b844d16738527a04264f50214cb426a4cea0897/data/English_test-00000-of-00001.parquet"
     }
-  ]
+  ],
+  "split_rule": "dev iff int(sha256(meta['group_id'] or doc_id), 16) % 100 < 10, else train (Nemotron train file only); the Nemotron test file is test"
 }

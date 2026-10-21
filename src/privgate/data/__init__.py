@@ -14,17 +14,31 @@ from privgate.data.documents import (
 from privgate.data.gretel import load_gretel
 from privgate.data.mapping import LABEL_MAPS, UnknownLabelError, map_label
 from privgate.data.nemotron import load_nemotron
+from privgate.data.splits import (
+    EVALUATION_SETS,
+    assign_split,
+    build_evaluation_sets,
+    read_jsonl,
+    sample,
+    write_jsonl,
+)
 
 __all__ = [
+    "EVALUATION_SETS",
     "LABEL_MAPS",
     "Document",
     "LoadOptions",
     "LoadReport",
     "RawSpan",
     "UnknownLabelError",
+    "assign_split",
     "build_document",
+    "build_evaluation_sets",
     "load_gretel",
     "load_nemotron",
     "map_label",
     "merge_adjacent",
+    "read_jsonl",
+    "sample",
+    "write_jsonl",
 ]
