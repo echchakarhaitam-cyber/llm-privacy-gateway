@@ -112,3 +112,27 @@ All other spaCy labels (CARDINAL, EVENT, LANGUAGE, LAW, MONEY, ORDINAL, PERCENT,
 | `regex+spacy` | CREDIT_CARD, DATE, EMAIL, IBAN, IP_ADDRESS, LOCATION, ORGANIZATION, OTHER, PERSON, PHONE, URL | 24 |
 | `regex+presidio` | CREDIT_CARD, DATE, EMAIL, IBAN, ID_NUMBER, IP_ADDRESS, LOCATION, OTHER, PERSON, PHONE, URL | 27 |
 <!-- supported:end -->
+
+## Trained detectors (Milestone 4)
+
+Extra `ml` (exact pins in `pyproject.toml`): `sklearn-crfsuite==0.5.0`,
+`python-crfsuite==0.9.12`, `scikit-learn==1.7.2`; extra `plots`: `matplotlib==3.10.9`.
+Both are imported lazily; the core library imports without them.
+
+- **`CRFDetector`** (name `crf`, privgate.ml.crf): linear-chain CRF over BIO tags of the 12
+  types (docs/theory/02-crf.md), features of privgate.ml.features. `supported_labels` = all
+  12 types. Saved to `models/m4/crf/` (gitignored) with a JSON sidecar.
+- **`TokenLogRegDetector`** (name `logreg`, privgate.ml.logreg): per-token multinomial
+  logistic regression on the same features (DictVectorizer, float32). Saved to
+  `models/m4/logreg/` with a sidecar; the pickle is loaded only after its SHA-256 matches.
+- **`crf+regex+presidio`**: union ensemble of the CRF and the Milestone 3 `regex` and
+  `presidio` runs.
+
+Models used in the benchmark (from the sidecars recorded in `results/m4/**/metrics.json`):
+
+<!-- m4_versions:begin -->
+| model | library versions | model SHA-256 | training-set SHA-256 | n_docs | hyper-parameters |
+|---|---|---|---|---|---|
+| `crf` | `python-crfsuite` 0.9.12, `sklearn-crfsuite` 0.5.0 | `d13b5746e93e450c...` | `672d209272e8f45e...` | 5000 | {"algorithm": "lbfgs", "all_possible_transitions": true, "c1": 0.1, "c2": 0.01, "max_iterations": 100} |
+| `logreg` | `numpy` 2.2.6, `scikit-learn` 1.7.2, `scipy` 1.15.3 | `3fbfb2a0298bd7a1...` | `672d209272e8f45e...` | 5000 | {"C": 1.0, "class_weight": null, "max_iter": 1000, "n_iter": 111, "solver": "lbfgs"} |
+<!-- m4_versions:end -->
