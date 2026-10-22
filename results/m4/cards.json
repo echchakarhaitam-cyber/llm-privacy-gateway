@@ -1,0 +1,23 @@
+{
+  "gretel_en_test": {
+    "gold_card_spans": 83,
+    "length_13_19": 79,
+    "length_13_19_and_luhn_pass": 44,
+    "luhn_pass": 47,
+    "luhn_pass_rate": 0.5662650602409639
+  },
+  "nemotron_dev_2k": {
+    "gold_card_spans": 205,
+    "length_13_19": 204,
+    "length_13_19_and_luhn_pass": 22,
+    "luhn_pass": 22,
+    "luhn_pass_rate": 0.1073170731707317
+  },
+  "nemotron_test_5k": {
+    "gold_card_spans": 668,
+    "length_13_19": 665,
+    "length_13_19_and_luhn_pass": 70,
+    "luhn_pass": 70,
+    "luhn_pass_rate": 0.10479041916167664
+  }
+}
