@@ -1,0 +1,29 @@
+{
+  "limit_total_cpu_percent": 20.0,
+  "logical_cpus": 12,
+  "runs": [
+    {
+      "attempt": "first attempt (--wait-minutes 10)",
+      "checks": 18,
+      "first": "2026-10-22 16:30:36",
+      "last": "2026-10-22 16:40:32",
+      "cpu_min": 22.4,
+      "cpu_median": 38.0,
+      "cpu_max": 97.8,
+      "checks_with_heavy_python": 0,
+      "verdict": "refused to measure (exit 3)"
+    },
+    {
+      "attempt": "second attempt (--wait-minutes 30)",
+      "checks": 53,
+      "first": "2026-10-22 16:41:31",
+      "last": "2026-10-22 17:11:53",
+      "cpu_min": 20.4,
+      "cpu_median": 30.0,
+      "cpu_max": 88.9,
+      "checks_with_heavy_python": 5,
+      "verdict": "refused to measure (exit 3)"
+    }
+  ],
+  "non_python_background_processes_seen": "OneDrive (656 CPU-s), OneDrive.Sync.Service, Avast, Notion, VS Code (Get-Process, 2026-10-22 ~16:41)"
+}
