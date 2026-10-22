@@ -17,6 +17,7 @@ data = ["pyarrow>=14"]
 detectors = ["spacy==3.8.16", "presidio-analyzer==2.2.364"]
 ml = ["sklearn-crfsuite==0.5.0", "python-crfsuite==0.9.12", "scikit-learn==1.7.2"]
 plots = ["matplotlib==3.10.9"]
+masking = ["faker==40.43.0"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
