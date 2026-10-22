@@ -1,0 +1,1232 @@
+{
+  "baseline_requests_with_misses": 224,
+  "detector": "crf+regex+presidio",
+  "detector_workers": 16,
+  "environment": {
+    "cpu": "AMD Ryzen 5 7540U w/ Radeon 740M Graphics",
+    "logical_cpus": 12,
+    "os": "Windows-10-10.0.26200-SP0",
+    "packages": {
+      "en-core-web-lg": "3.8.0",
+      "presidio-analyzer": "2.2.364",
+      "privgate": "0.1.0",
+      "pyarrow": "25.0.1",
+      "spacy": "3.8.16"
+    },
+    "privgate_commit": "f71d9883d29e29e984cca5592445f9fe89c6d107",
+    "python": "3.10.11"
+  },
+  "evaluation_set": "nemotron_dev_2k",
+  "evaluation_set_sha256": "47354466ff6a39052d29d4afa50e3c96184931ea983b873149bd0b22b8baeebd",
+  "experiment": "RQ9",
+  "gold_value_chars_total": 102036,
+  "hang_s": 0.25,
+  "milestone": 6,
+  "qs": [
+    0.0,
+    0.01,
+    0.05,
+    0.1,
+    0.2
+  ],
+  "real_detector_check": {
+    "documents": 25,
+    "identical": 25
+  },
+  "requests": 1000,
+  "rows": [
+    {
+      "availability": 1.0,
+      "blocked": 0,
+      "decisions": {
+        "served": 1000
+      },
+      "fault": "none",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {},
+      "faults_injected": 0,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 224,
+      "leaked_value_chars": 4240,
+      "mode": "fail_closed",
+      "q": 0.0,
+      "requests": 1000,
+      "served": 1000,
+      "status": {
+        "200": 1000
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 0.993,
+      "blocked": 7,
+      "decisions": {
+        "screening_unavailable": 7,
+        "served": 993
+      },
+      "fault": "exception",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "exception": 7
+      },
+      "faults_injected": 7,
+      "forwarded_to_upstream": 993,
+      "leaked_requests": 223,
+      "leaked_value_chars": 4223,
+      "mode": "fail_closed",
+      "q": 0.01,
+      "requests": 1000,
+      "served": 993,
+      "status": {
+        "200": 993,
+        "503": 7
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 0.959,
+      "blocked": 41,
+      "decisions": {
+        "screening_unavailable": 41,
+        "served": 959
+      },
+      "fault": "exception",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "exception": 41
+      },
+      "faults_injected": 41,
+      "forwarded_to_upstream": 959,
+      "leaked_requests": 215,
+      "leaked_value_chars": 4100,
+      "mode": "fail_closed",
+      "q": 0.05,
+      "requests": 1000,
+      "served": 959,
+      "status": {
+        "200": 959,
+        "503": 41
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 0.896,
+      "blocked": 104,
+      "decisions": {
+        "screening_unavailable": 104,
+        "served": 896
+      },
+      "fault": "exception",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "exception": 104
+      },
+      "faults_injected": 104,
+      "forwarded_to_upstream": 896,
+      "leaked_requests": 198,
+      "leaked_value_chars": 3647,
+      "mode": "fail_closed",
+      "q": 0.1,
+      "requests": 1000,
+      "served": 896,
+      "status": {
+        "200": 896,
+        "503": 104
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 0.793,
+      "blocked": 207,
+      "decisions": {
+        "screening_unavailable": 207,
+        "served": 793
+      },
+      "fault": "exception",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "exception": 207
+      },
+      "faults_injected": 207,
+      "forwarded_to_upstream": 793,
+      "leaked_requests": 186,
+      "leaked_value_chars": 3542,
+      "mode": "fail_closed",
+      "q": 0.2,
+      "requests": 1000,
+      "served": 793,
+      "status": {
+        "200": 793,
+        "503": 207
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 0.99,
+      "blocked": 10,
+      "decisions": {
+        "screening_unavailable": 10,
+        "served": 990
+      },
+      "fault": "hang",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "hang": 10
+      },
+      "faults_injected": 10,
+      "forwarded_to_upstream": 990,
+      "leaked_requests": 221,
+      "leaked_value_chars": 4224,
+      "mode": "fail_closed",
+      "q": 0.01,
+      "requests": 1000,
+      "served": 990,
+      "status": {
+        "200": 990,
+        "503": 10
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 0.949,
+      "blocked": 51,
+      "decisions": {
+        "screening_unavailable": 51,
+        "served": 949
+      },
+      "fault": "hang",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "hang": 51
+      },
+      "faults_injected": 51,
+      "forwarded_to_upstream": 949,
+      "leaked_requests": 210,
+      "leaked_value_chars": 4023,
+      "mode": "fail_closed",
+      "q": 0.05,
+      "requests": 1000,
+      "served": 949,
+      "status": {
+        "200": 949,
+        "503": 51
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 0.898,
+      "blocked": 102,
+      "decisions": {
+        "screening_unavailable": 102,
+        "served": 898
+      },
+      "fault": "hang",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "hang": 102
+      },
+      "faults_injected": 102,
+      "forwarded_to_upstream": 898,
+      "leaked_requests": 203,
+      "leaked_value_chars": 3930,
+      "mode": "fail_closed",
+      "q": 0.1,
+      "requests": 1000,
+      "served": 898,
+      "status": {
+        "200": 898,
+        "503": 102
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 0.792,
+      "blocked": 208,
+      "decisions": {
+        "screening_unavailable": 208,
+        "served": 792
+      },
+      "fault": "hang",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "hang": 208
+      },
+      "faults_injected": 208,
+      "forwarded_to_upstream": 792,
+      "leaked_requests": 179,
+      "leaked_value_chars": 3216,
+      "mode": "fail_closed",
+      "q": 0.2,
+      "requests": 1000,
+      "served": 792,
+      "status": {
+        "200": 792,
+        "503": 208
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 0.985,
+      "blocked": 15,
+      "decisions": {
+        "screening_unavailable": 15,
+        "served": 985
+      },
+      "fault": "malformed",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "malformed": 15
+      },
+      "faults_injected": 15,
+      "forwarded_to_upstream": 985,
+      "leaked_requests": 223,
+      "leaked_value_chars": 4223,
+      "mode": "fail_closed",
+      "q": 0.01,
+      "requests": 1000,
+      "served": 985,
+      "status": {
+        "200": 985,
+        "503": 15
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 0.948,
+      "blocked": 52,
+      "decisions": {
+        "screening_unavailable": 52,
+        "served": 948
+      },
+      "fault": "malformed",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "malformed": 52
+      },
+      "faults_injected": 52,
+      "forwarded_to_upstream": 948,
+      "leaked_requests": 213,
+      "leaked_value_chars": 4102,
+      "mode": "fail_closed",
+      "q": 0.05,
+      "requests": 1000,
+      "served": 948,
+      "status": {
+        "200": 948,
+        "503": 52
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 0.905,
+      "blocked": 95,
+      "decisions": {
+        "screening_unavailable": 95,
+        "served": 905
+      },
+      "fault": "malformed",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "malformed": 95
+      },
+      "faults_injected": 95,
+      "forwarded_to_upstream": 905,
+      "leaked_requests": 203,
+      "leaked_value_chars": 3911,
+      "mode": "fail_closed",
+      "q": 0.1,
+      "requests": 1000,
+      "served": 905,
+      "status": {
+        "200": 905,
+        "503": 95
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 0.817,
+      "blocked": 183,
+      "decisions": {
+        "screening_unavailable": 183,
+        "served": 817
+      },
+      "fault": "malformed",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "malformed": 183
+      },
+      "faults_injected": 183,
+      "forwarded_to_upstream": 817,
+      "leaked_requests": 184,
+      "leaked_value_chars": 3546,
+      "mode": "fail_closed",
+      "q": 0.2,
+      "requests": 1000,
+      "served": 817,
+      "status": {
+        "200": 817,
+        "503": 183
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 0.989,
+      "blocked": 0,
+      "decisions": {
+        "served": 989,
+        "upstream_error": 11
+      },
+      "fault": "upstream_5xx",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "upstream_5xx": 11
+      },
+      "faults_injected": 11,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 224,
+      "leaked_value_chars": 4240,
+      "mode": "fail_closed",
+      "q": 0.01,
+      "requests": 1000,
+      "served": 989,
+      "status": {
+        "200": 989,
+        "502": 11
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 11
+    },
+    {
+      "availability": 0.943,
+      "blocked": 0,
+      "decisions": {
+        "served": 943,
+        "upstream_error": 57
+      },
+      "fault": "upstream_5xx",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "upstream_5xx": 57
+      },
+      "faults_injected": 57,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 224,
+      "leaked_value_chars": 4240,
+      "mode": "fail_closed",
+      "q": 0.05,
+      "requests": 1000,
+      "served": 943,
+      "status": {
+        "200": 943,
+        "502": 57
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 57
+    },
+    {
+      "availability": 0.899,
+      "blocked": 0,
+      "decisions": {
+        "served": 899,
+        "upstream_error": 101
+      },
+      "fault": "upstream_5xx",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "upstream_5xx": 101
+      },
+      "faults_injected": 101,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 224,
+      "leaked_value_chars": 4240,
+      "mode": "fail_closed",
+      "q": 0.1,
+      "requests": 1000,
+      "served": 899,
+      "status": {
+        "200": 899,
+        "502": 101
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 101
+    },
+    {
+      "availability": 0.808,
+      "blocked": 0,
+      "decisions": {
+        "served": 808,
+        "upstream_error": 192
+      },
+      "fault": "upstream_5xx",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "upstream_5xx": 192
+      },
+      "faults_injected": 192,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 224,
+      "leaked_value_chars": 4240,
+      "mode": "fail_closed",
+      "q": 0.2,
+      "requests": 1000,
+      "served": 808,
+      "status": {
+        "200": 808,
+        "502": 192
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 192
+    },
+    {
+      "availability": 0.992,
+      "blocked": 6,
+      "decisions": {
+        "screening_unavailable": 6,
+        "served": 992,
+        "upstream_error": 2
+      },
+      "fault": "mixed",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "exception": 1,
+        "hang": 5,
+        "upstream_5xx": 2
+      },
+      "faults_injected": 8,
+      "forwarded_to_upstream": 994,
+      "leaked_requests": 222,
+      "leaked_value_chars": 4180,
+      "mode": "fail_closed",
+      "q": 0.01,
+      "requests": 1000,
+      "served": 992,
+      "status": {
+        "200": 992,
+        "502": 2,
+        "503": 6
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 2
+    },
+    {
+      "availability": 0.953,
+      "blocked": 28,
+      "decisions": {
+        "screening_unavailable": 28,
+        "served": 953,
+        "upstream_error": 19
+      },
+      "fault": "mixed",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "exception": 7,
+        "hang": 15,
+        "malformed": 6,
+        "upstream_5xx": 19
+      },
+      "faults_injected": 47,
+      "forwarded_to_upstream": 972,
+      "leaked_requests": 221,
+      "leaked_value_chars": 4204,
+      "mode": "fail_closed",
+      "q": 0.05,
+      "requests": 1000,
+      "served": 953,
+      "status": {
+        "200": 953,
+        "502": 19,
+        "503": 28
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 19
+    },
+    {
+      "availability": 0.9,
+      "blocked": 74,
+      "decisions": {
+        "screening_unavailable": 74,
+        "served": 900,
+        "upstream_error": 26
+      },
+      "fault": "mixed",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "exception": 26,
+        "hang": 25,
+        "malformed": 23,
+        "upstream_5xx": 26
+      },
+      "faults_injected": 100,
+      "forwarded_to_upstream": 926,
+      "leaked_requests": 204,
+      "leaked_value_chars": 3745,
+      "mode": "fail_closed",
+      "q": 0.1,
+      "requests": 1000,
+      "served": 900,
+      "status": {
+        "200": 900,
+        "502": 26,
+        "503": 74
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 26
+    },
+    {
+      "availability": 0.808,
+      "blocked": 153,
+      "decisions": {
+        "screening_unavailable": 153,
+        "served": 808,
+        "upstream_error": 39
+      },
+      "fault": "mixed",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "exception": 51,
+        "hang": 57,
+        "malformed": 45,
+        "upstream_5xx": 39
+      },
+      "faults_injected": 192,
+      "forwarded_to_upstream": 847,
+      "leaked_requests": 193,
+      "leaked_value_chars": 3652,
+      "mode": "fail_closed",
+      "q": 0.2,
+      "requests": 1000,
+      "served": 808,
+      "status": {
+        "200": 808,
+        "502": 39,
+        "503": 153
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 39
+    },
+    {
+      "availability": 1.0,
+      "blocked": 0,
+      "decisions": {
+        "served": 1000
+      },
+      "fault": "none",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {},
+      "faults_injected": 0,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 224,
+      "leaked_value_chars": 4240,
+      "mode": "fail_open",
+      "q": 0.0,
+      "requests": 1000,
+      "served": 1000,
+      "status": {
+        "200": 1000
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 1.0,
+      "blocked": 0,
+      "decisions": {
+        "served": 993,
+        "served_unscreened": 7
+      },
+      "fault": "exception",
+      "fault_leaked_requests": 7,
+      "fault_leaked_value_chars": 602,
+      "faults_by_kind": {
+        "exception": 7
+      },
+      "faults_injected": 7,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 230,
+      "leaked_value_chars": 4842,
+      "mode": "fail_open",
+      "q": 0.01,
+      "requests": 1000,
+      "served": 1000,
+      "status": {
+        "200": 1000
+      },
+      "unscreened_forwarded": 7,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 1.0,
+      "blocked": 0,
+      "decisions": {
+        "served": 959,
+        "served_unscreened": 41
+      },
+      "fault": "exception",
+      "fault_leaked_requests": 41,
+      "fault_leaked_value_chars": 4311,
+      "faults_by_kind": {
+        "exception": 41
+      },
+      "faults_injected": 41,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 256,
+      "leaked_value_chars": 8551,
+      "mode": "fail_open",
+      "q": 0.05,
+      "requests": 1000,
+      "served": 1000,
+      "status": {
+        "200": 1000
+      },
+      "unscreened_forwarded": 41,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 1.0,
+      "blocked": 0,
+      "decisions": {
+        "served": 896,
+        "served_unscreened": 104
+      },
+      "fault": "exception",
+      "fault_leaked_requests": 104,
+      "fault_leaked_value_chars": 9740,
+      "faults_by_kind": {
+        "exception": 104
+      },
+      "faults_injected": 104,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 302,
+      "leaked_value_chars": 13980,
+      "mode": "fail_open",
+      "q": 0.1,
+      "requests": 1000,
+      "served": 1000,
+      "status": {
+        "200": 1000
+      },
+      "unscreened_forwarded": 104,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 1.0,
+      "blocked": 0,
+      "decisions": {
+        "served": 793,
+        "served_unscreened": 207
+      },
+      "fault": "exception",
+      "fault_leaked_requests": 207,
+      "fault_leaked_value_chars": 20239,
+      "faults_by_kind": {
+        "exception": 207
+      },
+      "faults_injected": 207,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 393,
+      "leaked_value_chars": 24479,
+      "mode": "fail_open",
+      "q": 0.2,
+      "requests": 1000,
+      "served": 1000,
+      "status": {
+        "200": 1000
+      },
+      "unscreened_forwarded": 207,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 1.0,
+      "blocked": 0,
+      "decisions": {
+        "served": 990,
+        "served_unscreened": 10
+      },
+      "fault": "hang",
+      "fault_leaked_requests": 10,
+      "fault_leaked_value_chars": 690,
+      "faults_by_kind": {
+        "hang": 10
+      },
+      "faults_injected": 10,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 231,
+      "leaked_value_chars": 4930,
+      "mode": "fail_open",
+      "q": 0.01,
+      "requests": 1000,
+      "served": 1000,
+      "status": {
+        "200": 1000
+      },
+      "unscreened_forwarded": 10,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 1.0,
+      "blocked": 0,
+      "decisions": {
+        "served": 949,
+        "served_unscreened": 51
+      },
+      "fault": "hang",
+      "fault_leaked_requests": 51,
+      "fault_leaked_value_chars": 4778,
+      "faults_by_kind": {
+        "hang": 51
+      },
+      "faults_injected": 51,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 261,
+      "leaked_value_chars": 9018,
+      "mode": "fail_open",
+      "q": 0.05,
+      "requests": 1000,
+      "served": 1000,
+      "status": {
+        "200": 1000
+      },
+      "unscreened_forwarded": 51,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 1.0,
+      "blocked": 0,
+      "decisions": {
+        "served": 898,
+        "served_unscreened": 102
+      },
+      "fault": "hang",
+      "fault_leaked_requests": 102,
+      "fault_leaked_value_chars": 10467,
+      "faults_by_kind": {
+        "hang": 102
+      },
+      "faults_injected": 102,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 305,
+      "leaked_value_chars": 14707,
+      "mode": "fail_open",
+      "q": 0.1,
+      "requests": 1000,
+      "served": 1000,
+      "status": {
+        "200": 1000
+      },
+      "unscreened_forwarded": 102,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 1.0,
+      "blocked": 0,
+      "decisions": {
+        "served": 792,
+        "served_unscreened": 208
+      },
+      "fault": "hang",
+      "fault_leaked_requests": 207,
+      "fault_leaked_value_chars": 20347,
+      "faults_by_kind": {
+        "hang": 208
+      },
+      "faults_injected": 208,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 386,
+      "leaked_value_chars": 24587,
+      "mode": "fail_open",
+      "q": 0.2,
+      "requests": 1000,
+      "served": 1000,
+      "status": {
+        "200": 1000
+      },
+      "unscreened_forwarded": 208,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 1.0,
+      "blocked": 0,
+      "decisions": {
+        "served": 985,
+        "served_unscreened": 15
+      },
+      "fault": "malformed",
+      "fault_leaked_requests": 15,
+      "fault_leaked_value_chars": 1452,
+      "faults_by_kind": {
+        "malformed": 15
+      },
+      "faults_injected": 15,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 238,
+      "leaked_value_chars": 5692,
+      "mode": "fail_open",
+      "q": 0.01,
+      "requests": 1000,
+      "served": 1000,
+      "status": {
+        "200": 1000
+      },
+      "unscreened_forwarded": 15,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 1.0,
+      "blocked": 0,
+      "decisions": {
+        "served": 948,
+        "served_unscreened": 52
+      },
+      "fault": "malformed",
+      "fault_leaked_requests": 52,
+      "fault_leaked_value_chars": 4977,
+      "faults_by_kind": {
+        "malformed": 52
+      },
+      "faults_injected": 52,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 265,
+      "leaked_value_chars": 9217,
+      "mode": "fail_open",
+      "q": 0.05,
+      "requests": 1000,
+      "served": 1000,
+      "status": {
+        "200": 1000
+      },
+      "unscreened_forwarded": 52,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 1.0,
+      "blocked": 0,
+      "decisions": {
+        "served": 905,
+        "served_unscreened": 95
+      },
+      "fault": "malformed",
+      "fault_leaked_requests": 95,
+      "fault_leaked_value_chars": 9619,
+      "faults_by_kind": {
+        "malformed": 95
+      },
+      "faults_injected": 95,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 298,
+      "leaked_value_chars": 13859,
+      "mode": "fail_open",
+      "q": 0.1,
+      "requests": 1000,
+      "served": 1000,
+      "status": {
+        "200": 1000
+      },
+      "unscreened_forwarded": 95,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 1.0,
+      "blocked": 0,
+      "decisions": {
+        "served": 817,
+        "served_unscreened": 183
+      },
+      "fault": "malformed",
+      "fault_leaked_requests": 183,
+      "fault_leaked_value_chars": 18076,
+      "faults_by_kind": {
+        "malformed": 183
+      },
+      "faults_injected": 183,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 367,
+      "leaked_value_chars": 22316,
+      "mode": "fail_open",
+      "q": 0.2,
+      "requests": 1000,
+      "served": 1000,
+      "status": {
+        "200": 1000
+      },
+      "unscreened_forwarded": 183,
+      "upstream_errors": 0
+    },
+    {
+      "availability": 0.989,
+      "blocked": 0,
+      "decisions": {
+        "served": 989,
+        "upstream_error": 11
+      },
+      "fault": "upstream_5xx",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "upstream_5xx": 11
+      },
+      "faults_injected": 11,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 224,
+      "leaked_value_chars": 4240,
+      "mode": "fail_open",
+      "q": 0.01,
+      "requests": 1000,
+      "served": 989,
+      "status": {
+        "200": 989,
+        "502": 11
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 11
+    },
+    {
+      "availability": 0.943,
+      "blocked": 0,
+      "decisions": {
+        "served": 943,
+        "upstream_error": 57
+      },
+      "fault": "upstream_5xx",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "upstream_5xx": 57
+      },
+      "faults_injected": 57,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 224,
+      "leaked_value_chars": 4240,
+      "mode": "fail_open",
+      "q": 0.05,
+      "requests": 1000,
+      "served": 943,
+      "status": {
+        "200": 943,
+        "502": 57
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 57
+    },
+    {
+      "availability": 0.899,
+      "blocked": 0,
+      "decisions": {
+        "served": 899,
+        "upstream_error": 101
+      },
+      "fault": "upstream_5xx",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "upstream_5xx": 101
+      },
+      "faults_injected": 101,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 224,
+      "leaked_value_chars": 4240,
+      "mode": "fail_open",
+      "q": 0.1,
+      "requests": 1000,
+      "served": 899,
+      "status": {
+        "200": 899,
+        "502": 101
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 101
+    },
+    {
+      "availability": 0.808,
+      "blocked": 0,
+      "decisions": {
+        "served": 808,
+        "upstream_error": 192
+      },
+      "fault": "upstream_5xx",
+      "fault_leaked_requests": 0,
+      "fault_leaked_value_chars": 0,
+      "faults_by_kind": {
+        "upstream_5xx": 192
+      },
+      "faults_injected": 192,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 224,
+      "leaked_value_chars": 4240,
+      "mode": "fail_open",
+      "q": 0.2,
+      "requests": 1000,
+      "served": 808,
+      "status": {
+        "200": 808,
+        "502": 192
+      },
+      "unscreened_forwarded": 0,
+      "upstream_errors": 192
+    },
+    {
+      "availability": 0.998,
+      "blocked": 0,
+      "decisions": {
+        "served": 992,
+        "served_unscreened": 6,
+        "upstream_error": 2
+      },
+      "fault": "mixed",
+      "fault_leaked_requests": 6,
+      "fault_leaked_value_chars": 542,
+      "faults_by_kind": {
+        "exception": 1,
+        "hang": 5,
+        "upstream_5xx": 2
+      },
+      "faults_injected": 8,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 228,
+      "leaked_value_chars": 4782,
+      "mode": "fail_open",
+      "q": 0.01,
+      "requests": 1000,
+      "served": 998,
+      "status": {
+        "200": 998,
+        "502": 2
+      },
+      "unscreened_forwarded": 6,
+      "upstream_errors": 2
+    },
+    {
+      "availability": 0.981,
+      "blocked": 0,
+      "decisions": {
+        "served": 953,
+        "served_unscreened": 28,
+        "upstream_error": 19
+      },
+      "fault": "mixed",
+      "fault_leaked_requests": 28,
+      "fault_leaked_value_chars": 2978,
+      "faults_by_kind": {
+        "exception": 7,
+        "hang": 15,
+        "malformed": 6,
+        "upstream_5xx": 19
+      },
+      "faults_injected": 47,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 249,
+      "leaked_value_chars": 7218,
+      "mode": "fail_open",
+      "q": 0.05,
+      "requests": 1000,
+      "served": 981,
+      "status": {
+        "200": 981,
+        "502": 19
+      },
+      "unscreened_forwarded": 28,
+      "upstream_errors": 19
+    },
+    {
+      "availability": 0.974,
+      "blocked": 0,
+      "decisions": {
+        "served": 900,
+        "served_unscreened": 74,
+        "upstream_error": 26
+      },
+      "fault": "mixed",
+      "fault_leaked_requests": 74,
+      "fault_leaked_value_chars": 6714,
+      "faults_by_kind": {
+        "exception": 26,
+        "hang": 25,
+        "malformed": 23,
+        "upstream_5xx": 26
+      },
+      "faults_injected": 100,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 278,
+      "leaked_value_chars": 10954,
+      "mode": "fail_open",
+      "q": 0.1,
+      "requests": 1000,
+      "served": 974,
+      "status": {
+        "200": 974,
+        "502": 26
+      },
+      "unscreened_forwarded": 74,
+      "upstream_errors": 26
+    },
+    {
+      "availability": 0.961,
+      "blocked": 0,
+      "decisions": {
+        "served": 808,
+        "served_unscreened": 153,
+        "upstream_error": 39
+      },
+      "fault": "mixed",
+      "fault_leaked_requests": 153,
+      "fault_leaked_value_chars": 14411,
+      "faults_by_kind": {
+        "exception": 51,
+        "hang": 57,
+        "malformed": 45,
+        "upstream_5xx": 39
+      },
+      "faults_injected": 192,
+      "forwarded_to_upstream": 1000,
+      "leaked_requests": 346,
+      "leaked_value_chars": 18651,
+      "mode": "fail_open",
+      "q": 0.2,
+      "requests": 1000,
+      "served": 961,
+      "status": {
+        "200": 961,
+        "502": 39
+      },
+      "unscreened_forwarded": 153,
+      "upstream_errors": 39
+    }
+  ],
+  "seconds": 228.4,
+  "seed": 0,
+  "timeout_s": 0.05
+}
