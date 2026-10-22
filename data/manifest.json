@@ -82,6 +82,16 @@
       "sha256": "c02b06d3c5b7c375525136d6f74acc52ab8fc07fa863d0aa50734910ec0ef2ad",
       "size": 2720729,
       "url": "https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual/resolve/7b844d16738527a04264f50214cb426a4cea0897/data/English_test-00000-of-00001.parquet"
+    },
+    {
+      "downloaded_at": "2026-10-22T21:05:29+00:00",
+      "license": "Apache-2.0",
+      "path": "data/English_train-00000-of-00001.parquet",
+      "repo": "gretelai/synthetic_pii_finance_multilingual",
+      "revision": "7b844d16738527a04264f50214cb426a4cea0897",
+      "sha256": "2858af81ec59d8528f81059facb099ac33e6b47caf2501da3eac113bccfee9c7",
+      "size": 24403359,
+      "url": "https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual/resolve/7b844d16738527a04264f50214cb426a4cea0897/data/English_train-00000-of-00001.parquet"
     }
   ],
   "models": {

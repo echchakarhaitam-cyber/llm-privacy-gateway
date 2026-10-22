@@ -62,6 +62,12 @@ FILES: tuple[FileSpec, ...] = (
         "gretelai/synthetic_pii_finance_multilingual", GRETEL_REV,
         "data/English_test-00000-of-00001.parquet", 2_720_729, "Apache-2.0",
     ),
+    # Milestone 7 (RQ11, domain adaptation): the English TRAIN file of the same dataset and
+    # revision. Only a seeded sample of it is ever used for training, never for evaluation.
+    FileSpec(
+        "gretelai/synthetic_pii_finance_multilingual", GRETEL_REV,
+        "data/English_train-00000-of-00001.parquet", 24_403_359, "Apache-2.0",
+    ),
 )
 
 
@@ -73,6 +79,42 @@ def sha256_of(path: Path) -> str:
     return digest.hexdigest()
 
 
+ATTEMPTS = 8
+
+
+def _download(url: str, part: Path, expected_size: int | None) -> int:
+    """Stream ``url`` into ``part``; on a network error resume with a Range request.
+
+    The CDN behind huggingface.co sometimes stalls mid-file. A stall (``OSError``, which
+    includes timeouts) is retried up to ``ATTEMPTS`` times, each time continuing from the bytes
+    already on disk; a server that ignores Range (status 200) makes the attempt start over.
+    Integrity is still decided by the caller's size check and, afterwards, the SHA-256.
+    """
+    written = 0
+    part.write_bytes(b"")
+    for attempt in range(1, ATTEMPTS + 1):
+        request = urllib.request.Request(url)
+        if written:
+            request.add_header("Range", f"bytes={written}-")
+        try:
+            with urllib.request.urlopen(request, timeout=60) as resp:
+                if written and getattr(resp, "status", 200) != 206:
+                    written = 0                      # no resume support: start over
+                with part.open("ab" if written else "wb") as out:
+                    for block in iter(lambda: resp.read(CHUNK), b""):
+                        out.write(block)
+                        written += len(block)
+        except OSError as exc:
+            if attempt == ATTEMPTS:
+                raise
+            print(f"download interrupted at {written} bytes ({type(exc).__name__}); "
+                  f"retry {attempt}/{ATTEMPTS - 1}", file=sys.stderr)
+            continue
+        if expected_size is None or written >= expected_size:
+            return written
+    return written
+
+
 def fetch(url: str, dest: Path, expected_size: int | None) -> None:
     """Stream ``url`` to ``dest`` via a .part file; raise if the byte count is wrong.
 
@@ -80,11 +122,7 @@ def fetch(url: str, dest: Path, expected_size: int | None) -> None:
     """
     dest.parent.mkdir(parents=True, exist_ok=True)
     part = dest.with_name(dest.name + ".part")
-    written = 0
-    with urllib.request.urlopen(url, timeout=60) as resp, part.open("wb") as out:
-        for block in iter(lambda: resp.read(CHUNK), b""):
-            out.write(block)
-            written += len(block)
+    written = _download(url, part, expected_size)
     if expected_size is not None and written != expected_size:
         part.unlink()
         raise OSError(f"{url}: expected {expected_size} bytes, got {written}")

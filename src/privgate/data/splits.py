@@ -41,6 +41,11 @@ RAW_FILES = {
         "raw/gretelai__synthetic_pii_finance_multilingual/English_test-00000-of-00001.parquet"
     ),
 }
+# Milestone 7 (RQ11): the Gretel TRAIN file. Deliberately NOT in RAW_FILES: that dict feeds
+# the evaluation-set builder and the data statistics, and nothing evaluated may come from here.
+GRETEL_TRAIN_FILE = Path(
+    "raw/gretelai__synthetic_pii_finance_multilingual/English_train-00000-of-00001.parquet"
+)
 _READERS = {
     "nemotron_train_file": (NEMOTRON, iter_nemotron),
     "nemotron_test_file": (NEMOTRON, iter_nemotron),

@@ -24,6 +24,7 @@ memory and over 20 minutes, so three would double the training budget.
 from __future__ import annotations
 
 import ctypes
+import hashlib
 import random
 import sys
 from collections.abc import Iterable, Sequence
@@ -31,8 +32,10 @@ from pathlib import Path
 
 from privgate.bench.sets import SET_NAMES, load_evaluation_set
 from privgate.data.documents import Document
+from privgate.data.gretel import DATASET as GRETEL
+from privgate.data.gretel import TRAIN_ID_PREFIX
 from privgate.data.nemotron import DATASET as NEMOTRON
-from privgate.data.splits import assign_split, iter_file, split_key
+from privgate.data.splits import RAW_FILES, assign_split, iter_file, split_key
 from privgate.evaluation import evaluate_corpus
 
 SIZES = (1000, 5000)
@@ -66,6 +69,51 @@ def check_training_pool(docs: Iterable[Document], forbidden: frozenset[str]) -> 
             raise TrainingPoolError(f"{doc.doc_id} belongs to an evaluation set")
         if doc.source != NEMOTRON or assign_split(split_key(doc)) != "train":
             raise TrainingPoolError(f"{doc.doc_id} is not in the Nemotron train split")
+
+
+def text_hash(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def gretel_test_text_hashes(data_root: Path) -> frozenset[str]:
+    """SHA-256 of every ``generated_text`` of the Gretel English TEST file (all rows, not just
+    the evaluation set), to detect training documents that duplicate a test document."""
+    import pyarrow.parquet as pq
+
+    path = Path(data_root) / RAW_FILES["gretel_en_test_file"]
+    column = pq.read_table(path, columns=["generated_text"]).column(0)
+    return frozenset(text_hash(t) for t in column.to_pylist())
+
+
+def split_gretel_overlap(
+    docs: Sequence[Document], test_hashes: frozenset[str]
+) -> tuple[list[Document], list[Document]]:
+    """(kept, overlapping): documents whose text does / does not occur in the Gretel test file."""
+    kept, overlapping = [], []
+    for doc in docs:
+        (overlapping if text_hash(doc.text) in test_hashes else kept).append(doc)
+    return kept, overlapping
+
+
+def check_mixed_training_pool(docs: Iterable[Document], forbidden: frozenset[str],
+                              gretel_test_hashes: frozenset[str]) -> None:
+    """Pool guard for the domain-adaptation models (RQ11).
+
+    Allowed: Nemotron train-split documents (checked exactly as :func:`check_training_pool`)
+    and documents of the Gretel TRAIN file (id prefix ``gretel-train:``) whose text is not in
+    the Gretel test file. Everything else raises, in particular any Gretel TEST document
+    (ids ``gretel:<n>``) and any evaluation document.
+    """
+    for doc in docs:
+        if doc.doc_id in forbidden:
+            raise TrainingPoolError(f"{doc.doc_id} belongs to an evaluation set")
+        if doc.doc_id.startswith(f"{TRAIN_ID_PREFIX}:"):
+            if doc.source != GRETEL:
+                raise TrainingPoolError(f"{doc.doc_id} is not a Gretel document")
+            if text_hash(doc.text) in gretel_test_hashes:
+                raise TrainingPoolError(f"{doc.doc_id} has the text of a Gretel test document")
+        else:
+            check_training_pool([doc], forbidden)
 
 
 def sample_groups(groups: Iterable[str], n_docs: int, seed: int) -> list[str]:

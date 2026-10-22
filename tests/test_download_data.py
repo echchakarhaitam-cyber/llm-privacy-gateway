@@ -107,3 +107,72 @@ def test_download_all_preserves_other_manifest_keys(tmp_path, source, monkeypatc
     assert on_disk == manifest
     assert manifest["evaluation_sets"] == {"x": 1}
     assert [e["path"] for e in manifest["files"]] == ["data/file.parquet"]
+
+
+def test_gretel_train_file_is_pinned():
+    key = ("gretelai/synthetic_pii_finance_multilingual",
+           "data/English_train-00000-of-00001.parquet")
+    spec = next(s for s in dd.FILES if (s.repo, s.path) == key)
+    assert spec.size == 24_403_359 and spec.license == "Apache-2.0"
+    assert spec.revision == "7b844d16738527a04264f50214cb426a4cea0897"
+
+
+class _FlakyResponse:
+    """A response that delivers ``data`` and then stalls (raises) unless it is the last one."""
+
+    def __init__(self, data, status, fail):
+        self._data, self.status, self._fail, self._pos = data, status, fail, 0
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+    def read(self, n):
+        if self._pos >= len(self._data):
+            if self._fail:
+                raise TimeoutError("stalled")
+            return b""
+        chunk = self._data[self._pos:self._pos + n]
+        self._pos += len(chunk)
+        return chunk
+
+
+def test_fetch_resumes_a_stalled_download_with_range(tmp_path, monkeypatch):
+    calls = []
+
+    def fake_urlopen(request, timeout=None):
+        start = int(request.get_header("Range", "bytes=0-").split("=")[1].rstrip("-"))
+        calls.append(start)
+        if start == 0:
+            return _FlakyResponse(PAYLOAD[:700], 200, fail=True)       # stalls after 700 bytes
+        return _FlakyResponse(PAYLOAD[start:], 206, fail=False)
+
+    monkeypatch.setattr(dd.urllib.request, "urlopen", fake_urlopen)
+    dest = tmp_path / "f.parquet"
+    dd.fetch("https://example.invalid/f", dest, len(PAYLOAD))
+    assert dest.read_bytes() == PAYLOAD and calls == [0, 700]
+
+
+def test_fetch_restarts_when_the_server_ignores_range(tmp_path, monkeypatch):
+    attempts = []
+
+    def fake_urlopen(request, timeout=None):
+        attempts.append(request.get_header("Range"))
+        if len(attempts) == 1:
+            return _FlakyResponse(PAYLOAD[:500], 200, fail=True)
+        return _FlakyResponse(PAYLOAD, 200, fail=False)               # 200 despite Range
+
+    monkeypatch.setattr(dd.urllib.request, "urlopen", fake_urlopen)
+    dest = tmp_path / "f.parquet"
+    dd.fetch("https://example.invalid/f", dest, len(PAYLOAD))
+    assert dest.read_bytes() == PAYLOAD                                # not 500 + full payload
+
+
+def test_fetch_gives_up_after_the_attempt_limit(tmp_path, monkeypatch):
+    monkeypatch.setattr(dd.urllib.request, "urlopen",
+                        lambda request, timeout=None: _FlakyResponse(b"", 200, fail=True))
+    with pytest.raises(TimeoutError):
+        dd.fetch("https://example.invalid/f", tmp_path / "f.parquet", len(PAYLOAD))
+    assert not (tmp_path / "f.parquet").exists()

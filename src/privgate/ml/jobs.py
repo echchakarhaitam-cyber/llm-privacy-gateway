@@ -16,8 +16,10 @@ from privgate.data.splits import file_sha256, read_jsonl
 from privgate.ml.training import (
     CRF_MAX_ITERATIONS,
     LOGREG_MAX_ITER,
+    check_mixed_training_pool,
     check_training_pool,
     evaluation_doc_ids,
+    gretel_test_text_hashes,
     peak_memory_mb,
     scores,
 )
@@ -28,7 +30,11 @@ def _training_docs(spec: dict):
     if file_sha256(path) != spec["train_sha256"]:
         raise RuntimeError(f"{path} differs from its recorded hash")
     docs = read_jsonl(path)
-    check_training_pool(docs, evaluation_doc_ids(Path(spec["data_root"])))
+    root = Path(spec["data_root"])
+    if spec.get("pool") == "mixed":      # RQ11: Nemotron train + Gretel train documents
+        check_mixed_training_pool(docs, evaluation_doc_ids(root), gretel_test_text_hashes(root))
+    else:
+        check_training_pool(docs, evaluation_doc_ids(root))
     return docs
 
 

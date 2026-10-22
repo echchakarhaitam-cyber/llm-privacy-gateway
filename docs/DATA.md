@@ -62,6 +62,20 @@ Segbroeck, Matthew Grossman, Sami Torbey, Piotr Mlocek and Johnny Greco (Gretel.
 licensed under Apache-2.0. The file is not redistributed; if it ever is, the license text
 must accompany it. The same changes as for Nemotron-PII apply.
 
+### C. Gretel synthetic PII finance, English TRAIN file (Milestone 7, training only)
+
+Same dataset, revision, owner, nature and Apache-2.0 license as B; file
+`data/English_train-00000-of-00001.parquet` (24,403,359 bytes; SHA-256 in `data/manifest.json`).
+It is downloaded by the same script and manifest mechanism (`scripts/download_data.py`) and
+used for exactly one purpose: a seeded sample of at most 500 documents trains the
+domain-adaptation models of RQ11 (docs/results-adaptation.md). Its documents get the ids
+`gretel-train:<n>` (the pandas index restarts at 0, so `gretel:<n>` would collide with the test
+file); it is deliberately absent from `RAW_FILES`, from the evaluation sets and from the
+statistics below. Documents whose `generated_text` also occurs in the Gretel test file are
+dropped before sampling, and `privgate.ml.training.check_mixed_training_pool` refuses any
+Gretel test document or evaluation document. The overlap count is recorded in
+`results/m7/training_sets.json`.
+
 ## Schema findings
 
 Found by `scripts/inspect_data.py` on the pinned files; the unit-test fixtures in

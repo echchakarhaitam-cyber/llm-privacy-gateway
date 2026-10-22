@@ -47,13 +47,17 @@ def parse_spans(field: str) -> list[RawSpan]:
     return spans
 
 
-def doc_id(row: Mapping) -> str:
+ID_PREFIX = "gretel"
+TRAIN_ID_PREFIX = "gretel-train"     # the train file's index restarts at 0: its ids must differ
+
+
+def doc_id(row: Mapping, prefix: str = ID_PREFIX) -> str:
     """privgate id of a raw row, from the unique pandas index column."""
-    return f"gretel:{row['__index_level_0__']}"
+    return f"{prefix}:{row['__index_level_0__']}"
 
 
 def iter_gretel(
-    path: str | Path, tally: LoadTally, limit: int | None = None
+    path: str | Path, tally: LoadTally, limit: int | None = None, prefix: str = ID_PREFIX
 ) -> Iterator[Document]:
     """Stream Documents from the Gretel parquet file, updating ``tally``."""
     for n, row in enumerate(iter_rows(path, COLUMNS)):
@@ -65,7 +69,7 @@ def iter_gretel(
         except (ValueError, TypeError) as exc:
             raise ValueError(f"{path}: index {index}: {exc}") from exc
         meta = {c: row[c] for c in META_COLUMNS if row[c] is not None}
-        yield build_document(doc_id(row), row["generated_text"], raw, tally, meta)
+        yield build_document(doc_id(row, prefix), row["generated_text"], raw, tally, meta)
 
 
 def load_gretel(
@@ -76,9 +80,10 @@ def load_gretel(
     strict_labels: bool = False,
     offset_check: str = "casefold",
     overlap_policy: str = "resolve",
+    prefix: str = ID_PREFIX,
 ) -> tuple[list[Document], LoadReport]:
     """Load the Gretel English parquet file into Documents plus a LoadReport."""
     options = LoadOptions(merge_adjacent, strict_labels, offset_check, overlap_policy)
     tally = LoadTally(DATASET, options)
-    docs = list(iter_gretel(path, tally, limit))
+    docs = list(iter_gretel(path, tally, limit, prefix))
     return docs, tally.freeze()
