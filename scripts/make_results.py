@@ -11,6 +11,7 @@ figure docs/figures/leakage_by_set.png is drawn from the same numbers.
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -19,9 +20,17 @@ SHORT = {"nemotron_dev_2k": "dev", "nemotron_test_5k": "test", "gretel_en_test":
 HEADLINE = ("regex", "presidio", "regex+presidio", "crf", "crf+regex+presidio")
 M3 = ("regex", "presidio", "regex+presidio", "spacy", "regex+spacy")
 RQ11_MODELS = ("crf_g500", "crf_n5k_g100", "crf_n5k_g500")
+# Pre-declared descriptive addition (Milestone 8): the adapted CRF in the same union as the
+# best M4 ensemble, built from stored predictions.
+RQ11_ENSEMBLE = "crf_n5k_g500+regex+presidio"
+RQ11_ALL = (*RQ11_MODELS, RQ11_ENSEMBLE)
 RQ11_LABELS = {
     "crf": "(a) Nemotron 5000", "crf_n5k_g100": "(b) Nemotron 5000 + Gretel 100",
-    "crf_n5k_g500": "(b) Nemotron 5000 + Gretel 500", "crf_g500": "(c) Gretel 500 only"}
+    "crf_n5k_g500": "(b) Nemotron 5000 + Gretel 500", "crf_g500": "(c) Gretel 500 only",
+    RQ11_ENSEMBLE: "(b) adapted CRF + regex + Presidio"}
+ADAPTED_NOTE = ("Rows marked (b) or (c) are adapted models, evaluated on sets that include the "
+                "Gretel test set that was also used to pick the best of them; their Gretel "
+                "numbers are descriptive, not a validated selection.")
 NOT_MEASURED = "NOT MEASURED"
 LOAD_LABEL = "measured under recorded background load (not an idle machine)"
 
@@ -38,7 +47,7 @@ def table(header: list[str], rows: list[list]) -> str:
 
 def run_dir(root: Path, set_name: str, detector: str) -> Path:
     """Where the stored run of ``detector`` lives (m7 for the RQ11 models, m4 for CRFs)."""
-    if detector in RQ11_MODELS:
+    if detector in RQ11_ALL:
         return root / "m7" / set_name / detector
     if detector in ("crf", "crf+regex+presidio", "logreg"):
         return root / "m4" / set_name / detector
@@ -79,17 +88,48 @@ def paired(root: Path, set_name: str, a: str, b: str):
 
 
 def best_rq11(root: Path) -> str | None:
-    """The RQ11 model with the lowest Gretel leakage (descriptive, chosen on the test set)."""
+    """The single RQ11 model with the lowest Gretel leakage (descriptive, chosen on the test
+    set). The adapted ensemble is reported separately, never as the 'best single model'."""
     found = [(leakage(m)[0], name) for name in RQ11_MODELS
              if (m := metrics(root, "gretel_en_test", name))]
     return min(found)[1] if found else None
+
+
+def compare_sentence(name_a: str, value_a: float, name_b: str, value_b: float,
+                     noun: str = "leaks") -> str:
+    """'`A` leaks less than `B` (0.282 vs 0.318)': the direction is derived from the numbers.
+
+    Every sentence that compares two leakage values must come from here, so a hand-written
+    claim can never contradict the table next to it. The comparison is made on the values as
+    they are displayed (three decimals): equal displayed values give 'the same as'.
+    """
+    a, b = round(value_a, 3), round(value_b, 3)
+    word = "less than" if a < b else "more than" if a > b else "the same as"
+    return f"`{name_a}` {noun} {word} `{name_b}` ({a:.3f} vs {b:.3f})"
+
+
+COMPARISON = re.compile(
+    r"`[^`]+` (?:leaks|leak) (less than|more than|the same as) `[^`]+` "
+    r"\((\d+\.\d{3}) vs (\d+\.\d{3})\)")
+
+
+def wrong_comparisons(text: str) -> list[str]:
+    """Sentences made by :func:`compare_sentence` whose wording contradicts their numbers."""
+    wrong = []
+    for m in COMPARISON.finditer(text):
+        word, a, b = m.group(1), float(m.group(2)), float(m.group(3))
+        truth = "less than" if a < b else "more than" if a > b else "the same as"
+        if word != truth:
+            wrong.append(m.group(0))
+    return wrong
 
 
 # --- headline ---------------------------------------------------------------------------------
 
 def headline_models(root: Path) -> list[str]:
     best = best_rq11(root)
-    return [*HEADLINE, *([best] if best else [])]
+    ensemble = RQ11_ENSEMBLE if metrics(root, "gretel_en_test", RQ11_ENSEMBLE) else None
+    return [*HEADLINE, *([best] if best else []), *([ensemble] if ensemble else [])]
 
 
 def headline(root: Path) -> str:
@@ -105,8 +145,10 @@ def headline(root: Path) -> str:
             "spans (lower is better), with 95 % document-bootstrap intervals. ")
     best = best_rq11(root)
     if best:
-        note += (f"The last row is the RQ11 model with the lowest Gretel leakage (`{best}`); "
-                 "that choice is descriptive and was made on the Gretel test set itself.")
+        note += (f"The rows after `crf+regex+presidio` are adapted models (RQ11): `{best}` is the "
+                 "single RQ11 model with the lowest Gretel leakage, a choice made on the Gretel "
+                 f"test set itself; `{RQ11_ENSEMBLE}` was pre-declared as a descriptive "
+                 "addition. " + ADAPTED_NOTE)
     return note + "\n\n" + table(["detector", *(f"{SHORT[s]} (`{s}`)" for s in SETS)], rows)
 
 
@@ -120,7 +162,7 @@ def figure(root: Path, out: Path) -> bool:
     except ImportError:
         return False
     models = headline_models(root)
-    palette = ["#999999", "#E69F00", "#56B4E9", "#009E73", "#0072B2", "#D55E00"]
+    palette = ["#999999", "#E69F00", "#56B4E9", "#009E73", "#0072B2", "#D55E00", "#CC79A7"]
     fig, ax = plt.subplots(figsize=(9, 4.6))
     width = 0.8 / len(models)
     for i, det in enumerate(models):
@@ -154,7 +196,7 @@ def figure(root: Path, out: Path) -> bool:
 def rq11_tables(root: Path) -> tuple[str, list[str]]:
     sets_info = load(root / "m7" / "training_sets.json")
     log = load(root / "m7" / "training_log.json")
-    present = [n for n in ("crf", *RQ11_MODELS) if all(metrics(root, s, n) for s in SETS)]
+    present = [n for n in ("crf", *RQ11_ALL) if all(metrics(root, s, n) for s in SETS)]
     if sets_info is None or len(present) < 2:
         return f"{NOT_MEASURED} (results/m7 is incomplete).\n", []
     parts = [
@@ -187,12 +229,20 @@ def rq11_tables(root: Path) -> tuple[str, list[str]]:
             if not d:
                 continue
             lk = d["leakage_rate"]
-            reduction = -lk["delta"] / lk["b"] if lk["b"] else 0.0
+            change = lk["delta"] / lk["b"] if lk["b"] else 0.0
             verdict = ("lower" if lk["ci95"][1] < 0 else "higher" if lk["ci95"][0] > 0
                        else "not distinguishable")
             notes.append(f"`{n}` on `{s}`: leakage {lk['b']:.3f} → {lk['a']:.3f} (relative "
-                         f"reduction {reduction:.1%}; the paired CI says {verdict}); "
+                         f"change {change:+.1%}; the paired CI says {verdict}); "
                          f"type-agnostic F1 {d['type_agnostic_f1']['delta']:+.3f}.")
+    for s in SETS:                      # adapted models against the best non-adapted union
+        union = metrics(root, s, "crf+regex+presidio")
+        for n in present:
+            if n in (RQ11_ENSEMBLE, "crf_n5k_g500") and union:
+                notes.append(
+                    f"On `{s}`: " + compare_sentence(
+                        n, leakage(metrics(root, s, n))[0], "crf+regex+presidio",
+                        leakage(union)[0]) + ".")
     parts.append("**Paired differences against (a)** (new model minus (a); a negative leakage "
                  "difference is an improvement; paired bootstrap, same document resamples)\n\n"
                  + table(header, rows))
@@ -395,7 +445,10 @@ def build_results(root: Path) -> str:
             f"and the union `crf+regex+presidio` {trio(union)}: the gain is large in-domain "
             "and smaller out of distribution. Adding Gretel training documents moves the Gretel "
             f"leakage of the CRF from {leakage(crf[2])[0]:.3f} to {leakage(gretel_best)[0]:.3f} "
-            f"(`{best}`). Under every masking strategy the privacy of the output is set by the "
+            f"(`{best}`); on Gretel, "
+            + compare_sentence(best, leakage(gretel_best)[0], "crf+regex+presidio",
+                               leakage(union[2])[0])
+            + ". Under every masking strategy the privacy of the output is set by the "
             f"detector, not by the strategy (RQ7). {faults}")
     else:
         summary = NOT_MEASURED
@@ -485,6 +538,8 @@ bootstrap against (a). Reproduce: `python scripts/download_data.py`, then
 `python scripts/run_domain_adaptation.py prepare | train | evaluate`.
 
 {body}
+{ADAPTED_NOTE}
+
 ## Observations
 
 Generated from the tables above.

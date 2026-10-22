@@ -588,7 +588,10 @@ Reading notes (no numbers; see the tables):
   words of the training generator (first names, city names, occupation words); on Gretel's
   finance documents it leaks more than `regex+presidio` for some structured types (phone
   numbers, IBANs) and for person names, which the union `crf+regex+presidio` recovers:
-  the union has the lowest leakage on every set.
+  among the detectors of Milestones 3 and 4 the union has the lowest leakage on every set.
+  (The Gretel-adapted models of Milestone 7 are not part of this comparison; see
+  [results-adaptation.md](results-adaptation.md) and [results.md](results.md), where the
+  comparisons are generated from the numbers.)
 - **Transitions.** The largest transition weights forbid `O -> I-X` for every type; the CRF
   beats the per-token model on every set, most clearly in strict F1, i.e. on boundaries.
 - **Tokenisation is not the bottleneck.** The round-trip ceiling is close to perfect, so

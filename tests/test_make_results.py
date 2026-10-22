@@ -169,3 +169,72 @@ def test_figure_is_written_when_matplotlib_exists(root, tmp_path):
     out = tmp_path / "fig" / "leakage.png"
     assert load_script().figure(root, out) is True
     assert out.exists() and out.stat().st_size > 1000
+
+
+# --- comparison sentences are generated from the numbers, never typed ---------------------------
+
+@pytest.mark.parametrize("a,b,word", [
+    (0.282, 0.318, "less than"), (0.318, 0.282, "more than"), (0.3181, 0.3179, "the same as"),
+    (0.0, 0.001, "less than"), (0.9996, 0.9994, "more than"), (0.05, 0.0499, "the same as")])
+def test_compare_sentence_direction_follows_the_displayed_numbers(a, b, word):
+    mod = load_script()
+    sentence = mod.compare_sentence("x", a, "y", b)
+    assert f" {word} " in sentence
+    assert mod.wrong_comparisons(sentence) == []
+
+
+def test_the_m7_error_would_have_been_caught():
+    mod = load_script()
+    wrong = "`crf+regex+presidio` leaks less than `crf_n5k_g500` (0.318 vs 0.282)"
+    assert mod.wrong_comparisons(wrong) == [wrong]
+    right = "`crf_n5k_g500` leaks less than `crf+regex+presidio` (0.282 vs 0.318)"
+    assert mod.wrong_comparisons(right) == []
+    swapped_tie = "`a` leaks more than `b` (0.300 vs 0.300)"
+    assert mod.wrong_comparisons(swapped_tie) == [swapped_tie]
+
+
+def test_generated_documents_never_contain_a_wrong_comparison(root):
+    mod = load_script()
+    for name, leak in (("crf_n5k_g500+regex+presidio", 0.19),):
+        for s in SETS:
+            write(root / "m7" / s / name / "metrics.json", metrics(leak))
+            write(root / "m7" / s / f"paired_{name}__vs__crf.json",
+                  {"leakage_rate": pair(leak, 0.28, leak - 0.28),
+                   "type_agnostic_f1": pair(0.9, 0.85, 0.05)})
+    docs = mod.build_results(root) + mod.build_adaptation(root)
+    sentences = mod.COMPARISON.findall(docs)
+    assert len(sentences) >= 4                  # the comparisons are really there
+    assert mod.wrong_comparisons(docs) == []
+    # the fixture's union (0.318 on gretel, scaled) is above the adapted 0.15 / 0.19 models
+    assert "`crf_n5k_g500` leaks less than `crf+regex+presidio`" in docs or \
+        "`crf_n5k_g500` leaks more than `crf+regex+presidio`" in docs
+
+
+def test_direction_flips_with_the_data(root):
+    mod = load_script()
+    for s in SETS:
+        write(root / "m7" / s / "crf_n5k_g500" / "metrics.json", metrics(0.9))
+    docs = mod.build_results(root)
+    assert "`crf_n5k_g500` leaks more than `crf+regex+presidio`" in docs
+    for s in SETS:
+        write(root / "m7" / s / "crf_n5k_g500" / "metrics.json", metrics(0.01))
+    assert "`crf_n5k_g500` leaks less than `crf+regex+presidio`" in mod.build_results(root)
+
+
+def test_headline_marks_adapted_rows(root):
+    mod = load_script()
+    for s in SETS:
+        write(root / "m7" / s / mod.RQ11_ENSEMBLE / "metrics.json", metrics(0.1))
+    text = mod.headline(root)
+    assert f"`{mod.RQ11_ENSEMBLE}` — (b) adapted CRF + regex + Presidio" in text
+    assert "adapted models, evaluated on sets that include the Gretel test set" in text
+
+
+def test_committed_docs_have_no_wrong_comparison():
+    mod = load_script()
+    docs = Path(__file__).parent.parent / "docs"
+    files = [*docs.glob("*.md"), Path(__file__).parent.parent / "README.md"]
+    assert files
+    for path in files:
+        text = path.read_text(encoding="utf-8")
+        assert mod.wrong_comparisons(text) == [], path.name
