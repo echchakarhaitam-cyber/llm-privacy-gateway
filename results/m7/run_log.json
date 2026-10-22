@@ -1,0 +1,59 @@
+{
+  "steps": [
+    {
+      "detector": "crf_g500",
+      "seconds": 3.327,
+      "set": "nemotron_dev_2k",
+      "step": "score"
+    },
+    {
+      "detector": "crf_g500",
+      "seconds": 7.874,
+      "set": "nemotron_test_5k",
+      "step": "score"
+    },
+    {
+      "detector": "crf_g500",
+      "seconds": 4.657,
+      "set": "gretel_en_test",
+      "step": "score"
+    },
+    {
+      "detector": "crf_n5k_g100",
+      "seconds": 4.165,
+      "set": "nemotron_dev_2k",
+      "step": "score"
+    },
+    {
+      "detector": "crf_n5k_g100",
+      "seconds": 10.718,
+      "set": "nemotron_test_5k",
+      "step": "score"
+    },
+    {
+      "detector": "crf_n5k_g100",
+      "seconds": 5.2,
+      "set": "gretel_en_test",
+      "step": "score"
+    },
+    {
+      "detector": "crf_n5k_g500",
+      "seconds": 4.237,
+      "set": "nemotron_dev_2k",
+      "step": "score"
+    },
+    {
+      "detector": "crf_n5k_g500",
+      "seconds": 10.764,
+      "set": "nemotron_test_5k",
+      "step": "score"
+    },
+    {
+      "detector": "crf_n5k_g500",
+      "seconds": 5.146,
+      "set": "gretel_en_test",
+      "step": "score"
+    }
+  ],
+  "total_seconds": 56.088
+}

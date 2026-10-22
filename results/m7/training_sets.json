@@ -1,0 +1,104 @@
+{
+  "gretel_test_hashes": 2891,
+  "gretel_train_documents": 26019,
+  "gretel_train_file": "raw/gretelai__synthetic_pii_finance_multilingual/English_train-00000-of-00001.parquet",
+  "gretel_train_sha256": "2858af81ec59d8528f81059facb099ac33e6b47caf2501da3eac113bccfee9c7",
+  "load_report": {
+    "case_only_mismatches": 0,
+    "dataset": "gretel-finance-en",
+    "documents": 26019,
+    "kept_label_counts": {
+      "CREDIT_CARD": 673,
+      "DATE": 10082,
+      "EMAIL": 2516,
+      "IBAN": 774,
+      "ID_NUMBER": 4634,
+      "IP_ADDRESS": 1185,
+      "LOCATION": 20463,
+      "ORGANIZATION": 31448,
+      "OTHER": 6907,
+      "PERSON": 34157,
+      "PHONE": 4772
+    },
+    "options": {
+      "merge_adjacent": true,
+      "offset_check": "casefold",
+      "overlap_policy": "resolve",
+      "strict_labels": false
+    },
+    "overlapping_pairs": 1102,
+    "raw_label_counts": {
+      "account_pin": 726,
+      "api_key": 497,
+      "bank_routing_number": 733,
+      "bban": 803,
+      "company": 31864,
+      "credit_card_number": 679,
+      "credit_card_security_code": 751,
+      "customer_id": 958,
+      "date": 8265,
+      "date_of_birth": 1328,
+      "date_time": 510,
+      "driver_license_number": 665,
+      "email": 2559,
+      "employee_id": 814,
+      "first_name": 1454,
+      "iban": 784,
+      "ipv4": 641,
+      "ipv6": 545,
+      "last_name": 926,
+      "local_latlng": 447,
+      "name": 32535,
+      "passport_number": 727,
+      "password": 461,
+      "phone_number": 4782,
+      "ssn": 675,
+      "street_address": 20057,
+      "swift_bic_code": 1054,
+      "time": 2216,
+      "user_name": 509
+    },
+    "spans_dropped": {
+      "empty_after_trim": 0,
+      "offset_mismatch": 0,
+      "out_of_bounds": 0,
+      "overlap": 1098
+    },
+    "spans_kept": 117611,
+    "spans_merged": 256,
+    "spans_read": 118965,
+    "spans_trimmed": 18,
+    "unknown_labels": {}
+  },
+  "overlap_action": "dropped before sampling",
+  "overlap_with_gretel_test": 11,
+  "seconds": 5.57,
+  "seed": 0,
+  "sets": {
+    "gretel_k100": {
+      "documents": 100,
+      "k": 100,
+      "path": "data/processed/train/m7_gretel_k100_s0.jsonl",
+      "sha256": "ae6694e5b2d42b28b48a9857cf160fce8d86e96d7ff81bfc6e70073e665ed60d"
+    },
+    "gretel_k500": {
+      "documents": 500,
+      "k": 500,
+      "path": "data/processed/train/m7_gretel_k500_s0.jsonl",
+      "sha256": "c7e1578d2dc27a9d10860703915a13409c0cfc59892353f7dd8041bdb5b20aec"
+    },
+    "n5000_gretel_k100": {
+      "documents": 5100,
+      "k": 100,
+      "path": "data/processed/train/m7_n5000_gretel_k100_s0.jsonl",
+      "sha256": "bb24eba80ec7ab0cdd1f56045e43fb741c3cadde51c8b826fa113dbe7945f230"
+    },
+    "n5000_gretel_k500": {
+      "documents": 5500,
+      "k": 500,
+      "path": "data/processed/train/m7_n5000_gretel_k500_s0.jsonl",
+      "sha256": "9428c296fd8374c494da1b56e4e893bb9bb2f2f97db6960dec4854c57ba6cf87"
+    }
+  },
+  "usable_documents": 26008
+}
