@@ -128,7 +128,84 @@ def refusal_note() -> str:
         "`python scripts/run_gateway_latency.py`, then `python scripts/make_gateway_tables.py`.\n")
 
 
+LOAD_LABEL = "Measured under recorded background load (not an idle machine)."
+
+PROTOCOL_CHANGE = """\
+**Protocol change (2026-10-22).** The latency protocol was decided before any latency number
+existed: run `scripts/run_gateway_latency.py` under the 20 % idle rule (total CPU <= 20 % over
+5 s and no other heavy Python process) and wait up to 20 minutes; if that is refused again,
+switch to the *recorded-load protocol* defined in advance: measure anyway, sample total CPU %
+and the top 5 processes by CPU every second during the run, repeat the whole latency run 3
+times, and report per configuration the median of the 3 runs, plus the load observed during
+each run. The idle check was refused three times (two attempts in Milestone 6, one in
+Milestone 7 with OneDrive paused by the user), because of background load (OneDrive sync, the
+antivirus, the editor); the recorded-load protocol therefore applies. This changes the
+measuring conditions only, not the definition of the 20 % rule. Every latency table below is
+labelled accordingly.
+"""
+
+
 def rq10(data) -> str:
+    if data is None or data.get("protocol") != "recorded-load":
+        return rq10_idle(data)
+    parts = [PROTOCOL_CHANGE + refusal_note()]
+    env = data["environment"]
+    parts.append(
+        f"{data['timed_requests']} timed requests per row after {data['warmup_requests']} "
+        f"warm-up requests, `{data['evaluation_set']}`, one document per request; "
+        f"{data['upstream']}; **{data['repeats']} whole runs, medians reported**. Latency is "
+        "measured by the client around each request (ms). Configuration `none` runs the whole "
+        "gateway with a detector that finds nothing. `asgi` = in-process httpx client without "
+        "sockets; `server` = a real uvicorn process on 127.0.0.1 with an httpx load generator. "
+        "One gateway process, one detector worker.")
+    header = ["config", "c", "p50", "p95", "p99", "req/s", "p50 range over runs"]
+    for harness, title in (("asgi", "In-process ASGI client"),
+                           ("server", "uvicorn server on 127.0.0.1")):
+        sel = sorted((r for r in data["rows"] if r["harness"] == harness),
+                     key=lambda r: (CONFIG_ORDER.index(r["config"]), r["concurrency"]))
+        rows = [[r["config"], r["concurrency"], f"{r['p50_ms']:.2f}", f"{r['p95_ms']:.2f}",
+                 f"{r['p99_ms']:.2f}", f"{r['requests_per_s']:.1f}",
+                 f"{r['p50_ms_min']:.2f}-{r['p50_ms_max']:.2f}"] for r in sel]
+        parts.append(f"**{title}** (ms; c = concurrency; medians of {data['repeats']} runs)\n\n"
+                     f"*{LOAD_LABEL}*\n\n" + table(header, rows))
+    stage_keys = ("parse", "detect", "mask", "upstream", "unmask", "total")
+    rows = []
+    for config in CONFIG_ORDER:
+        per_run = [next(r for r in run if r["harness"] == "asgi" and r["config"] == config
+                        and r["concurrency"] == 1)["gateway_stage_mean_ms"]
+                   for run in data["runs"]]
+        rows.append([config] + [f"{sorted(x[k] for x in per_run)[len(per_run) // 2]:.2f}"
+                                for k in stage_keys])
+    parts.append("**Where the time goes** (ASGI, concurrency 1; median over runs of the mean "
+                 f"ms per request from the gateway's audit stages)\n\n*{LOAD_LABEL}*\n\n"
+                 + table(["config", *stage_keys], rows))
+    rows = []
+    for run in data["load_per_run"]:
+        busy = [p for p in run["most_frequent_top5_processes"]
+                if p["name"] != "System Idle Process"]      # idle time is not load
+        names = ", ".join(f"{p['name']} ({p['mean_cpu_percent']:.0f} %)" for p in busy[:4])
+        rows.append([run["run"], f"{run['started']} - {run['ended']}", run["samples"],
+                     f"{run['total_cpu_mean']:.1f}", f"{run['total_cpu_median']:.1f}",
+                     f"{run['total_cpu_p95']:.1f}", f"{run['total_cpu_max']:.1f}",
+                     f"{run['share_of_samples_above_idle_limit']:.0%}", names])
+    parts.append("**CPU load observed during each run** (psutil, one sample per second; the "
+                 "gateway and load generator are part of it; names are the most frequent "
+                 "top-5 processes by CPU, with their mean CPU % when present)\n\n"
+                 + table(["run", "period", "samples", "CPU % mean", "median", "p95", "max",
+                          "samples above 20 %", "most frequent top-5 processes"], rows)
+                 + "\n\nPer-second samples with the top 5 processes are stored in "
+                   "`results/m6/latency.json` (`load_per_run[].samples_per_second`).")
+    parts.append(
+        "**Machine** — "
+        f"CPU: {env['cpu']} ({env['logical_cpus']} logical CPUs); OS: {env['os']}; Python "
+        f"{env['python']}; packages: "
+        + ", ".join(f"{k} {v}" for k, v in data["package_versions"].items() if v)
+        + f"; privgate commit `{(env.get('privgate_commit') or 'unknown')[:10]}`.")
+    return "\n\n".join(parts) + "\n"
+
+
+
+def rq10_idle(data) -> str:
     if data is None:
         return "NOT MEASURED (results/m6/latency.json does not exist)." + refusal_note()
     check = data["idle_check_before"]
@@ -180,7 +257,7 @@ def rq10(data) -> str:
 
 
 def rq10_observations(data) -> list[str]:
-    if data is None or data["idle_check_before"].get("skipped"):
+    if data is None or data.get("idle_check_before", {}).get("skipped"):
         return []
 
     def row(harness, config, c):

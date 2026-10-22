@@ -23,6 +23,17 @@
       "cpu_max": 88.9,
       "checks_with_heavy_python": 5,
       "verdict": "refused to measure (exit 3)"
+    },
+    {
+      "attempt": "third attempt, Milestone 7, OneDrive paused by the user (--wait-minutes 20)",
+      "checks": 36,
+      "first": "2026-10-22 19:39:09",
+      "last": "2026-10-22 19:59:36",
+      "cpu_min": 26.8,
+      "cpu_median": 53.5,
+      "cpu_max": 93.0,
+      "checks_with_heavy_python": 4,
+      "verdict": "refused to measure (exit 3)"
     }
   ],
   "non_python_background_processes_seen": "OneDrive (656 CPU-s), OneDrive.Sync.Service, Avast, Notion, VS Code (Get-Process, 2026-10-22 ~16:41)"

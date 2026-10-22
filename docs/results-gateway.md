@@ -71,7 +71,18 @@ Gold value characters in the 1000 requests: 102,036; requests with at least one 
 
 ## RQ10: latency and throughput
 
-NOT MEASURED (results/m6/latency.json does not exist).
+**Protocol change (2026-10-22).** The latency protocol was decided before any latency number
+existed: run `scripts/run_gateway_latency.py` under the 20 % idle rule (total CPU <= 20 % over
+5 s and no other heavy Python process) and wait up to 20 minutes; if that is refused again,
+switch to the *recorded-load protocol* defined in advance: measure anyway, sample total CPU %
+and the top 5 processes by CPU every second during the run, repeat the whole latency run 3
+times, and report per configuration the median of the 3 runs, plus the load observed during
+each run. The idle check was refused three times (two attempts in Milestone 6, one in
+Milestone 7 with OneDrive paused by the user), because of background load (OneDrive sync, the
+antivirus, the editor); the recorded-load protocol therefore applies. This changes the
+measuring conditions only, not the definition of the 20 % rule. Every latency table below is
+labelled accordingly.
+
 
 The measurement script refused to run because the machine never met the idle criterion (total CPU <= 20 % over 5 s, measured with psutil, and no other heavy Python process). The checks, from the script's own output (`results/m6/latency_refusal.json`):
 
@@ -79,8 +90,70 @@ The measurement script refused to run because the machine never met the idle cri
 |---|---|---|---|---|---|---|---|
 | first attempt (--wait-minutes 10) | 18 | 2026-10-22 16:30:36 - 2026-10-22 16:40:32 | 22.4 | 38.0 | 97.8 | 0 | refused to measure (exit 3) |
 | second attempt (--wait-minutes 30) | 53 | 2026-10-22 16:41:31 - 2026-10-22 17:11:53 | 20.4 | 30.0 | 88.9 | 5 | refused to measure (exit 3) |
+| third attempt, Milestone 7, OneDrive paused by the user (--wait-minutes 20) | 36 | 2026-10-22 19:39:09 - 2026-10-22 19:59:36 | 26.8 | 53.5 | 93.0 | 4 | refused to measure (exit 3) |
 
 Non-Python background processes seen: OneDrive (656 CPU-s), OneDrive.Sync.Service, Avast, Notion, VS Code (Get-Process, 2026-10-22 ~16:41). The threshold was not relaxed after the fact. To measure: close the background load, run `python scripts/run_gateway_latency.py`, then `python scripts/make_gateway_tables.py`.
+
+
+500 timed requests per row after 50 warm-up requests, `nemotron_dev_2k`, one document per request; MockUpstream, 0 ms latency; **3 whole runs, medians reported**. Latency is measured by the client around each request (ms). Configuration `none` runs the whole gateway with a detector that finds nothing. `asgi` = in-process httpx client without sockets; `server` = a real uvicorn process on 127.0.0.1 with an httpx load generator. One gateway process, one detector worker.
+
+**In-process ASGI client** (ms; c = concurrency; medians of 3 runs)
+
+*Measured under recorded background load (not an idle machine).*
+
+| config | c | p50 | p95 | p99 | req/s | p50 range over runs |
+|---|---|---|---|---|---|---|
+| none | 1 | 2.08 | 3.52 | 201.85 | 181.7 | 1.89-3.17 |
+| none | 4 | 8.28 | 15.80 | 625.93 | 169.0 | 7.26-14.52 |
+| regex | 1 | 2.61 | 4.46 | 208.86 | 165.1 | 2.49-4.21 |
+| regex | 4 | 10.78 | 223.20 | 693.37 | 98.2 | 10.70-14.86 |
+| crf | 1 | 9.92 | 216.27 | 262.08 | 35.0 | 9.51-13.25 |
+| crf | 4 | 45.26 | 624.82 | 706.52 | 36.9 | 44.13-46.70 |
+| crf+regex | 1 | 10.42 | 217.07 | 263.83 | 35.4 | 10.23-11.44 |
+| crf+regex | 4 | 45.53 | 623.59 | 727.87 | 35.3 | 45.14-51.14 |
+| crf+regex+presidio | 1 | 105.50 | 1933.16 | 2072.74 | 2.9 | 100.06-126.38 |
+| crf+regex+presidio | 4 | 589.45 | 2178.57 | 2837.71 | 3.7 | 584.27-694.02 |
+
+**uvicorn server on 127.0.0.1** (ms; c = concurrency; medians of 3 runs)
+
+*Measured under recorded background load (not an idle machine).*
+
+| config | c | p50 | p95 | p99 | req/s | p50 range over runs |
+|---|---|---|---|---|---|---|
+| none | 1 | 5.98 | 8.96 | 582.53 | 60.1 | 5.94-6.04 |
+| none | 4 | 19.00 | 33.50 | 1476.84 | 65.4 | 18.89-19.31 |
+| regex | 1 | 6.52 | 11.02 | 567.56 | 58.3 | 6.49-6.97 |
+| regex | 4 | 18.57 | 34.24 | 1515.67 | 67.1 | 17.78-19.86 |
+| crf | 1 | 14.97 | 202.14 | 635.49 | 23.0 | 14.78-15.33 |
+| crf | 4 | 46.75 | 638.89 | 1733.95 | 34.4 | 44.11-49.02 |
+| crf+regex | 1 | 15.16 | 260.23 | 641.28 | 22.9 | 15.12-15.97 |
+| crf+regex | 4 | 44.98 | 876.10 | 1808.00 | 30.3 | 44.80-45.70 |
+| crf+regex+presidio | 1 | 137.16 | 744.35 | 857.47 | 3.8 | 133.76-141.53 |
+| crf+regex+presidio | 4 | 625.73 | 1895.23 | 2141.70 | 4.6 | 604.04-700.13 |
+
+**Where the time goes** (ASGI, concurrency 1; median over runs of the mean ms per request from the gateway's audit stages)
+
+*Measured under recorded background load (not an idle machine).*
+
+| config | parse | detect | mask | upstream | unmask | total |
+|---|---|---|---|---|---|---|
+| none | 0.07 | 1.53 | 0.06 | 0.01 | 0.01 | 1.70 |
+| regex | 0.08 | 2.00 | 0.13 | 0.01 | 0.02 | 2.26 |
+| crf | 0.08 | 14.97 | 0.63 | 0.02 | 0.05 | 15.80 |
+| crf+regex | 0.08 | 14.61 | 0.62 | 0.02 | 0.05 | 15.41 |
+| crf+regex+presidio | 0.09 | 261.96 | 0.63 | 0.02 | 0.05 | 335.78 |
+
+**CPU load observed during each run** (psutil, one sample per second; the gateway and load generator are part of it; names are the most frequent top-5 processes by CPU, with their mean CPU % when present)
+
+| run | period | samples | CPU % mean | median | p95 | max | samples above 20 % | most frequent top-5 processes |
+|---|---|---|---|---|---|---|---|---|
+| 1 | 2026-10-22 20:01:16 - 2026-10-22 20:17:01 | 304 | 47.7 | 42.4 | 78.2 | 94.9 | 100% | OneDrive.exe (107 %), python.exe (75 %), System (65 %), WmiPrvSE.exe (38 %) |
+| 2 | 2026-10-22 20:17:01 - 2026-10-22 20:30:05 | 280 | 38.7 | 37.4 | 52.3 | 78.9 | 100% | OneDrive.exe (108 %), python.exe (75 %), WmiPrvSE.exe (37 %), System (44 %) |
+| 3 | 2026-10-22 20:30:05 - 2026-10-22 20:42:48 | 278 | 36.2 | 35.7 | 44.5 | 62.0 | 100% | OneDrive.exe (106 %), python.exe (74 %), WmiPrvSE.exe (36 %), System (37 %) |
+
+Per-second samples with the top 5 processes are stored in `results/m6/latency.json` (`load_per_run[].samples_per_second`).
+
+**Machine** — CPU: AMD Ryzen 5 7540U w/ Radeon 740M Graphics (12 logical CPUs); OS: Windows-10-10.0.26200-SP0; Python 3.10.11; packages: anyio 4.15.1, fastapi 0.142.4, h11 0.16.0, httpx 0.28.1, psutil 7.2.2, pydantic 2.14.1, starlette 1.7.0, uvicorn 0.54.0; privgate commit `261a77683e`.
 
 ## Observations
 
@@ -94,6 +167,14 @@ Generated from the tables above; no interpretation beyond the numbers.
 - Fail-closed at q = 0.2, `malformed`: availability 0.817 (183 blocked of 1000).
 - Fail-closed at q = 0.2, `mixed`: availability 0.808 (153 blocked of 1000).
 - Upstream 5xx at q = 0.2 gives 192 502 responses in both modes and no fault-induced leak: the payload was already screened.
+- asgi, c = 1: baseline p50 2.08 ms; `regex` p50 2.61 ms (+0.53), p95 4.46 ms; `crf` p50 9.92 ms (+7.84), p95 216.27 ms; `crf+regex` p50 10.42 ms (+8.33), p95 217.07 ms; `crf+regex+presidio` p50 105.50 ms (+103.41), p95 1933.16 ms.
+- server, c = 1: baseline p50 5.98 ms; `regex` p50 6.52 ms (+0.55), p95 11.02 ms; `crf` p50 14.97 ms (+8.99), p95 202.14 ms; `crf+regex` p50 15.16 ms (+9.19), p95 260.23 ms; `crf+regex+presidio` p50 137.16 ms (+131.18), p95 744.35 ms.
+- `none` (server): 60.1 req/s at c = 1 and 65.4 req/s at c = 4.
+- `regex` (server): 58.3 req/s at c = 1 and 67.1 req/s at c = 4.
+- `crf` (server): 23.0 req/s at c = 1 and 34.4 req/s at c = 4.
+- `crf+regex` (server): 22.9 req/s at c = 1 and 30.3 req/s at c = 4.
+- `crf+regex+presidio` (server): 3.8 req/s at c = 1 and 4.6 req/s at c = 4.
+- Non-200 responses in all timed requests: 541.
 
 ## Threats to validity
 

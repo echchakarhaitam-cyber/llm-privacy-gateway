@@ -229,17 +229,76 @@ def versions() -> dict:
     return out
 
 
-async def main_async(args) -> dict:
-    from privgate.bench.latency import environment
-    from privgate.bench.sets import DEV_SET, load_evaluation_set
+class LoadSampler:
+    """Recorded-load protocol: once per second, total CPU % and the top 5 processes by CPU %.
 
-    check = ({"skipped": True} if args.no_idle_check
-             else wait_until_idle(args.wait_minutes))
-    docs, sha = load_evaluation_set(DEV_SET, DATA)
-    docs = docs[:args.warmup + args.n]
-    bodies = [{"model": "local", "messages": [{"role": "user", "content": d.text}]}
-              for d in docs]
-    warm, timed = bodies[:args.warmup], bodies[args.warmup:]
+    Runs in a background thread of the measuring process while a run is in progress. Only
+    process NAMES and ids are recorded (never command lines). The sampler itself costs some
+    CPU (it walks the process table each second); that cost is part of the recorded load.
+    """
+
+    def __init__(self) -> None:
+        import threading
+
+        self.samples: list[dict] = []
+        self._stop = threading.Event()
+        self._thread = threading.Thread(target=self._loop, daemon=True)
+        self._known: dict = {}
+
+    def _top(self) -> list[dict]:
+        import psutil
+
+        rows = []
+        for p in psutil.process_iter(["pid", "name"]):
+            try:
+                proc = self._known.setdefault(p.pid, p)
+                rows.append({"pid": p.pid, "name": p.info["name"] or "?",
+                             "cpu_percent": proc.cpu_percent(None)})
+            except psutil.Error:
+                continue
+        rows.sort(key=lambda r: -r["cpu_percent"])
+        return rows[:5]
+
+    def _loop(self) -> None:
+        import psutil
+
+        psutil.cpu_percent(None)
+        self._top()                       # primes the per-process counters
+        t0 = time.time()
+        while not self._stop.wait(1.0):
+            self.samples.append({"t": round(time.time() - t0, 1),
+                                 "total_cpu_percent": psutil.cpu_percent(None),
+                                 "top5": self._top()})
+
+    def __enter__(self):
+        self._thread.start()
+        return self
+
+    def __exit__(self, *exc) -> None:
+        self._stop.set()
+        self._thread.join(timeout=5)
+
+    def summary(self) -> dict:
+        from privgate.bench.bootstrap import percentile
+
+        cpu = sorted(s["total_cpu_percent"] for s in self.samples)
+        per_name: dict[str, list[float]] = {}
+        for sample in self.samples:
+            for row in sample["top5"]:
+                per_name.setdefault(row["name"], []).append(row["cpu_percent"])
+        heaviest = sorted(per_name.items(), key=lambda kv: -sum(kv[1]))[:8]
+        return {"samples": len(cpu), "total_cpu_mean": sum(cpu) / len(cpu) if cpu else None,
+                "total_cpu_median": percentile(cpu, 0.5) if cpu else None,
+                "total_cpu_p95": percentile(cpu, 0.95) if cpu else None,
+                "total_cpu_max": cpu[-1] if cpu else None,
+                "share_of_samples_above_idle_limit":
+                    sum(c > IDLE_CPU_MAX for c in cpu) / len(cpu) if cpu else None,
+                "most_frequent_top5_processes": [
+                    {"name": n, "appearances": len(v), "mean_cpu_percent": sum(v) / len(v)}
+                    for n, v in heaviest]}
+
+
+async def measure_all(warm: list[dict], timed: list[dict]) -> list[dict]:
     rows = []
     for measure in (measure_asgi, measure_server):
         for config in CONFIGS:
@@ -251,14 +310,61 @@ async def main_async(args) -> dict:
                       f"p50={r['p50_ms']:.2f} p95={r['p95_ms']:.2f} p99={r['p99_ms']:.2f} "
                       f"rps={r['requests_per_s']:.1f} errors={r['errors']}", flush=True)
             print(f"  ({time.perf_counter() - t0:.0f} s)", flush=True)
-    return {
-        "milestone": 6, "experiment": "RQ10", "evaluation_set": DEV_SET,
+    return rows
+
+
+def median_rows(runs: list[list[dict]]) -> list[dict]:
+    """Per (harness, config, concurrency): the median over runs of p50 / p95 / p99 / req/s."""
+    import statistics
+
+    keys = [(r["harness"], r["config"], r["concurrency"]) for r in runs[0]]
+    out = []
+    for key in keys:
+        same = [next(r for r in run if (r["harness"], r["config"], r["concurrency"]) == key)
+                for run in runs]
+        row = {"harness": key[0], "config": key[1], "concurrency": key[2], "runs": len(same),
+               "errors": sum(r["errors"] for r in same)}
+        for metric in ("p50_ms", "p95_ms", "p99_ms", "mean_ms", "requests_per_s"):
+            row[metric] = statistics.median(r[metric] for r in same)
+            row[metric + "_min"] = min(r[metric] for r in same)
+            row[metric + "_max"] = max(r[metric] for r in same)
+        out.append(row)
+    return out
+
+
+async def main_async(args) -> dict:
+    from privgate.bench.latency import environment
+    from privgate.bench.sets import DEV_SET, load_evaluation_set
+
+    docs, sha = load_evaluation_set(DEV_SET, DATA)
+    docs = docs[:args.warmup + args.n]
+    bodies = [{"model": "local", "messages": [{"role": "user", "content": d.text}]}
+              for d in docs]
+    warm, timed = bodies[:args.warmup], bodies[args.warmup:]
+    common = {
+        "milestone": 7, "experiment": "RQ10", "evaluation_set": DEV_SET,
         "evaluation_set_sha256": sha, "warmup_requests": args.warmup,
         "timed_requests": args.n, "upstream": "MockUpstream, 0 ms latency",
-        "idle_check_before": check,
-        "idle_check_after": {"skipped": True} if args.no_idle_check else idle_check(),
-        "environment": environment(), "package_versions": versions(), "rows": rows,
+        "environment": environment(), "package_versions": versions(),
     }
+    if args.protocol == "idle":
+        check = ({"skipped": True} if args.no_idle_check
+                 else wait_until_idle(args.wait_minutes))
+        rows = await measure_all(warm, timed)
+        return {**common, "protocol": "idle", "idle_check_before": check,
+                "idle_check_after": {"skipped": True} if args.no_idle_check else idle_check(),
+                "rows": rows}
+    runs, loads, started = [], [], []
+    for number in range(1, args.repeats + 1):
+        print(f"--- recorded-load run {number} of {args.repeats}", flush=True)
+        started.append(time.strftime("%Y-%m-%d %H:%M:%S"))
+        with LoadSampler() as sampler:
+            runs.append(await measure_all(warm, timed))
+        loads.append({"run": number, "started": started[-1],
+                      "ended": time.strftime("%Y-%m-%d %H:%M:%S"),
+                      **sampler.summary(), "samples_per_second": sampler.samples})
+    return {**common, "protocol": "recorded-load", "repeats": args.repeats, "runs": runs,
+            "load_per_run": loads, "rows": median_rows(runs)}
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -268,6 +374,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--n", type=int, default=500)
     parser.add_argument("--warmup", type=int, default=50)
     parser.add_argument("--wait-minutes", type=float, default=10)
+    parser.add_argument("--protocol", choices=("idle", "recorded-load"), default="idle",
+                        help="idle: refuse on a busy machine; recorded-load: measure anyway, "
+                             "record the CPU load every second, repeat, report medians")
+    parser.add_argument("--repeats", type=int, default=3, help="recorded-load: whole runs")
     parser.add_argument("--out", type=Path, default=OUT)
     parser.add_argument("--no-idle-check", action="store_true",
                         help="TESTS ONLY: skip the idle check; the output is not a measurement")
