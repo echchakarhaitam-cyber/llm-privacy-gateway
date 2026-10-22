@@ -6,8 +6,29 @@ build-backend = "setuptools.build_meta"
 name = "privgate"
 version = "0.1.0"
 description = "Fail-closed privacy gateway for LLM requests with a measured PII-detection benchmark."
+readme = "README.md"
 requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Haitam Echchakar"}]
+keywords = ["pii", "privacy", "llm", "gateway", "named-entity-recognition", "crf", "presidio",
+            "spacy", "fastapi", "reproducible-research"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Security",
+]
 dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/echchakarhaitam-cyber/llm-privacy-gateway"
+Repository = "https://github.com/echchakarhaitam-cyber/llm-privacy-gateway"
+Issues = "https://github.com/echchakarhaitam-cyber/llm-privacy-gateway/issues"
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.5"]

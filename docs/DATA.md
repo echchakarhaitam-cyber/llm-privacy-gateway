@@ -22,6 +22,27 @@ python scripts/data_stats.py        # results/data_stats.json and the tables on 
 pytest -q -m data                   # integration tests on the real files
 ```
 
+## Attribution and redistribution
+
+| Dataset | Owner | Licence | Used for |
+|---|---|---|---|
+| [Nemotron-PII](https://huggingface.co/datasets/nvidia/Nemotron-PII) | NVIDIA Corporation | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | training, development and test sets |
+| [Gretel synthetic PII finance (multilingual)](https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual), English files | Gretel.ai | [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0) | out-of-distribution test set; a seeded sample of the train file for RQ11 |
+
+**Nothing is redistributed.** This repository contains no dataset file and no trained model:
+`data/raw/`, `data/processed/` and `models/` are gitignored, `data/manifest.json` records only
+sizes, SHA-256 hashes and pinned revisions, and the spaCy model `en_core_web_lg` is downloaded
+from its official release by `scripts/install_model.py` (hash-checked). Predictions and metrics
+under `results/` are derived numbers (span offsets, scores).
+
+**Changes made to the data (CC BY 4.0 notice).** Labels mapped onto 12 privgate entity types,
+adjacent same-label spans merged, spans verified and trimmed, overlaps resolved, and documents
+split into train / dev / evaluation sets (details below). Short excerpts (+-30 to 40 characters
+around a span, span marked with ⟦ ⟧) appear in the error analyses (`docs/error-examples.md`,
+`results/m3/errors_*.md`, `results/m4/errors_crf.md`) and each file carries its attribution. The
+datasets' owners do not endorse this project. The MIT licence of this repository covers its code
+and documentation only; the data keep their own licences.
+
 ## Datasets
 
 ### A. Nemotron-PII (in-distribution)

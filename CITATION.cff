@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this software or its results, please cite it as below."
+type: software
+title: "llm-privacy-gateway: a fail-closed privacy gateway for LLM requests with a measured PII-detection benchmark"
+authors:
+  - family-names: Echchakar
+    given-names: Haitam
+version: 0.1.0
+date-released: "2026-10-23"
+license: MIT
+repository-code: "https://github.com/echchakarhaitam-cyber/llm-privacy-gateway"
+url: "https://github.com/echchakarhaitam-cyber/llm-privacy-gateway"
+abstract: >-
+  Research software that measures how well regex, spaCy, Presidio and trained CRF detectors find
+  personal data in text, implements masking strategies and a reversible mapping, and provides a
+  fail-closed HTTP gateway that screens text before it may reach an external language model.
+  Evaluated on synthetic public datasets only.
+keywords:
+  - pii
+  - privacy
+  - llm
+  - gateway
+  - named-entity-recognition
+  - crf
+  - presidio
+  - spacy
+  - reproducible-research
