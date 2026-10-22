@@ -90,6 +90,13 @@ def accuracy_and_macro_f1(gold: Sequence[str], pred: Sequence[str]) -> dict:
                                                          zero_division=0))}
 
 
+def accuracy_ci(gold: Sequence[str], pred: Sequence[str], n_resamples: int = 1000,
+                seed: int = SEED) -> list[float]:
+    """95% document bootstrap interval of the accuracy."""
+    cols = {"c": [int(g == p) for g, p in zip(gold, pred)], "n": [1] * len(gold)}
+    return list(bootstrap_cis(cols, {"a": lambda s: s["c"] / s["n"]}, n_resamples, seed)["a"])
+
+
 def paired_accuracy_difference(gold: Sequence[str], pred_a: Sequence[str],
                                pred_b: Sequence[str], n_resamples: int = 1000,
                                seed: int = SEED) -> dict:

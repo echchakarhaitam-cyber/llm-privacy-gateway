@@ -65,7 +65,11 @@ def test_preserved_non_pii_and_length_ratio():
 
 def test_paired_accuracy_difference():
     pytest.importorskip("sklearn")
-    from privgate.bench.domain import accuracy_and_macro_f1, paired_accuracy_difference
+    from privgate.bench.domain import (
+        accuracy_and_macro_f1,
+        accuracy_ci,
+        paired_accuracy_difference,
+    )
 
     gold = ["a", "b"] * 50
     perfect, half = list(gold), [g if i % 2 else "x" for i, g in enumerate(gold)]
@@ -73,6 +77,9 @@ def test_paired_accuracy_difference():
     assert d["difference"] == 0.5 and d["ci_excludes_zero"] and d["ci95"][0] > 0
     assert d == paired_accuracy_difference(gold, perfect, half, n_resamples=200)
     assert accuracy_and_macro_f1(gold, perfect) == {"accuracy": 1.0, "macro_f1": 1.0}
+    assert accuracy_ci(gold, perfect, n_resamples=50) == [1.0, 1.0]
+    lo, hi = accuracy_ci(gold, half, n_resamples=200)
+    assert lo < 0.5 < hi
 
 
 def test_classifier_training_guard():

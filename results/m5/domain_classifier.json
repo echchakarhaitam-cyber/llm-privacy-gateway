@@ -1,0 +1,115 @@
+{
+  "dev_set_sha256": "47354466ff6a39052d29d4afa50e3c96184931ea983b873149bd0b22b8baeebd",
+  "groups": 10000,
+  "n": 20000,
+  "path": "data/processed/train/m5_domain_n20000_s0.jsonl",
+  "seconds": 3377.642,
+  "seed": 0,
+  "settings": {
+    "original": {
+      "cv": {
+        "final_fit_seconds": 100.141,
+        "folds": 5,
+        "rows": [
+          {
+            "C": 1.0,
+            "fold_accuracy": [
+              0.84875,
+              0.8425,
+              0.84,
+              0.83925,
+              0.84575
+            ],
+            "mean_accuracy": 0.8432499999999999,
+            "seconds": 463.117
+          },
+          {
+            "C": 10.0,
+            "fold_accuracy": [
+              0.89025,
+              0.8855,
+              0.8785,
+              0.87775,
+              0.88525
+            ],
+            "mean_accuracy": 0.8834500000000001,
+            "seconds": 688.157
+          },
+          {
+            "C": 100.0,
+            "fold_accuracy": [
+              0.899,
+              0.89425,
+              0.89125,
+              0.8915,
+              0.89275
+            ],
+            "mean_accuracy": 0.89375,
+            "seconds": 567.468
+          }
+        ],
+        "selected_C": 100.0
+      },
+      "description": "trained on original train text",
+      "dev_original": {
+        "accuracy": 0.908,
+        "macro_f1": 0.9108502994535227
+      },
+      "model_sha256": "3f670bcdb43a1abf3506d21a1b593358fb163d026d2a47b006271af054e7ec4d",
+      "seconds": 1827.53
+    },
+    "typed": {
+      "cv": {
+        "final_fit_seconds": 117.475,
+        "folds": 5,
+        "rows": [
+          {
+            "C": 1.0,
+            "fold_accuracy": [
+              0.82375,
+              0.822,
+              0.81375,
+              0.82175,
+              0.818
+            ],
+            "mean_accuracy": 0.81985,
+            "seconds": 334.583
+          },
+          {
+            "C": 10.0,
+            "fold_accuracy": [
+              0.872,
+              0.86925,
+              0.8625,
+              0.85975,
+              0.861
+            ],
+            "mean_accuracy": 0.8648999999999999,
+            "seconds": 524.736
+          },
+          {
+            "C": 100.0,
+            "fold_accuracy": [
+              0.87925,
+              0.88125,
+              0.87,
+              0.8705,
+              0.873
+            ],
+            "mean_accuracy": 0.8748000000000001,
+            "seconds": 483.71
+          }
+        ],
+        "selected_C": 100.0
+      },
+      "description": "trained on oracle-typed-masked train text",
+      "dev_oracle_typed": {
+        "accuracy": 0.903,
+        "macro_f1": 0.9044603821701483
+      },
+      "model_sha256": "3e4a6f896e5018e5f3d15cf0139b3f3aa58d3c5775c4df8e05763e48d77baaa6",
+      "seconds": 1473.427
+    }
+  },
+  "sha256": "fb87452c85711e8b277cff0776987a815e565aa1816690aaff17535159f2ad6a"
+}
