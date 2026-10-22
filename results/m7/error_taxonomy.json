@@ -1,0 +1,851 @@
+{
+  "detector": "crf+regex+presidio",
+  "masking": "typed",
+  "sets": {
+    "gretel_en_test": {
+      "dimensions": {
+        "length": [
+          {
+            "category": "8-15",
+            "count": 1542,
+            "share": 0.4511410181392627
+          },
+          {
+            "category": "16-31",
+            "count": 1383,
+            "share": 0.4046225863077823
+          },
+          {
+            "category": "4-7",
+            "count": 208,
+            "share": 0.060854300760678756
+          },
+          {
+            "category": "32+",
+            "count": 188,
+            "share": 0.05500292568753657
+          },
+          {
+            "category": "1-3",
+            "count": 97,
+            "share": 0.028379169104739616
+          }
+        ],
+        "mapped_label": [
+          {
+            "category": "ORGANIZATION",
+            "count": 2500,
+            "share": 0.7314218841427735
+          },
+          {
+            "category": "PERSON",
+            "count": 437,
+            "share": 0.12785254534815682
+          },
+          {
+            "category": "LOCATION",
+            "count": 183,
+            "share": 0.053540081919251026
+          },
+          {
+            "category": "OTHER",
+            "count": 158,
+            "share": 0.04622586307782329
+          },
+          {
+            "category": "ID_NUMBER",
+            "count": 72,
+            "share": 0.021064950263311878
+          },
+          {
+            "category": "DATE",
+            "count": 31,
+            "share": 0.009069631363370393
+          },
+          {
+            "category": "PHONE",
+            "count": 19,
+            "share": 0.005558806319485079
+          },
+          {
+            "category": "EMAIL",
+            "count": 14,
+            "share": 0.004095962551199532
+          },
+          {
+            "category": "IP_ADDRESS",
+            "count": 2,
+            "share": 0.0005851375073142189
+          },
+          {
+            "category": "CREDIT_CARD",
+            "count": 1,
+            "share": 0.0002925687536571094
+          },
+          {
+            "category": "IBAN",
+            "count": 1,
+            "share": 0.0002925687536571094
+          }
+        ],
+        "position": [
+          {
+            "category": "prose",
+            "count": 2789,
+            "share": 0.8159742539496782
+          },
+          {
+            "category": "key: value line",
+            "count": 542,
+            "share": 0.1585722644821533
+          },
+          {
+            "category": "table / delimited line",
+            "count": 87,
+            "share": 0.02545348156816852
+          }
+        ],
+        "raw_label": [
+          {
+            "category": "company",
+            "count": 2500,
+            "share": 0.7314218841427735
+          },
+          {
+            "category": "name",
+            "count": 367,
+            "share": 0.10737273259215915
+          },
+          {
+            "category": "street_address",
+            "count": 180,
+            "share": 0.0526623756582797
+          },
+          {
+            "category": "credit_card_security_code",
+            "count": 53,
+            "share": 0.0155061439438268
+          },
+          {
+            "category": "last_name",
+            "count": 37,
+            "share": 0.010825043885313048
+          },
+          {
+            "category": "first_name",
+            "count": 33,
+            "share": 0.00965476887068461
+          },
+          {
+            "category": "employee_id",
+            "count": 27,
+            "share": 0.007899356348741955
+          },
+          {
+            "category": "bban",
+            "count": 23,
+            "share": 0.006729081334113517
+          },
+          {
+            "category": "date",
+            "count": 20,
+            "share": 0.005851375073142188
+          },
+          {
+            "category": "account_pin",
+            "count": 19,
+            "share": 0.005558806319485079
+          },
+          {
+            "category": "phone_number",
+            "count": 19,
+            "share": 0.005558806319485079
+          },
+          {
+            "category": "api_key",
+            "count": 18,
+            "share": 0.0052662375658279695
+          },
+          {
+            "category": "password",
+            "count": 18,
+            "share": 0.0052662375658279695
+          },
+          {
+            "category": "swift_bic_code",
+            "count": 15,
+            "share": 0.004388531304856641
+          },
+          {
+            "category": "user_name",
+            "count": 15,
+            "share": 0.004388531304856641
+          }
+        ],
+        "shape": [
+          {
+            "category": "other letters",
+            "count": 1197,
+            "share": 0.35020479812756
+          },
+          {
+            "category": "title-case word(s)",
+            "count": 963,
+            "share": 0.28174370977179636
+          },
+          {
+            "category": "contains punctuation",
+            "count": 878,
+            "share": 0.25687536571094205
+          },
+          {
+            "category": "mixed alphanumeric",
+            "count": 189,
+            "share": 0.05529549444119368
+          },
+          {
+            "category": "lowercase word(s)",
+            "count": 108,
+            "share": 0.03159742539496782
+          },
+          {
+            "category": "all digits",
+            "count": 83,
+            "share": 0.024283206553540083
+          }
+        ],
+        "untargeted": [
+          {
+            "category": "targeted by an M3 detector",
+            "count": 3236,
+            "share": 0.946752486834406
+          },
+          {
+            "category": "untargeted raw label",
+            "count": 182,
+            "share": 0.05324751316559392
+          }
+        ]
+      },
+      "documents": 2891,
+      "gold_spans": 12719,
+      "leaked_share_of_gold_spans": 0.2687318185391933,
+      "leaked_spans": 3418,
+      "set_sha256": "2a4f2ff50ec6304081d0d89a3838086a6c13b6fb3e38fe588a81ed973ede9f2a",
+      "top_categories": [
+        {
+          "category": "ORGANIZATION",
+          "dimension": "mapped_label"
+        },
+        {
+          "category": "PERSON",
+          "dimension": "mapped_label"
+        },
+        {
+          "category": "LOCATION",
+          "dimension": "mapped_label"
+        },
+        {
+          "category": "company",
+          "dimension": "raw_label"
+        },
+        {
+          "category": "name",
+          "dimension": "raw_label"
+        },
+        {
+          "category": "street_address",
+          "dimension": "raw_label"
+        },
+        {
+          "category": "other letters",
+          "dimension": "shape"
+        },
+        {
+          "category": "title-case word(s)",
+          "dimension": "shape"
+        },
+        {
+          "category": "contains punctuation",
+          "dimension": "shape"
+        },
+        {
+          "category": "prose",
+          "dimension": "position"
+        },
+        {
+          "category": "key: value line",
+          "dimension": "position"
+        },
+        {
+          "category": "table / delimited line",
+          "dimension": "position"
+        },
+        {
+          "category": "untargeted raw label",
+          "dimension": "untargeted"
+        }
+      ]
+    },
+    "nemotron_dev_2k": {
+      "dimensions": {
+        "length": [
+          {
+            "category": "8-15",
+            "count": 363,
+            "share": 0.38010471204188484
+          },
+          {
+            "category": "4-7",
+            "count": 279,
+            "share": 0.29214659685863875
+          },
+          {
+            "category": "16-31",
+            "count": 218,
+            "share": 0.22827225130890053
+          },
+          {
+            "category": "1-3",
+            "count": 63,
+            "share": 0.06596858638743455
+          },
+          {
+            "category": "32+",
+            "count": 32,
+            "share": 0.033507853403141365
+          }
+        ],
+        "mapped_label": [
+          {
+            "category": "OTHER",
+            "count": 604,
+            "share": 0.6324607329842932
+          },
+          {
+            "category": "ORGANIZATION",
+            "count": 94,
+            "share": 0.09842931937172775
+          },
+          {
+            "category": "PERSON",
+            "count": 81,
+            "share": 0.08481675392670157
+          },
+          {
+            "category": "LOCATION",
+            "count": 73,
+            "share": 0.07643979057591622
+          },
+          {
+            "category": "DATE",
+            "count": 60,
+            "share": 0.06282722513089005
+          },
+          {
+            "category": "ID_NUMBER",
+            "count": 32,
+            "share": 0.033507853403141365
+          },
+          {
+            "category": "IP_ADDRESS",
+            "count": 6,
+            "share": 0.0062827225130890054
+          },
+          {
+            "category": "EMAIL",
+            "count": 3,
+            "share": 0.0031413612565445027
+          },
+          {
+            "category": "URL",
+            "count": 2,
+            "share": 0.0020942408376963353
+          }
+        ],
+        "position": [
+          {
+            "category": "prose",
+            "count": 826,
+            "share": 0.8649214659685864
+          },
+          {
+            "category": "table / delimited line",
+            "count": 89,
+            "share": 0.09319371727748692
+          },
+          {
+            "category": "key: value line",
+            "count": 40,
+            "share": 0.041884816753926704
+          }
+        ],
+        "raw_label": [
+          {
+            "category": "occupation",
+            "count": 353,
+            "share": 0.36963350785340315
+          },
+          {
+            "category": "company_name",
+            "count": 94,
+            "share": 0.09842931937172775
+          },
+          {
+            "category": "date",
+            "count": 51,
+            "share": 0.05340314136125655
+          },
+          {
+            "category": "first_name",
+            "count": 46,
+            "share": 0.048167539267015703
+          },
+          {
+            "category": "time",
+            "count": 43,
+            "share": 0.04502617801047121
+          },
+          {
+            "category": "user_name",
+            "count": 38,
+            "share": 0.039790575916230364
+          },
+          {
+            "category": "employment_status",
+            "count": 35,
+            "share": 0.03664921465968586
+          },
+          {
+            "category": "last_name",
+            "count": 35,
+            "share": 0.03664921465968586
+          },
+          {
+            "category": "education_level",
+            "count": 31,
+            "share": 0.032460732984293195
+          },
+          {
+            "category": "state",
+            "count": 26,
+            "share": 0.027225130890052355
+          },
+          {
+            "category": "city",
+            "count": 25,
+            "share": 0.02617801047120419
+          },
+          {
+            "category": "employee_id",
+            "count": 18,
+            "share": 0.018848167539267015
+          },
+          {
+            "category": "blood_type",
+            "count": 13,
+            "share": 0.013612565445026177
+          },
+          {
+            "category": "cvv",
+            "count": 11,
+            "share": 0.011518324607329843
+          },
+          {
+            "category": "password",
+            "count": 11,
+            "share": 0.011518324607329843
+          }
+        ],
+        "shape": [
+          {
+            "category": "title-case word(s)",
+            "count": 399,
+            "share": 0.4178010471204188
+          },
+          {
+            "category": "lowercase word(s)",
+            "count": 238,
+            "share": 0.24921465968586387
+          },
+          {
+            "category": "contains punctuation",
+            "count": 143,
+            "share": 0.14973821989528796
+          },
+          {
+            "category": "other letters",
+            "count": 86,
+            "share": 0.09005235602094241
+          },
+          {
+            "category": "mixed alphanumeric",
+            "count": 50,
+            "share": 0.05235602094240838
+          },
+          {
+            "category": "all digits",
+            "count": 39,
+            "share": 0.040837696335078534
+          }
+        ],
+        "untargeted": [
+          {
+            "category": "untargeted raw label",
+            "count": 568,
+            "share": 0.5947643979057592
+          },
+          {
+            "category": "targeted by an M3 detector",
+            "count": 387,
+            "share": 0.40523560209424087
+          }
+        ]
+      },
+      "documents": 2000,
+      "gold_spans": 15567,
+      "leaked_share_of_gold_spans": 0.06134772274683625,
+      "leaked_spans": 955,
+      "set_sha256": "47354466ff6a39052d29d4afa50e3c96184931ea983b873149bd0b22b8baeebd",
+      "top_categories": [
+        {
+          "category": "OTHER",
+          "dimension": "mapped_label"
+        },
+        {
+          "category": "ORGANIZATION",
+          "dimension": "mapped_label"
+        },
+        {
+          "category": "PERSON",
+          "dimension": "mapped_label"
+        },
+        {
+          "category": "occupation",
+          "dimension": "raw_label"
+        },
+        {
+          "category": "company_name",
+          "dimension": "raw_label"
+        },
+        {
+          "category": "date",
+          "dimension": "raw_label"
+        },
+        {
+          "category": "title-case word(s)",
+          "dimension": "shape"
+        },
+        {
+          "category": "lowercase word(s)",
+          "dimension": "shape"
+        },
+        {
+          "category": "contains punctuation",
+          "dimension": "shape"
+        },
+        {
+          "category": "prose",
+          "dimension": "position"
+        },
+        {
+          "category": "table / delimited line",
+          "dimension": "position"
+        },
+        {
+          "category": "key: value line",
+          "dimension": "position"
+        },
+        {
+          "category": "untargeted raw label",
+          "dimension": "untargeted"
+        }
+      ]
+    },
+    "nemotron_test_5k": {
+      "dimensions": {
+        "length": [
+          {
+            "category": "8-15",
+            "count": 1055,
+            "share": 0.393070044709389
+          },
+          {
+            "category": "16-31",
+            "count": 742,
+            "share": 0.27645305514157975
+          },
+          {
+            "category": "4-7",
+            "count": 632,
+            "share": 0.23546944858420268
+          },
+          {
+            "category": "1-3",
+            "count": 177,
+            "share": 0.06594634873323398
+          },
+          {
+            "category": "32+",
+            "count": 78,
+            "share": 0.029061102831594635
+          }
+        ],
+        "mapped_label": [
+          {
+            "category": "OTHER",
+            "count": 1565,
+            "share": 0.5830849478390462
+          },
+          {
+            "category": "ORGANIZATION",
+            "count": 465,
+            "share": 0.1732488822652757
+          },
+          {
+            "category": "PERSON",
+            "count": 229,
+            "share": 0.0853204172876304
+          },
+          {
+            "category": "LOCATION",
+            "count": 217,
+            "share": 0.080849478390462
+          },
+          {
+            "category": "DATE",
+            "count": 166,
+            "share": 0.06184798807749627
+          },
+          {
+            "category": "ID_NUMBER",
+            "count": 21,
+            "share": 0.00782414307004471
+          },
+          {
+            "category": "EMAIL",
+            "count": 12,
+            "share": 0.004470938897168405
+          },
+          {
+            "category": "CREDIT_CARD",
+            "count": 3,
+            "share": 0.0011177347242921013
+          },
+          {
+            "category": "IP_ADDRESS",
+            "count": 2,
+            "share": 0.0007451564828614009
+          },
+          {
+            "category": "PHONE",
+            "count": 2,
+            "share": 0.0007451564828614009
+          },
+          {
+            "category": "URL",
+            "count": 2,
+            "share": 0.0007451564828614009
+          }
+        ],
+        "position": [
+          {
+            "category": "prose",
+            "count": 2188,
+            "share": 0.8152011922503726
+          },
+          {
+            "category": "table / delimited line",
+            "count": 312,
+            "share": 0.11624441132637854
+          },
+          {
+            "category": "key: value line",
+            "count": 184,
+            "share": 0.06855439642324888
+          }
+        ],
+        "raw_label": [
+          {
+            "category": "occupation",
+            "count": 859,
+            "share": 0.32004470938897167
+          },
+          {
+            "category": "company_name",
+            "count": 465,
+            "share": 0.1732488822652757
+          },
+          {
+            "category": "date",
+            "count": 156,
+            "share": 0.05812220566318927
+          },
+          {
+            "category": "first_name",
+            "count": 144,
+            "share": 0.05365126676602087
+          },
+          {
+            "category": "user_name",
+            "count": 137,
+            "share": 0.05104321907600596
+          },
+          {
+            "category": "time",
+            "count": 103,
+            "share": 0.038375558867362144
+          },
+          {
+            "category": "city",
+            "count": 90,
+            "share": 0.03353204172876304
+          },
+          {
+            "category": "last_name",
+            "count": 85,
+            "share": 0.03166915052160954
+          },
+          {
+            "category": "employment_status",
+            "count": 64,
+            "share": 0.02384500745156483
+          },
+          {
+            "category": "age",
+            "count": 59,
+            "share": 0.021982116244411327
+          },
+          {
+            "category": "political_view",
+            "count": 58,
+            "share": 0.021609538002980627
+          },
+          {
+            "category": "state",
+            "count": 52,
+            "share": 0.019374068554396422
+          },
+          {
+            "category": "cvv",
+            "count": 45,
+            "share": 0.01676602086438152
+          },
+          {
+            "category": "race_ethnicity",
+            "count": 35,
+            "share": 0.013040238450074515
+          },
+          {
+            "category": "education_level",
+            "count": 32,
+            "share": 0.011922503725782414
+          }
+        ],
+        "shape": [
+          {
+            "category": "title-case word(s)",
+            "count": 1311,
+            "share": 0.4884500745156483
+          },
+          {
+            "category": "lowercase word(s)",
+            "count": 552,
+            "share": 0.20566318926974664
+          },
+          {
+            "category": "contains punctuation",
+            "count": 362,
+            "share": 0.13487332339791355
+          },
+          {
+            "category": "other letters",
+            "count": 201,
+            "share": 0.0748882265275708
+          },
+          {
+            "category": "all digits",
+            "count": 162,
+            "share": 0.06035767511177347
+          },
+          {
+            "category": "mixed alphanumeric",
+            "count": 96,
+            "share": 0.03576751117734724
+          }
+        ],
+        "untargeted": [
+          {
+            "category": "untargeted raw label",
+            "count": 1367,
+            "share": 0.5093144560357675
+          },
+          {
+            "category": "targeted by an M3 detector",
+            "count": 1317,
+            "share": 0.4906855439642325
+          }
+        ]
+      },
+      "documents": 5000,
+      "gold_spans": 40000,
+      "leaked_share_of_gold_spans": 0.0671,
+      "leaked_spans": 2684,
+      "set_sha256": "b274c139516e71132a77f47896e8c0a36ab24e47af34d50985ecc830b7bdc2a7",
+      "top_categories": [
+        {
+          "category": "OTHER",
+          "dimension": "mapped_label"
+        },
+        {
+          "category": "ORGANIZATION",
+          "dimension": "mapped_label"
+        },
+        {
+          "category": "PERSON",
+          "dimension": "mapped_label"
+        },
+        {
+          "category": "occupation",
+          "dimension": "raw_label"
+        },
+        {
+          "category": "company_name",
+          "dimension": "raw_label"
+        },
+        {
+          "category": "date",
+          "dimension": "raw_label"
+        },
+        {
+          "category": "title-case word(s)",
+          "dimension": "shape"
+        },
+        {
+          "category": "lowercase word(s)",
+          "dimension": "shape"
+        },
+        {
+          "category": "contains punctuation",
+          "dimension": "shape"
+        },
+        {
+          "category": "prose",
+          "dimension": "position"
+        },
+        {
+          "category": "table / delimited line",
+          "dimension": "position"
+        },
+        {
+          "category": "key: value line",
+          "dimension": "position"
+        },
+        {
+          "category": "untargeted raw label",
+          "dimension": "untargeted"
+        }
+      ]
+    }
+  }
+}
