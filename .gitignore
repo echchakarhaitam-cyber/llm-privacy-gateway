@@ -12,3 +12,4 @@ models/
 data/processed/
 results/m3/*/*/predictions.jsonl
 results/m3/*/*/raw_results.jsonl
+results/m4/*/*/predictions.jsonl

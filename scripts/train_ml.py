@@ -30,6 +30,7 @@ from privgate.data.splits import RAW_FILES, assign_split, write_jsonl
 from privgate.ml.jobs import crf_job, logreg_job
 from privgate.ml.training import (
     CRF_GRID,
+    CURVE_SEEDS,
     GRID_N,
     GRID_SEED,
     LOGREG_C,
@@ -141,21 +142,27 @@ def _aggregate(models: list[dict]) -> list[dict]:
     return rows
 
 
-def cmd_curve(workers: int) -> None:
+def cmd_curve(workers: int, large_workers: int = 1, sizes=SIZES) -> None:
     grid = json.loads((OUT / "crf_grid.json").read_text(encoding="utf-8"))
     c1, c2 = grid["selected"]["c1"], grid["selected"]["c2"]
-    models: list[dict] = []
-    for n in SIZES:
+    path = OUT / "learning_curve.json"
+    done = json.loads(path.read_text(encoding="utf-8"))["models"] if path.exists() else []
+    models: list[dict] = [m for m in done if m["n"] not in sizes]
+    for n in sizes:
         t0 = time.perf_counter()
-        specs = [_spec(n, s, SET_NAMES, MODELS / f"crf_n{n}_s{s}", c1=c1, c2=c2) for s in SEEDS]
-        # n=5000 runs one at a time: a single model needs about all the free memory
-        models += _run(crf_job, specs, workers if n == min(SIZES) else 1)
-        _log(f"curve_n{n}", time.perf_counter() - t0,
-             workers=workers if n == min(SIZES) else 1)
+        specs = [_spec(n, s, SET_NAMES, MODELS / f"crf_n{n}_s{s}", c1=c1, c2=c2)
+                 for s in CURVE_SEEDS[n]]
+        # larger subsets need much more memory per process: fewer run at the same time
+        used = workers if n == min(SIZES) else large_workers
+        models += _run(crf_job, specs, used)
+        models.sort(key=lambda m: (m["n"], m["seed"]))
+        _log(f"curve_n{n}", time.perf_counter() - t0, workers=used)
         write_json(OUT / "learning_curve.json", {
             "c1": c1, "c2": c2, "models": models, "rows": _aggregate(models)})
         print(f"curve n={n} done")
     # determinism check: the grid's selected run and the curve's (GRID_N, GRID_SEED) run
+    if GRID_N not in sizes:
+        return
     again = next(m for m in models if m["n"] == GRID_N and m["seed"] == GRID_SEED)
     chosen = next(r for r in grid["rows"] if (r["c1"], r["c2"]) == (c1, c2))
     if again["eval"][DEV_SET] != chosen["dev"]:
@@ -188,13 +195,17 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("command", choices=("subsets", "grid", "curve", "final"))
     parser.add_argument("--workers", type=int, default=3)
+    parser.add_argument("--large-workers", type=int, default=1,
+                        help="parallel jobs for the sizes above the smallest (memory-bound)")
+    parser.add_argument("--sizes", type=int, nargs="+", default=list(SIZES),
+                        help="curve only: sizes to (re)train; others are kept from the file")
     args = parser.parse_args(argv)
     if args.command == "subsets":
         cmd_subsets()
     elif args.command == "grid":
         cmd_grid(args.workers)
     elif args.command == "curve":
-        cmd_curve(args.workers)
+        cmd_curve(args.workers, args.large_workers, tuple(args.sizes))
     else:
         cmd_final()
     return 0

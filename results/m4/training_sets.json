@@ -1,0 +1,53 @@
+{
+  "pool_groups": 44930,
+  "subsets": {
+    "n1000_s0": {
+      "documents": 1000,
+      "groups": 500,
+      "n": 1000,
+      "path": "data/processed/train/n1000_s0.jsonl",
+      "seed": 0,
+      "sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb"
+    },
+    "n1000_s1": {
+      "documents": 1000,
+      "groups": 500,
+      "n": 1000,
+      "path": "data/processed/train/n1000_s1.jsonl",
+      "seed": 1,
+      "sha256": "fe083859960872a3dbe3d4660a3101e93449f80c214d0cccaa86e7b3529d43e8"
+    },
+    "n1000_s2": {
+      "documents": 1000,
+      "groups": 500,
+      "n": 1000,
+      "path": "data/processed/train/n1000_s2.jsonl",
+      "seed": 2,
+      "sha256": "72b1e00d366bb0343ad1d3769cb782ccc8830abdfc4b6c2752afd0f0a5115874"
+    },
+    "n5000_s0": {
+      "documents": 5000,
+      "groups": 2500,
+      "n": 5000,
+      "path": "data/processed/train/n5000_s0.jsonl",
+      "seed": 0,
+      "sha256": "672d209272e8f45e2e6d18536802f230b9e9caccff5863dad337bda7eeacda8f"
+    },
+    "n5000_s1": {
+      "documents": 5000,
+      "groups": 2500,
+      "n": 5000,
+      "path": "data/processed/train/n5000_s1.jsonl",
+      "seed": 1,
+      "sha256": "4180bcd1c82017954b2aa475915180e4dfdf97a90433035c0d5470f0f4236a93"
+    },
+    "n5000_s2": {
+      "documents": 5000,
+      "groups": 2500,
+      "n": 5000,
+      "path": "data/processed/train/n5000_s2.jsonl",
+      "seed": 2,
+      "sha256": "78ae06f469d907b37b8c40dbcf6d46133981a8d81184ea6ee43398f0f111d314"
+    }
+  }
+}

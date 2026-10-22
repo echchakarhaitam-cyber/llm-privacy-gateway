@@ -1,0 +1,122 @@
+{
+  "n": 1000,
+  "rows": [
+    {
+      "C": 0.1,
+      "data_root": "data",
+      "dev": {
+        "char_precision": 0.964102218023125,
+        "leakage_rate": 0.14142794182459228,
+        "partial_f1": 0.8298839612144334,
+        "strict_f1": 0.698140200286123,
+        "type_agnostic_f1": 0.8555714512796058,
+        "type_agnostic_precision": 0.8469284994964753,
+        "type_agnostic_recall": 0.8643926254255797
+      },
+      "eval": {
+        "nemotron_dev_2k": {
+          "char_precision": 0.964102218023125,
+          "leakage_rate": 0.14142794182459228,
+          "partial_f1": 0.8298839612144334,
+          "strict_f1": 0.698140200286123,
+          "type_agnostic_f1": 0.8555714512796058,
+          "type_agnostic_precision": 0.8469284994964753,
+          "type_agnostic_recall": 0.8643926254255797
+        }
+      },
+      "eval_seconds": 76.499,
+      "eval_sets": [
+        "nemotron_dev_2k"
+      ],
+      "model_dir": null,
+      "n": 1000,
+      "n_iter": 58,
+      "peak_memory_mb": null,
+      "seed": 0,
+      "train_path": "data/processed/train/n1000_s0.jsonl",
+      "train_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb",
+      "training_seconds": 109.505,
+      "training_set_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb"
+    },
+    {
+      "C": 1.0,
+      "data_root": "data",
+      "dev": {
+        "char_precision": 0.956699459609256,
+        "leakage_rate": 0.1147722264513803,
+        "partial_f1": 0.8327038573462944,
+        "strict_f1": 0.7049718283697604,
+        "type_agnostic_f1": 0.8600086681939199,
+        "type_agnostic_precision": 0.829997012249776,
+        "type_agnostic_recall": 0.8922721140874927
+      },
+      "eval": {
+        "nemotron_dev_2k": {
+          "char_precision": 0.956699459609256,
+          "leakage_rate": 0.1147722264513803,
+          "partial_f1": 0.8327038573462944,
+          "strict_f1": 0.7049718283697604,
+          "type_agnostic_f1": 0.8600086681939199,
+          "type_agnostic_precision": 0.829997012249776,
+          "type_agnostic_recall": 0.8922721140874927
+        }
+      },
+      "eval_seconds": 71.369,
+      "eval_sets": [
+        "nemotron_dev_2k"
+      ],
+      "model_dir": null,
+      "n": 1000,
+      "n_iter": 77,
+      "peak_memory_mb": null,
+      "seed": 0,
+      "train_path": "data/processed/train/n1000_s0.jsonl",
+      "train_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb",
+      "training_seconds": 132.249,
+      "training_set_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb"
+    },
+    {
+      "C": 10.0,
+      "data_root": "data",
+      "dev": {
+        "char_precision": 0.9467851778521199,
+        "leakage_rate": 0.11101806963420013,
+        "partial_f1": 0.820203976636504,
+        "strict_f1": 0.684320430953606,
+        "type_agnostic_f1": 0.8493780831038344,
+        "type_agnostic_precision": 0.8029869535362784,
+        "type_agnostic_recall": 0.9014582128862337
+      },
+      "eval": {
+        "nemotron_dev_2k": {
+          "char_precision": 0.9467851778521199,
+          "leakage_rate": 0.11101806963420013,
+          "partial_f1": 0.820203976636504,
+          "strict_f1": 0.684320430953606,
+          "type_agnostic_f1": 0.8493780831038344,
+          "type_agnostic_precision": 0.8029869535362784,
+          "type_agnostic_recall": 0.9014582128862337
+        }
+      },
+      "eval_seconds": 71.58,
+      "eval_sets": [
+        "nemotron_dev_2k"
+      ],
+      "model_dir": null,
+      "n": 1000,
+      "n_iter": 78,
+      "peak_memory_mb": null,
+      "seed": 0,
+      "train_path": "data/processed/train/n1000_s0.jsonl",
+      "train_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb",
+      "training_seconds": 132.494,
+      "training_set_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb"
+    }
+  ],
+  "rule": "highest dev type-agnostic micro F1; ties -> lower leakage, smaller C",
+  "seed": 0,
+  "selected": {
+    "C": 1.0
+  },
+  "set": "nemotron_dev_2k"
+}

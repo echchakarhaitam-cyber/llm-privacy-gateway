@@ -51,6 +51,7 @@ def test_selection_rule():
 def test_protocol_constants():
     assert training.CRF_GRID == tuple((a, b) for a in (0.05, 0.1, 0.3) for b in (0.01, 0.05, 0.1))
     assert training.LOGREG_C == (0.1, 1.0, 10.0) and training.SEEDS == (0, 1, 2)
+    assert training.CURVE_SEEDS == {1000: (0, 1, 2), 5000: (0,)}
     assert training.CRF_MAX_ITERATIONS == 100 and training.LOGREG_MAX_ITER == 1000
     mem = training.peak_memory_mb()
-    assert mem is None or mem > 0
+    assert mem is not None and mem > 0

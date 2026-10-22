@@ -1,0 +1,29 @@
+{
+  "a": "crf+regex+presidio",
+  "b": "regex+presidio",
+  "documents": 2891,
+  "leakage_rate": {
+    "a": 0.3182980702162288,
+    "b": 0.5092958571219441,
+    "ci95": [
+      -0.19926647406658166,
+      -0.18292200628424943
+    ],
+    "ci_excludes_zero": true,
+    "delta": -0.19099778690571534
+  },
+  "n_resamples": 1000,
+  "seed": 0,
+  "set": "gretel_en_test",
+  "set_sha256": "2a4f2ff50ec6304081d0d89a3838086a6c13b6fb3e38fe588a81ed973ede9f2a",
+  "type_agnostic_f1": {
+    "a": 0.42303231528437907,
+    "b": 0.39252190237797246,
+    "ci95": [
+      0.02506270238101945,
+      0.03626941313368335
+    ],
+    "ci_excludes_zero": true,
+    "delta": 0.030510412906406603
+  }
+}

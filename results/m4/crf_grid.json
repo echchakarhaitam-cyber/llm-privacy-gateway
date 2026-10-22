@@ -1,0 +1,345 @@
+{
+  "n": 1000,
+  "rows": [
+    {
+      "c1": 0.05,
+      "c2": 0.01,
+      "data_root": "data",
+      "dev": {
+        "char_precision": 0.9498321992413219,
+        "leakage_rate": 0.0951039705116391,
+        "partial_f1": 0.8783068783068784,
+        "strict_f1": 0.8466939536121926,
+        "type_agnostic_f1": 0.9090546071678146,
+        "type_agnostic_precision": 0.9430405965202983,
+        "type_agnostic_recall": 0.8774330314126035
+      },
+      "eval": {
+        "nemotron_dev_2k": {
+          "char_precision": 0.9498321992413219,
+          "leakage_rate": 0.0951039705116391,
+          "partial_f1": 0.8783068783068784,
+          "strict_f1": 0.8466939536121926,
+          "type_agnostic_f1": 0.9090546071678146,
+          "type_agnostic_precision": 0.9430405965202983,
+          "type_agnostic_recall": 0.8774330314126035
+        }
+      },
+      "eval_seconds": 21.821,
+      "eval_sets": [
+        "nemotron_dev_2k"
+      ],
+      "model_dir": null,
+      "n": 1000,
+      "peak_memory_mb": null,
+      "seed": 0,
+      "train_path": "data/processed/train/n1000_s0.jsonl",
+      "train_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb",
+      "training_seconds": 264.441,
+      "training_set_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb"
+    },
+    {
+      "c1": 0.05,
+      "c2": 0.05,
+      "data_root": "data",
+      "dev": {
+        "char_precision": 0.9553247040884562,
+        "leakage_rate": 0.10135021435153657,
+        "partial_f1": 0.879943692183939,
+        "strict_f1": 0.8503820887518435,
+        "type_agnostic_f1": 0.9076283684139965,
+        "type_agnostic_precision": 0.948910224963207,
+        "type_agnostic_recall": 0.8697886554891758
+      },
+      "eval": {
+        "nemotron_dev_2k": {
+          "char_precision": 0.9553247040884562,
+          "leakage_rate": 0.10135021435153657,
+          "partial_f1": 0.879943692183939,
+          "strict_f1": 0.8503820887518435,
+          "type_agnostic_f1": 0.9076283684139965,
+          "type_agnostic_precision": 0.948910224963207,
+          "type_agnostic_recall": 0.8697886554891758
+        }
+      },
+      "eval_seconds": 21.98,
+      "eval_sets": [
+        "nemotron_dev_2k"
+      ],
+      "model_dir": null,
+      "n": 1000,
+      "peak_memory_mb": null,
+      "seed": 0,
+      "train_path": "data/processed/train/n1000_s0.jsonl",
+      "train_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb",
+      "training_seconds": 264.765,
+      "training_set_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb"
+    },
+    {
+      "c1": 0.05,
+      "c2": 0.1,
+      "data_root": "data",
+      "dev": {
+        "char_precision": 0.9569388808545674,
+        "leakage_rate": 0.1012580632236868,
+        "partial_f1": 0.8799999999999999,
+        "strict_f1": 0.8502013422818793,
+        "type_agnostic_f1": 0.9077181208053692,
+        "type_agnostic_precision": 0.9502564462867983,
+        "type_agnostic_recall": 0.8688250786921051
+      },
+      "eval": {
+        "nemotron_dev_2k": {
+          "char_precision": 0.9569388808545674,
+          "leakage_rate": 0.1012580632236868,
+          "partial_f1": 0.8799999999999999,
+          "strict_f1": 0.8502013422818793,
+          "type_agnostic_f1": 0.9077181208053692,
+          "type_agnostic_precision": 0.9502564462867983,
+          "type_agnostic_recall": 0.8688250786921051
+        }
+      },
+      "eval_seconds": 22.08,
+      "eval_sets": [
+        "nemotron_dev_2k"
+      ],
+      "model_dir": null,
+      "n": 1000,
+      "peak_memory_mb": null,
+      "seed": 0,
+      "train_path": "data/processed/train/n1000_s0.jsonl",
+      "train_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb",
+      "training_seconds": 267.656,
+      "training_set_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb"
+    },
+    {
+      "c1": 0.1,
+      "c2": 0.01,
+      "data_root": "data",
+      "dev": {
+        "char_precision": 0.9484156196148634,
+        "leakage_rate": 0.09150606995472577,
+        "partial_f1": 0.8809975062344139,
+        "strict_f1": 0.8478802992518704,
+        "type_agnostic_f1": 0.910922693266833,
+        "type_agnostic_precision": 0.9441687344913151,
+        "type_agnostic_recall": 0.8799383310849874
+      },
+      "eval": {
+        "nemotron_dev_2k": {
+          "char_precision": 0.9484156196148634,
+          "leakage_rate": 0.09150606995472577,
+          "partial_f1": 0.8809975062344139,
+          "strict_f1": 0.8478802992518704,
+          "type_agnostic_f1": 0.910922693266833,
+          "type_agnostic_precision": 0.9441687344913151,
+          "type_agnostic_recall": 0.8799383310849874
+        }
+      },
+      "eval_seconds": 21.117,
+      "eval_sets": [
+        "nemotron_dev_2k"
+      ],
+      "model_dir": null,
+      "n": 1000,
+      "peak_memory_mb": null,
+      "seed": 0,
+      "train_path": "data/processed/train/n1000_s0.jsonl",
+      "train_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb",
+      "training_seconds": 256.656,
+      "training_set_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb"
+    },
+    {
+      "c1": 0.1,
+      "c2": 0.05,
+      "data_root": "data",
+      "dev": {
+        "char_precision": 0.9512411832824508,
+        "leakage_rate": 0.09493168796826801,
+        "partial_f1": 0.8807155730592082,
+        "strict_f1": 0.8498097590281023,
+        "type_agnostic_f1": 0.9094853481076028,
+        "type_agnostic_precision": 0.9465092045849253,
+        "type_agnostic_recall": 0.8752489240059099
+      },
+      "eval": {
+        "nemotron_dev_2k": {
+          "char_precision": 0.9512411832824508,
+          "leakage_rate": 0.09493168796826801,
+          "partial_f1": 0.8807155730592082,
+          "strict_f1": 0.8498097590281023,
+          "type_agnostic_f1": 0.9094853481076028,
+          "type_agnostic_precision": 0.9465092045849253,
+          "type_agnostic_recall": 0.8752489240059099
+        }
+      },
+      "eval_seconds": 21.271,
+      "eval_sets": [
+        "nemotron_dev_2k"
+      ],
+      "model_dir": null,
+      "n": 1000,
+      "peak_memory_mb": null,
+      "seed": 0,
+      "train_path": "data/processed/train/n1000_s0.jsonl",
+      "train_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb",
+      "training_seconds": 255.698,
+      "training_set_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb"
+    },
+    {
+      "c1": 0.1,
+      "c2": 0.1,
+      "data_root": "data",
+      "dev": {
+        "char_precision": 0.952602729305164,
+        "leakage_rate": 0.09691093393164796,
+        "partial_f1": 0.8793253463623587,
+        "strict_f1": 0.8490060906231176,
+        "type_agnostic_f1": 0.9083729335385852,
+        "type_agnostic_precision": 0.9480964023751309,
+        "type_agnostic_recall": 0.8718442859895934
+      },
+      "eval": {
+        "nemotron_dev_2k": {
+          "char_precision": 0.952602729305164,
+          "leakage_rate": 0.09691093393164796,
+          "partial_f1": 0.8793253463623587,
+          "strict_f1": 0.8490060906231176,
+          "type_agnostic_f1": 0.9083729335385852,
+          "type_agnostic_precision": 0.9480964023751309,
+          "type_agnostic_recall": 0.8718442859895934
+        }
+      },
+      "eval_seconds": 21.459,
+      "eval_sets": [
+        "nemotron_dev_2k"
+      ],
+      "model_dir": null,
+      "n": 1000,
+      "peak_memory_mb": null,
+      "seed": 0,
+      "train_path": "data/processed/train/n1000_s0.jsonl",
+      "train_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb",
+      "training_seconds": 255.015,
+      "training_set_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb"
+    },
+    {
+      "c1": 0.3,
+      "c2": 0.01,
+      "data_root": "data",
+      "dev": {
+        "char_precision": 0.9488550642035739,
+        "leakage_rate": 0.09286429744781444,
+        "partial_f1": 0.8783689242762434,
+        "strict_f1": 0.8445214378518839,
+        "type_agnostic_f1": 0.9099510277509412,
+        "type_agnostic_precision": 0.945121107266436,
+        "type_agnostic_recall": 0.8773045545063275
+      },
+      "eval": {
+        "nemotron_dev_2k": {
+          "char_precision": 0.9488550642035739,
+          "leakage_rate": 0.09286429744781444,
+          "partial_f1": 0.8783689242762434,
+          "strict_f1": 0.8445214378518839,
+          "type_agnostic_f1": 0.9099510277509412,
+          "type_agnostic_precision": 0.945121107266436,
+          "type_agnostic_recall": 0.8773045545063275
+        }
+      },
+      "eval_seconds": 19.543,
+      "eval_sets": [
+        "nemotron_dev_2k"
+      ],
+      "model_dir": null,
+      "n": 1000,
+      "peak_memory_mb": null,
+      "seed": 0,
+      "train_path": "data/processed/train/n1000_s0.jsonl",
+      "train_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb",
+      "training_seconds": 254.051,
+      "training_set_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb"
+    },
+    {
+      "c1": 0.3,
+      "c2": 0.05,
+      "data_root": "data",
+      "dev": {
+        "char_precision": 0.9528196396350607,
+        "leakage_rate": 0.09870187106855244,
+        "partial_f1": 0.8767856545448462,
+        "strict_f1": 0.8468769863838613,
+        "type_agnostic_f1": 0.9081663376936201,
+        "type_agnostic_precision": 0.9475705110304384,
+        "type_agnostic_recall": 0.8719085244427314
+      },
+      "eval": {
+        "nemotron_dev_2k": {
+          "char_precision": 0.9528196396350607,
+          "leakage_rate": 0.09870187106855244,
+          "partial_f1": 0.8767856545448462,
+          "strict_f1": 0.8468769863838613,
+          "type_agnostic_f1": 0.9081663376936201,
+          "type_agnostic_precision": 0.9475705110304384,
+          "type_agnostic_recall": 0.8719085244427314
+        }
+      },
+      "eval_seconds": 19.627,
+      "eval_sets": [
+        "nemotron_dev_2k"
+      ],
+      "model_dir": null,
+      "n": 1000,
+      "peak_memory_mb": null,
+      "seed": 0,
+      "train_path": "data/processed/train/n1000_s0.jsonl",
+      "train_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb",
+      "training_seconds": 253.287,
+      "training_set_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb"
+    },
+    {
+      "c1": 0.3,
+      "c2": 0.1,
+      "data_root": "data",
+      "dev": {
+        "char_precision": 0.9543514054861488,
+        "leakage_rate": 0.09895829159822112,
+        "partial_f1": 0.8769942351521652,
+        "strict_f1": 0.8468963668052019,
+        "type_agnostic_f1": 0.908231666443223,
+        "type_agnostic_precision": 0.9495409629266242,
+        "type_agnostic_recall": 0.8703668015674183
+      },
+      "eval": {
+        "nemotron_dev_2k": {
+          "char_precision": 0.9543514054861488,
+          "leakage_rate": 0.09895829159822112,
+          "partial_f1": 0.8769942351521652,
+          "strict_f1": 0.8468963668052019,
+          "type_agnostic_f1": 0.908231666443223,
+          "type_agnostic_precision": 0.9495409629266242,
+          "type_agnostic_recall": 0.8703668015674183
+        }
+      },
+      "eval_seconds": 19.682,
+      "eval_sets": [
+        "nemotron_dev_2k"
+      ],
+      "model_dir": null,
+      "n": 1000,
+      "peak_memory_mb": null,
+      "seed": 0,
+      "train_path": "data/processed/train/n1000_s0.jsonl",
+      "train_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb",
+      "training_seconds": 251.128,
+      "training_set_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb"
+    }
+  ],
+  "rule": "highest dev type-agnostic micro F1; ties -> lower leakage, smaller c1, c2",
+  "seed": 0,
+  "selected": {
+    "c1": 0.1,
+    "c2": 0.01
+  },
+  "set": "nemotron_dev_2k"
+}

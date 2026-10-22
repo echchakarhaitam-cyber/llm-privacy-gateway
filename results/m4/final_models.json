@@ -1,0 +1,27 @@
+{
+  "crf": {
+    "c1": 0.1,
+    "c2": 0.01,
+    "n": 5000,
+    "rule": "size with the highest mean dev type-agnostic F1",
+    "seed": 0,
+    "source": "models/m4/crf_n5000_s0"
+  },
+  "logreg": {
+    "C": 1.0,
+    "dev": {
+      "char_precision": 0.9701346563911416,
+      "leakage_rate": 0.0739973556632878,
+      "partial_f1": 0.8846333198619704,
+      "strict_f1": 0.7863959958964156,
+      "type_agnostic_f1": 0.9000528491932727,
+      "type_agnostic_precision": 0.8720481927710844,
+      "type_agnostic_recall": 0.9299158476263891
+    },
+    "n": 5000,
+    "n_iter": 111,
+    "peak_memory_mb": 4118.14453125,
+    "seed": 0,
+    "training_seconds": 615.549
+  }
+}

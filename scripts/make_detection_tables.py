@@ -21,7 +21,7 @@ import re
 import sys
 from pathlib import Path
 
-from privgate.bench.registry import ALL_DETECTORS, members
+from privgate.bench.registry import M3_DETECTORS, members
 from privgate.bench.sets import DEV_SET, SET_NAMES
 from privgate.bench.support import NATIVE_RAW_TARGETS, targeted_raw_labels, untargeted_by_all
 from privgate.data.mapping import LABEL_MAPS
@@ -39,7 +39,7 @@ SET_DATASET = {"nemotron_dev_2k": "nemotron-pii", "nemotron_test_5k": "nemotron-
 def load_results(root: Path) -> dict:
     metrics = {}
     for s in SET_NAMES:
-        for d in ALL_DETECTORS:
+        for d in M3_DETECTORS:
             path = root / s / d / "metrics.json"
             if not path.exists():
                 raise SystemExit(f"missing {path}; run python -m privgate.bench all")
@@ -67,7 +67,7 @@ def leak(m: dict, v: str = "all") -> float:
 
 
 def best_detector(metrics: dict) -> str:
-    return min(ALL_DETECTORS, key=lambda d: (leak(metrics[(DEV_SET, d)]),
+    return min(M3_DETECTORS, key=lambda d: (leak(metrics[(DEV_SET, d)]),
                                              -f1(metrics[(DEV_SET, d)], "type_agnostic")))
 
 
@@ -102,7 +102,7 @@ def block_rq1(r: dict) -> str:
                      ("supported", "Gold restricted to each detector's supported labels")):
         rows = []
         for s in SET_NAMES:
-            for d in ALL_DETECTORS:
+            for d in M3_DETECTORS:
                 m = r["metrics"][(s, d)]
                 rows.append([f"`{s}`", f"`{d}`",
                              with_ci(f1(m, "strict", v), ci(m, "strict_micro_f1", v)),
@@ -121,7 +121,7 @@ def block_rq1(r: dict) -> str:
 
 def block_rq2(r: dict) -> str:
     rows = []
-    for d in ALL_DETECTORS:
+    for d in M3_DETECTORS:
         ms_ = [r["metrics"][(s, d)] for s in SET_NAMES]
         rows.append([f"`{d}`", *(n3(f1(m, "strict")) for m in ms_),
                      *(with_ci(f1(m, "type_agnostic"), ci(m, "type_agnostic_micro_f1"))
@@ -136,7 +136,7 @@ def block_rq2(r: dict) -> str:
 
 def untargeted(dataset: str, r: dict) -> frozenset[str]:
     dets = {}
-    for d in ALL_DETECTORS:
+    for d in M3_DETECTORS:
         m = r["metrics"][(DEV_SET, d)]
         dets[d] = (members(d), [EntityType(x) for x in m["supported_labels"]])
     return untargeted_by_all(dets, dataset)
@@ -173,7 +173,7 @@ def block_rq3(r: dict) -> str:
     out += ["", ("Share of all leaked gold characters that belong to raw labels NO tested "
             "detector targets:"), ""]
     rows = []
-    for d in ALL_DETECTORS:
+    for d in M3_DETECTORS:
         cells = []
         for s in SET_NAMES:
             res = unsupported_share(r["metrics"][(s, d)], SET_DATASET[s], r)
@@ -236,7 +236,7 @@ def block_latency(r: dict) -> str:
            "detectors within this table only."), ""]
     rows = []
     for s in SET_NAMES:
-        for d in ALL_DETECTORS:
+        for d in M3_DETECTORS:
             lat = r["metrics"][(s, d)]["latency"]
             rows.append([f"`{s}`", f"`{d}`", ms(lat["median_ms"]), ms(lat["p95_ms"]),
                          ms(lat["mean_ms"]), f"{lat['chars_per_second']:,.0f}"])
@@ -258,8 +258,8 @@ def block_observations(r: dict) -> str:
     met = r["metrics"]
     lines = []
     for s in SET_NAMES:
-        by_leak = sorted(ALL_DETECTORS, key=lambda d: leak(met[(s, d)]))
-        by_f1 = sorted(ALL_DETECTORS, key=lambda d: -f1(met[(s, d)], "type_agnostic"))
+        by_leak = sorted(M3_DETECTORS, key=lambda d: leak(met[(s, d)]))
+        by_f1 = sorted(M3_DETECTORS, key=lambda d: -f1(met[(s, d)], "type_agnostic"))
         a, b = by_leak[0], by_leak[1]
         lo_a, hi_a = ci(met[(s, a)], "leakage_rate")
         lo_b, hi_b = ci(met[(s, b)], "leakage_rate")
@@ -268,7 +268,7 @@ def block_observations(r: dict) -> str:
             f"- `{s}`: lowest leakage `{a}` {with_ci(leak(met[(s, a)]), (lo_a, hi_a))}, next "
             f"`{b}` {with_ci(leak(met[(s, b)]), (lo_b, hi_b))} (intervals {overlap}); highest "
             f"type-agnostic F1 `{by_f1[0]}` {n3(f1(met[(s, by_f1[0])], 'type_agnostic'))}.")
-    for d in ALL_DETECTORS:
+    for d in M3_DETECTORS:
         seq = " -> ".join(n3(f1(met[(s, d)], "type_agnostic")) for s in SET_NAMES)
         lk = " -> ".join(n3(leak(met[(s, d)])) for s in SET_NAMES)
         sup = n3(leak(met[(DEV_SET, d)], "supported"))
@@ -316,7 +316,7 @@ def block_maps() -> str:
 
 def block_supported(r: dict) -> str:
     rows = []
-    for d in ALL_DETECTORS:
+    for d in M3_DETECTORS:
         labels = r["metrics"][(DEV_SET, d)]["supported_labels"]
         targeted = targeted_raw_labels(members(d), [EntityType(x) for x in labels], "nemotron-pii")
         rows.append([f"`{d}`", ", ".join(labels), str(len(targeted))])
@@ -347,17 +347,27 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--data-root", type=Path, default=Path("data"))
     parser.add_argument("--results-doc", type=Path, default=Path("docs/results-detection.md"))
     parser.add_argument("--detectors-doc", type=Path, default=Path("docs/DETECTORS.md"))
+    parser.add_argument("--m4", type=Path, default=Path("results/m4"),
+                        help="Milestone 4 results; its blocks are skipped if absent")
     args = parser.parse_args(argv)
     r = load_results(args.results)
-    rewrite(args.results_doc, {
+    results_blocks = {
         "rq1": block_rq1(r), "rq2": block_rq2(r), "rq3": block_rq3(r),
         "support": block_support(r), "sweep": block_sweep(r), "latency": block_latency(r),
         "runtime": block_runtime(r), "observations": block_observations(r),
-    })
-    rewrite(args.detectors_doc, {
+    }
+    detectors_blocks = {
         "versions": block_versions(r, args.data_root), "maps": block_maps(),
         "supported": block_supported(r),
-    })
+    }
+    if (args.m4 / "final_models.json").exists():
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        import m4_tables
+
+        results_blocks.update(m4_tables.results_blocks(args.m4, args.results))
+        detectors_blocks.update(m4_tables.detectors_blocks(args.m4))
+    rewrite(args.results_doc, results_blocks)
+    rewrite(args.detectors_doc, detectors_blocks)
     print(f"updated {args.results_doc} and {args.detectors_doc}")
     return 0
 

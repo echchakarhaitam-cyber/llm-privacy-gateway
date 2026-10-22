@@ -1,0 +1,29 @@
+{
+  "a": "crf+regex+presidio",
+  "b": "regex+presidio",
+  "documents": 2000,
+  "leakage_rate": {
+    "a": 0.04998998357305984,
+    "b": 0.36852437998317245,
+    "ci95": [
+      -0.32978172155210234,
+      -0.3084729294346551
+    ],
+    "ci_excludes_zero": true,
+    "delta": -0.3185343964101126
+  },
+  "n_resamples": 1000,
+  "seed": 0,
+  "set": "nemotron_dev_2k",
+  "set_sha256": "47354466ff6a39052d29d4afa50e3c96184931ea983b873149bd0b22b8baeebd",
+  "type_agnostic_f1": {
+    "a": 0.9163713900473488,
+    "b": 0.744046310544442,
+    "ci95": [
+      0.16598925752383517,
+      0.17849894554861642
+    ],
+    "ci_excludes_zero": true,
+    "delta": 0.17232507950290676
+  }
+}

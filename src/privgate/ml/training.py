@@ -16,7 +16,9 @@ Everything here was fixed before any model was evaluated on a test set.
 
 Deviations from the original plan, decided from measured cost on this laptop (documented
 in docs/results-detection.md): n = 20000 is not trained (one model needs several GB of
-memory and about an hour), and the grids use ``GRID_N = 1000`` instead of 5000.
+memory and about an hour), the grids use ``GRID_N = 1000`` instead of 5000, and n = 5000 is
+trained with seed 0 only (:data:`CURVE_SEEDS`): one n = 5000 model needs most of the free
+memory and over 20 minutes, so three would double the training budget.
 """
 
 from __future__ import annotations
@@ -35,6 +37,7 @@ from privgate.evaluation import evaluate_corpus
 
 SIZES = (1000, 5000)
 SEEDS = (0, 1, 2)
+CURVE_SEEDS = {1000: (0, 1, 2), 5000: (0,)}
 GRID_N = 1000
 GRID_SEED = 0
 CRF_GRID = tuple((c1, c2) for c1 in (0.05, 0.1, 0.3) for c2 in (0.01, 0.05, 0.1))
@@ -120,9 +123,11 @@ def peak_memory_mb() -> float | None:
                         ("PeakPagefileUsage", ctypes.c_size_t)]
         counters = Counters()
         counters.cb = ctypes.sizeof(Counters)
-        handle = ctypes.windll.kernel32.GetCurrentProcess()
-        if ctypes.windll.psapi.GetProcessMemoryInfo(handle, ctypes.byref(counters),
-                                                    counters.cb):
+        current = ctypes.windll.kernel32.GetCurrentProcess
+        current.restype = ctypes.c_void_p  # 64-bit pseudo-handle; default int would truncate
+        info = ctypes.windll.psapi.GetProcessMemoryInfo
+        info.argtypes = [ctypes.c_void_p, ctypes.POINTER(Counters), ctypes.c_ulong]
+        if info(current(), ctypes.byref(counters), counters.cb):
             return counters.PeakWorkingSetSize / 2**20
         return None
     try:

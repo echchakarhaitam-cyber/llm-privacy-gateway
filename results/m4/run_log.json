@@ -1,0 +1,119 @@
+{
+  "steps": [
+    {
+      "detector": "crf",
+      "seconds": 24.548,
+      "set": "nemotron_dev_2k",
+      "step": "detect"
+    },
+    {
+      "detector": "crf",
+      "seconds": 6.857,
+      "set": "nemotron_dev_2k",
+      "step": "score"
+    },
+    {
+      "detector": "logreg",
+      "seconds": 90.706,
+      "set": "nemotron_dev_2k",
+      "step": "detect"
+    },
+    {
+      "detector": "logreg",
+      "seconds": 5.891,
+      "set": "nemotron_dev_2k",
+      "step": "score"
+    },
+    {
+      "detector": "crf+regex+presidio",
+      "seconds": 0.406,
+      "set": "nemotron_dev_2k",
+      "step": "ensemble"
+    },
+    {
+      "detector": "crf+regex+presidio",
+      "seconds": 5.915,
+      "set": "nemotron_dev_2k",
+      "step": "score"
+    },
+    {
+      "detector": "crf",
+      "seconds": 48.453,
+      "set": "nemotron_test_5k",
+      "step": "detect"
+    },
+    {
+      "detector": "crf",
+      "seconds": 13.952,
+      "set": "nemotron_test_5k",
+      "step": "score"
+    },
+    {
+      "detector": "logreg",
+      "seconds": 217.23,
+      "set": "nemotron_test_5k",
+      "step": "detect"
+    },
+    {
+      "detector": "logreg",
+      "seconds": 15.576,
+      "set": "nemotron_test_5k",
+      "step": "score"
+    },
+    {
+      "detector": "crf+regex+presidio",
+      "seconds": 1.175,
+      "set": "nemotron_test_5k",
+      "step": "ensemble"
+    },
+    {
+      "detector": "crf+regex+presidio",
+      "seconds": 16.008,
+      "set": "nemotron_test_5k",
+      "step": "score"
+    },
+    {
+      "detector": "crf",
+      "seconds": 44.97,
+      "set": "gretel_en_test",
+      "step": "detect"
+    },
+    {
+      "detector": "crf",
+      "seconds": 7.164,
+      "set": "gretel_en_test",
+      "step": "score"
+    },
+    {
+      "detector": "logreg",
+      "seconds": 157.369,
+      "set": "gretel_en_test",
+      "step": "detect"
+    },
+    {
+      "detector": "logreg",
+      "seconds": 8.332,
+      "set": "gretel_en_test",
+      "step": "score"
+    },
+    {
+      "detector": "crf+regex+presidio",
+      "seconds": 0.787,
+      "set": "gretel_en_test",
+      "step": "ensemble"
+    },
+    {
+      "detector": "crf+regex+presidio",
+      "seconds": 7.729,
+      "set": "gretel_en_test",
+      "step": "score"
+    },
+    {
+      "detector": "crf",
+      "seconds": 0.439,
+      "set": "nemotron_dev_2k",
+      "step": "errors"
+    }
+  ],
+  "total_seconds": 673.507
+}

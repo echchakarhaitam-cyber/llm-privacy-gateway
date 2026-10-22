@@ -20,8 +20,18 @@ import time
 from pathlib import Path
 
 from privgate.bench.errors import collect_errors, render_errors, sample_errors
+from privgate.bench.paired import paired_bootstrap
 from privgate.bench.rawlabels import load_raw_labels
-from privgate.bench.registry import ALL_DETECTORS, BASE_DETECTORS, ENSEMBLES, make_detector
+from privgate.bench.registry import (
+    ALL_DETECTORS,
+    BASE_DETECTORS,
+    ENSEMBLES,
+    M3_DETECTORS,
+    M3_ENSEMBLES,
+    ML_DETECTORS,
+    RUNNABLE,
+    make_detector,
+)
 from privgate.bench.runner import (
     METRICS,
     PREDICTIONS,
@@ -79,8 +89,8 @@ def _score(out_root, set_name, detector, members, config, supported, docs, sha, 
 
 
 def cmd_run(data_root: Path, out_root: Path, set_name: str, detector_name: str) -> None:
-    if detector_name not in BASE_DETECTORS:
-        raise SystemExit(f"run takes a base detector {BASE_DETECTORS}; use 'ensemble' for "
+    if detector_name not in RUNNABLE:
+        raise SystemExit(f"run takes one of {RUNNABLE}; use 'ensemble' for "
                          f"{tuple(ENSEMBLES)}")
     docs, sha, raw = _load(data_root, set_name)
     t0 = time.perf_counter()
@@ -104,7 +114,9 @@ def cmd_run(data_root: Path, out_root: Path, set_name: str, detector_name: str) 
         det = make_detector(detector_name)
         preds, timings = timed_detect(det, docs)
         config = {}
-    if hasattr(det, "model"):
+    if detector_name in ML_DETECTORS:  # trained model: record exactly which one was scored
+        config["model_sidecar"] = det.meta
+    elif hasattr(det, "model"):
         config["model"] = det.model
     elapsed = time.perf_counter() - t0
     log_step(out_root, "detect", set_name, detector_name, elapsed)
@@ -139,15 +151,25 @@ def cmd_sweep(data_root: Path, out_root: Path) -> float:
     return chosen
 
 
-def cmd_ensemble(data_root: Path, out_root: Path, set_name: str, name: str) -> None:
+def _member_dir(out_root: Path, members_root: Path | None, set_name: str, name: str) -> Path:
+    """Where the stored run of ``name`` lives: the output root first, then members_root."""
+    for root in (out_root, members_root):
+        if root is not None and (root / set_name / name / PREDICTIONS).exists():
+            return root / set_name / name
+    raise SystemExit(f"no stored predictions for {name} on {set_name}; run it first")
+
+
+def cmd_ensemble(data_root: Path, out_root: Path, set_name: str, name: str,
+                 members_root: Path | None = None) -> None:
     if name not in ENSEMBLES:
         raise SystemExit(f"unknown ensemble {name!r}; expected one of {tuple(ENSEMBLES)}")
     docs, sha, raw = _load(data_root, set_name)
     t0 = time.perf_counter()
     member_preds, member_timings, configs, supported = [], [], {}, set()
     for m in ENSEMBLES[name]:
-        preds, timings = read_predictions(out_root / set_name / m / PREDICTIONS, docs)
-        meta = json.loads((out_root / set_name / m / METRICS).read_text(encoding="utf-8"))
+        member = _member_dir(out_root, members_root, set_name, m)
+        preds, timings = read_predictions(member / PREDICTIONS, docs)
+        meta = json.loads((member / METRICS).read_text(encoding="utf-8"))
         member_preds.append(preds)
         member_timings.append(timings)
         configs[m] = meta["config"]
@@ -176,7 +198,22 @@ def cmd_errors(data_root: Path, out_root: Path, detector: str) -> None:
     print(f"wrote {path}")
 
 
+def cmd_compare(data_root: Path, out_root: Path, members_root: Path | None, set_name: str,
+                a: str, b: str) -> dict:
+    """Paired bootstrap of two stored runs on one set (same document resamples)."""
+    docs, sha = load_evaluation_set(set_name, data_root)
+    pa, _ = read_predictions(_member_dir(out_root, members_root, set_name, a) / PREDICTIONS, docs)
+    pb, _ = read_predictions(_member_dir(out_root, members_root, set_name, b) / PREDICTIONS, docs)
+    result = {"set": set_name, "set_sha256": sha, "a": a, "b": b,
+              **paired_bootstrap(docs, pa, pb)}
+    write_json(out_root / set_name / f"paired_{a}__vs__{b}.json", result)
+    lk = result["leakage_rate"]
+    print(f"{set_name}: leakage {a} - {b} = {lk['delta']:+.4f} {lk['ci95']}")
+    return result
+
+
 def cmd_all(data_root: Path, out_root: Path) -> None:
+    """The Milestone 3 benchmark, in its only valid order."""
     for d in BASE_DETECTORS:
         cmd_run(data_root, out_root, DEV_SET, d)
     cmd_sweep(data_root, out_root)
@@ -185,9 +222,9 @@ def cmd_all(data_root: Path, out_root: Path) -> None:
             for d in BASE_DETECTORS:
                 cmd_run(data_root, out_root, s, d)
     for s in SET_NAMES:
-        for e in ENSEMBLES:
+        for e in M3_ENSEMBLES:
             cmd_ensemble(data_root, out_root, s, e)
-    for d in ALL_DETECTORS:
+    for d in M3_DETECTORS:
         cmd_errors(data_root, out_root, d)
 
 
@@ -196,16 +233,22 @@ def main(argv: list[str] | None = None) -> int:
                                      description="privgate detection benchmark")
     parser.add_argument("--data-root", type=Path, default=Path("data"))
     parser.add_argument("--out", type=Path, default=Path("results/m3"))
+    parser.add_argument("--members-root", type=Path, default=None,
+                        help="second place to look for stored member runs (e.g. results/m3)")
     sub = parser.add_subparsers(dest="command", required=True)
     p = sub.add_parser("run")
     p.add_argument("--set", required=True, choices=SET_NAMES)
-    p.add_argument("--detector", required=True, choices=BASE_DETECTORS)
+    p.add_argument("--detector", required=True, choices=RUNNABLE)
     sub.add_parser("sweep")
     p = sub.add_parser("ensemble")
     p.add_argument("--set", required=True, choices=SET_NAMES)
     p.add_argument("--detector", required=True, choices=tuple(ENSEMBLES))
     p = sub.add_parser("errors")
     p.add_argument("--detector", required=True, choices=ALL_DETECTORS)
+    p = sub.add_parser("compare")
+    p.add_argument("--set", required=True, choices=SET_NAMES)
+    p.add_argument("--a", required=True, choices=ALL_DETECTORS)
+    p.add_argument("--b", required=True, choices=ALL_DETECTORS)
     sub.add_parser("all")
     args = parser.parse_args(argv)
 
@@ -214,7 +257,9 @@ def main(argv: list[str] | None = None) -> int:
     elif args.command == "sweep":
         cmd_sweep(args.data_root, args.out)
     elif args.command == "ensemble":
-        cmd_ensemble(args.data_root, args.out, args.set, args.detector)
+        cmd_ensemble(args.data_root, args.out, args.set, args.detector, args.members_root)
+    elif args.command == "compare":
+        cmd_compare(args.data_root, args.out, args.members_root, args.set, args.a, args.b)
     elif args.command == "errors":
         cmd_errors(args.data_root, args.out, args.detector)
     else:

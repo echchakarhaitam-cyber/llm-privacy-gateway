@@ -11,7 +11,7 @@ from dataclasses import dataclass
 import pytest
 
 from privgate.bench import cli
-from privgate.bench.registry import ALL_DETECTORS
+from privgate.bench.registry import M3_DETECTORS
 from privgate.bench.sets import SET_NAMES, set_path
 from privgate.data.documents import Document
 from privgate.data.splits import write_jsonl
@@ -99,7 +99,7 @@ def test_full_pipeline(roots, monkeypatch):
     assert sweep["selected_threshold"] == 0.5
     assert sweep["set"] == "nemotron_dev_2k"
     for name in SET_NAMES:
-        for det in ALL_DETECTORS:
+        for det in M3_DETECTORS:
             m = json.loads((out / name / det / "metrics.json").read_text())
             assert m["set"] == name and m["detector"] == det
             assert set(m["views"]) == {"all", "supported"}
@@ -124,7 +124,7 @@ def test_full_pipeline(roots, monkeypatch):
     assert [tuple(s[:3]) for s in first["spans"]] == [(s.start, s.end, s.label.value)
                                                       for s in expected]
 
-    for det in ALL_DETECTORS:
+    for det in M3_DETECTORS:
         assert "CC BY 4.0" in (out / f"errors_{det}.md").read_text(encoding="utf-8")
     log = json.loads((out / "run_log.json").read_text())
     assert log["total_seconds"] >= 0 and {s["step"] for s in log["steps"]} >= {
@@ -165,7 +165,7 @@ def test_tables_are_generated_from_results(roots, monkeypatch, tmp_path):
     mod = importlib.util.module_from_spec(spec)
     sys.modules["make_detection_tables"] = mod
     spec.loader.exec_module(mod)
-    mod.main(["--results", str(out), "--data-root", str(data),
+    mod.main(["--results", str(out), "--data-root", str(data), "--m4", str(tmp_path / "none"),
               "--results-doc", str(docs["results-detection.md"]),
               "--detectors-doc", str(docs["DETECTORS.md"])])
     text = docs["results-detection.md"].read_text(encoding="utf-8")
@@ -175,7 +175,27 @@ def test_tables_are_generated_from_results(roots, monkeypatch, tmp_path):
     assert "spacy==3.8.16" in docs["DETECTORS.md"].read_text(encoding="utf-8")
     # regenerating is idempotent
     before = text
-    mod.main(["--results", str(out), "--data-root", str(data),
+    mod.main(["--results", str(out), "--data-root", str(data), "--m4", str(tmp_path / "none"),
               "--results-doc", str(docs["results-detection.md"]),
               "--detectors-doc", str(docs["DETECTORS.md"])])
     assert docs["results-detection.md"].read_text(encoding="utf-8") == before
+
+
+def test_members_root_fallback_and_paired_compare(roots, monkeypatch, tmp_path):
+    monkeypatch.setattr(cli, "make_detector", fake_factory)
+    data, out = roots
+    run(roots, "all")
+    other = tmp_path / "m4"
+    args = ["--data-root", str(data), "--out", str(other), "--members-root", str(out)]
+    cli.main([*args, "ensemble", "--set", "gretel_en_test", "--detector", "regex+presidio"])
+    new = json.loads((other / "gretel_en_test" / "regex+presidio" / "metrics.json").read_text())
+    old = json.loads((out / "gretel_en_test" / "regex+presidio" / "metrics.json").read_text())
+    assert new["views"] == old["views"]
+    cli.main([*args, "compare", "--set", "gretel_en_test", "--a", "regex+spacy",
+              "--b", "regex"])
+    paired = json.loads(
+        (other / "gretel_en_test" / "paired_regex+spacy__vs__regex.json").read_text())
+    assert paired["a"] == "regex+spacy" and paired["documents"] == N_DOCS
+    assert paired["leakage_rate"]["delta"] < 0          # adding the person lowers leakage
+    with pytest.raises(SystemExit, match="no stored predictions"):
+        cli.main([*args, "compare", "--set", "gretel_en_test", "--a", "crf", "--b", "regex"])

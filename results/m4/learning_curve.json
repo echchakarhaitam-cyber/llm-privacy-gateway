@@ -1,0 +1,320 @@
+{
+  "c1": 0.1,
+  "c2": 0.01,
+  "models": [
+    {
+      "c1": 0.1,
+      "c2": 0.01,
+      "data_root": "data",
+      "eval": {
+        "gretel_en_test": {
+          "char_precision": 0.3294831413886354,
+          "leakage_rate": 0.4140294677379076,
+          "partial_f1": 0.36473219155667064,
+          "strict_f1": 0.20901058143340243,
+          "type_agnostic_f1": 0.45663794043852945,
+          "type_agnostic_precision": 0.3495761827216168,
+          "type_agnostic_recall": 0.6582278481012658
+        },
+        "nemotron_dev_2k": {
+          "char_precision": 0.9484156196148634,
+          "leakage_rate": 0.09150606995472577,
+          "partial_f1": 0.8809975062344139,
+          "strict_f1": 0.8478802992518704,
+          "type_agnostic_f1": 0.910922693266833,
+          "type_agnostic_precision": 0.9441687344913151,
+          "type_agnostic_recall": 0.8799383310849874
+        },
+        "nemotron_test_5k": {
+          "char_precision": 0.9428020299668337,
+          "leakage_rate": 0.10301456852850155,
+          "partial_f1": 0.8725752726797728,
+          "strict_f1": 0.8396316373848868,
+          "type_agnostic_f1": 0.9055972829991509,
+          "type_agnostic_precision": 0.9482697305430173,
+          "type_agnostic_recall": 0.8666
+        }
+      },
+      "eval_seconds": 117.48,
+      "eval_sets": [
+        "nemotron_dev_2k",
+        "nemotron_test_5k",
+        "gretel_en_test"
+      ],
+      "model_dir": "models\\m4\\crf_n1000_s0",
+      "n": 1000,
+      "peak_memory_mb": 792.359375,
+      "seed": 0,
+      "train_path": "data/processed/train/n1000_s0.jsonl",
+      "train_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb",
+      "training_seconds": 230.174,
+      "training_set_sha256": "d605f46d3bde446a0ab37b1e9b290db8edce1efe3984ea2baafd946a8ed56feb"
+    },
+    {
+      "c1": 0.1,
+      "c2": 0.01,
+      "data_root": "data",
+      "eval": {
+        "gretel_en_test": {
+          "char_precision": 0.3417793136076204,
+          "leakage_rate": 0.3965701344217968,
+          "partial_f1": 0.37517288097321394,
+          "strict_f1": 0.21366677016003838,
+          "type_agnostic_f1": 0.47565553642496256,
+          "type_agnostic_precision": 0.3710259797446059,
+          "type_agnostic_recall": 0.6624734648950389
+        },
+        "nemotron_dev_2k": {
+          "char_precision": 0.952610130348481,
+          "leakage_rate": 0.0943467286349613,
+          "partial_f1": 0.8848630434057317,
+          "strict_f1": 0.853501484669536,
+          "type_agnostic_f1": 0.9144229806826143,
+          "type_agnostic_precision": 0.9512703040399834,
+          "type_agnostic_recall": 0.8803237618038158
+        },
+        "nemotron_test_5k": {
+          "char_precision": 0.9458401765327751,
+          "leakage_rate": 0.10933366571598668,
+          "partial_f1": 0.8749688634844055,
+          "strict_f1": 0.8452613500793161,
+          "type_agnostic_f1": 0.9054629835992501,
+          "type_agnostic_precision": 0.9519254624142018,
+          "type_agnostic_recall": 0.863325
+        }
+      },
+      "eval_seconds": 116.829,
+      "eval_sets": [
+        "nemotron_dev_2k",
+        "nemotron_test_5k",
+        "gretel_en_test"
+      ],
+      "model_dir": "models\\m4\\crf_n1000_s1",
+      "n": 1000,
+      "peak_memory_mb": 790.59375,
+      "seed": 1,
+      "train_path": "data/processed/train/n1000_s1.jsonl",
+      "train_sha256": "fe083859960872a3dbe3d4660a3101e93449f80c214d0cccaa86e7b3529d43e8",
+      "training_seconds": 215.87,
+      "training_set_sha256": "fe083859960872a3dbe3d4660a3101e93449f80c214d0cccaa86e7b3529d43e8"
+    },
+    {
+      "c1": 0.1,
+      "c2": 0.01,
+      "data_root": "data",
+      "eval": {
+        "gretel_en_test": {
+          "char_precision": 0.3254401385354079,
+          "leakage_rate": 0.4659510708104059,
+          "partial_f1": 0.3752974845609278,
+          "strict_f1": 0.19774062358788977,
+          "type_agnostic_f1": 0.4591655369784606,
+          "type_agnostic_precision": 0.372191834342645,
+          "type_agnostic_recall": 0.5991823256545326
+        },
+        "nemotron_dev_2k": {
+          "char_precision": 0.9604610302298707,
+          "leakage_rate": 0.10421491245642855,
+          "partial_f1": 0.8815229865658543,
+          "strict_f1": 0.850131641126038,
+          "type_agnostic_f1": 0.910349017754675,
+          "type_agnostic_precision": 0.9591720606017498,
+          "type_agnostic_recall": 0.8662555405665832
+        },
+        "nemotron_test_5k": {
+          "char_precision": 0.9498450748584911,
+          "leakage_rate": 0.11464741471350859,
+          "partial_f1": 0.8707657687471044,
+          "strict_f1": 0.8377788073333775,
+          "type_agnostic_f1": 0.9024025415315373,
+          "type_agnostic_precision": 0.9589534393022928,
+          "type_agnostic_recall": 0.85215
+        }
+      },
+      "eval_seconds": 119.356,
+      "eval_sets": [
+        "nemotron_dev_2k",
+        "nemotron_test_5k",
+        "gretel_en_test"
+      ],
+      "model_dir": "models\\m4\\crf_n1000_s2",
+      "n": 1000,
+      "peak_memory_mb": 788.5078125,
+      "seed": 2,
+      "train_path": "data/processed/train/n1000_s2.jsonl",
+      "train_sha256": "72b1e00d366bb0343ad1d3769cb782ccc8830abdfc4b6c2752afd0f0a5115874",
+      "training_seconds": 258.555,
+      "training_set_sha256": "72b1e00d366bb0343ad1d3769cb782ccc8830abdfc4b6c2752afd0f0a5115874"
+    },
+    {
+      "c1": 0.1,
+      "c2": 0.01,
+      "data_root": "data",
+      "eval": {
+        "gretel_en_test": {
+          "char_precision": 0.3827288166944122,
+          "leakage_rate": 0.4120101268438864,
+          "partial_f1": 0.3942833123160992,
+          "strict_f1": 0.24284713465041335,
+          "type_agnostic_f1": 0.4678716547569006,
+          "type_agnostic_precision": 0.3634938604894191,
+          "type_agnostic_recall": 0.6563409073040334
+        },
+        "nemotron_dev_2k": {
+          "char_precision": 0.9699436183163607,
+          "leakage_rate": 0.06467807203814258,
+          "partial_f1": 0.9219171769043386,
+          "strict_f1": 0.8983474883139114,
+          "type_agnostic_f1": 0.940417407334255,
+          "type_agnostic_precision": 0.9644183377219634,
+          "type_agnostic_recall": 0.9175820646238838
+        },
+        "nemotron_test_5k": {
+          "char_precision": 0.9607737775389575,
+          "leakage_rate": 0.07629329926411133,
+          "partial_f1": 0.9150447945628667,
+          "strict_f1": 0.8933426011739264,
+          "type_agnostic_f1": 0.9348676758315313,
+          "type_agnostic_precision": 0.9635427722351942,
+          "type_agnostic_recall": 0.90785
+        }
+      },
+      "eval_seconds": 112.366,
+      "eval_sets": [
+        "nemotron_dev_2k",
+        "nemotron_test_5k",
+        "gretel_en_test"
+      ],
+      "model_dir": "models\\m4\\crf_n5000_s0",
+      "n": 5000,
+      "peak_memory_mb": 1420.81640625,
+      "seed": 0,
+      "train_path": "data/processed/train/n5000_s0.jsonl",
+      "train_sha256": "672d209272e8f45e2e6d18536802f230b9e9caccff5863dad337bda7eeacda8f",
+      "training_seconds": 1238.819,
+      "training_set_sha256": "672d209272e8f45e2e6d18536802f230b9e9caccff5863dad337bda7eeacda8f"
+    }
+  ],
+  "rows": [
+    {
+      "leakage_rate": {
+        "max": 0.10421491245642855,
+        "mean": 0.09668923701537187,
+        "min": 0.09150606995472577
+      },
+      "n": 1000,
+      "seeds": 3,
+      "set": "nemotron_dev_2k",
+      "strict_f1": {
+        "max": 0.853501484669536,
+        "mean": 0.8505044750158147,
+        "min": 0.8478802992518704
+      },
+      "type_agnostic_f1": {
+        "max": 0.9144229806826143,
+        "mean": 0.9118982305680409,
+        "min": 0.910349017754675
+      }
+    },
+    {
+      "leakage_rate": {
+        "max": 0.11464741471350859,
+        "mean": 0.1089985496526656,
+        "min": 0.10301456852850155
+      },
+      "n": 1000,
+      "seeds": 3,
+      "set": "nemotron_test_5k",
+      "strict_f1": {
+        "max": 0.8452613500793161,
+        "mean": 0.8408905982658602,
+        "min": 0.8377788073333775
+      },
+      "type_agnostic_f1": {
+        "max": 0.9055972829991509,
+        "mean": 0.9044876027099794,
+        "min": 0.9024025415315373
+      }
+    },
+    {
+      "leakage_rate": {
+        "max": 0.4659510708104059,
+        "mean": 0.4255168909900367,
+        "min": 0.3965701344217968
+      },
+      "n": 1000,
+      "seeds": 3,
+      "set": "gretel_en_test",
+      "strict_f1": {
+        "max": 0.21366677016003838,
+        "mean": 0.2068059917271102,
+        "min": 0.19774062358788977
+      },
+      "type_agnostic_f1": {
+        "max": 0.47565553642496256,
+        "mean": 0.4638196712806509,
+        "min": 0.45663794043852945
+      }
+    },
+    {
+      "leakage_rate": {
+        "max": 0.06467807203814258,
+        "mean": 0.06467807203814258,
+        "min": 0.06467807203814258
+      },
+      "n": 5000,
+      "seeds": 1,
+      "set": "nemotron_dev_2k",
+      "strict_f1": {
+        "max": 0.8983474883139114,
+        "mean": 0.8983474883139114,
+        "min": 0.8983474883139114
+      },
+      "type_agnostic_f1": {
+        "max": 0.940417407334255,
+        "mean": 0.940417407334255,
+        "min": 0.940417407334255
+      }
+    },
+    {
+      "leakage_rate": {
+        "max": 0.07629329926411133,
+        "mean": 0.07629329926411133,
+        "min": 0.07629329926411133
+      },
+      "n": 5000,
+      "seeds": 1,
+      "set": "nemotron_test_5k",
+      "strict_f1": {
+        "max": 0.8933426011739264,
+        "mean": 0.8933426011739264,
+        "min": 0.8933426011739264
+      },
+      "type_agnostic_f1": {
+        "max": 0.9348676758315313,
+        "mean": 0.9348676758315313,
+        "min": 0.9348676758315313
+      }
+    },
+    {
+      "leakage_rate": {
+        "max": 0.4120101268438864,
+        "mean": 0.4120101268438864,
+        "min": 0.4120101268438864
+      },
+      "n": 5000,
+      "seeds": 1,
+      "set": "gretel_en_test",
+      "strict_f1": {
+        "max": 0.24284713465041335,
+        "mean": 0.24284713465041335,
+        "min": 0.24284713465041335
+      },
+      "type_agnostic_f1": {
+        "max": 0.4678716547569006,
+        "mean": 0.4678716547569006,
+        "min": 0.4678716547569006
+      }
+    }
+  ]
+}

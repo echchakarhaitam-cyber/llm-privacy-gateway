@@ -1,0 +1,33 @@
+{
+  "steps": [
+    {
+      "seconds": 55.56,
+      "step": "subsets"
+    },
+    {
+      "seconds": 845.608,
+      "step": "crf_grid",
+      "workers": 3
+    },
+    {
+      "seconds": 209.545,
+      "step": "logreg_grid",
+      "workers": 3
+    },
+    {
+      "seconds": 383.215,
+      "step": "curve_n1000",
+      "workers": 3
+    },
+    {
+      "seconds": 1356.235,
+      "step": "curve_n5000",
+      "workers": 1
+    },
+    {
+      "seconds": 715.089,
+      "step": "final"
+    }
+  ],
+  "total_seconds": 3565.252
+}
