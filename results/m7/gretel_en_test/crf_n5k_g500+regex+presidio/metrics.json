@@ -1,0 +1,1060 @@
+{
+  "config": {
+    "members": {
+      "crf_n5k_g500": {
+        "model_sidecar": {
+          "feature_version": "m4-v1",
+          "hyperparameters": {
+            "algorithm": "lbfgs",
+            "all_possible_transitions": true,
+            "c1": 0.1,
+            "c2": 0.01,
+            "max_iterations": 100
+          },
+          "kind": "crf",
+          "library_versions": {
+            "python-crfsuite": "0.9.12",
+            "sklearn-crfsuite": "0.5.0"
+          },
+          "model_file": "model.crfsuite",
+          "model_sha256": "b50da9f7b3381ded6a536c76be31704da641b808e035fc97d05186e1e5758f39",
+          "n_docs": 5500,
+          "seed": 0,
+          "training_seconds": 1385.019,
+          "training_set_sha256": "3485cb2b990ad5b7d6a8dce58090ad17cf06ed7b3649385a58ace0670d5313af"
+        }
+      },
+      "presidio": {
+        "model": "en_core_web_lg",
+        "score_threshold": 0.0,
+        "threshold_source": "presidio_sweep.json (nemotron_dev_2k)"
+      },
+      "regex": {}
+    },
+    "note": "descriptive addition declared before evaluation"
+  },
+  "detector": "crf_n5k_g500+regex+presidio",
+  "environment": {
+    "cpu": "AMD Ryzen 5 7540U w/ Radeon 740M Graphics",
+    "logical_cpus": 12,
+    "os": "Windows-10-10.0.26200-SP0",
+    "packages": {
+      "en-core-web-lg": "3.8.0",
+      "presidio-analyzer": "2.2.364",
+      "privgate": "0.1.0",
+      "pyarrow": "25.0.1",
+      "spacy": "3.8.16"
+    },
+    "privgate_commit": "74ef9aa2f18d249c7369260c62f989e3f45fac9c",
+    "python": "3.10.11"
+  },
+  "latency": {
+    "chars_per_second": 7509.337518114395,
+    "documents_timed": 2871,
+    "mean_ms": 188.16364594218075,
+    "median_ms": 194.1626,
+    "p95_ms": 282.2501,
+    "warmup_documents_excluded": 20
+  },
+  "members": [
+    "crf_n5k_g500",
+    "regex",
+    "presidio"
+  ],
+  "runtime_seconds": 0.78,
+  "set": "gretel_en_test",
+  "set_sha256": "2a4f2ff50ec6304081d0d89a3838086a6c13b6fb3e38fe588a81ed973ede9f2a",
+  "supported_labels": [
+    "CREDIT_CARD",
+    "DATE",
+    "EMAIL",
+    "IBAN",
+    "ID_NUMBER",
+    "IP_ADDRESS",
+    "LOCATION",
+    "ORGANIZATION",
+    "OTHER",
+    "PERSON",
+    "PHONE",
+    "URL"
+  ],
+  "views": {
+    "all": {
+      "chars": {
+        "char_precision": 0.4214899616892674,
+        "char_recall": 0.8076588562522067,
+        "covered_gold_chars": 187582,
+        "gold_chars": 232254,
+        "leakage_rate": 0.19234114374779332,
+        "per_gold_label": {
+          "CREDIT_CARD": {
+            "gold_chars": 1415,
+            "leakage_rate": 0.03604240282685511,
+            "leaked_chars": 51
+          },
+          "DATE": {
+            "gold_chars": 14679,
+            "leakage_rate": 0.04789154574562304,
+            "leaked_chars": 703
+          },
+          "EMAIL": {
+            "gold_chars": 7672,
+            "leakage_rate": 0.05409280500521374,
+            "leaked_chars": 415
+          },
+          "IBAN": {
+            "gold_chars": 1549,
+            "leakage_rate": 0.02840542285345382,
+            "leaked_chars": 44
+          },
+          "ID_NUMBER": {
+            "gold_chars": 6060,
+            "leakage_rate": 0.12772277227722773,
+            "leaked_chars": 774
+          },
+          "IP_ADDRESS": {
+            "gold_chars": 3187,
+            "leakage_rate": 0.005647944775651115,
+            "leaked_chars": 18
+          },
+          "LOCATION": {
+            "gold_chars": 64333,
+            "leakage_rate": 0.13381934621422908,
+            "leaked_chars": 8609
+          },
+          "ORGANIZATION": {
+            "gold_chars": 61702,
+            "leakage_rate": 0.41695569025315227,
+            "leaked_chars": 25727
+          },
+          "OTHER": {
+            "gold_chars": 7514,
+            "leakage_rate": 0.3233963268565345,
+            "leaked_chars": 2430
+          },
+          "PERSON": {
+            "gold_chars": 57163,
+            "leakage_rate": 0.09749313367038115,
+            "leaked_chars": 5573
+          },
+          "PHONE": {
+            "gold_chars": 6980,
+            "leakage_rate": 0.04699140401146129,
+            "leaked_chars": 328
+          }
+        },
+        "per_raw_label": {
+          "account_pin": {
+            "gold_chars": 398,
+            "leakage_rate": 0.1507537688442211,
+            "leaked_chars": 60
+          },
+          "api_key": {
+            "gold_chars": 1883,
+            "leakage_rate": 0.6059479553903346,
+            "leaked_chars": 1141
+          },
+          "bank_routing_number": {
+            "gold_chars": 729,
+            "leakage_rate": 0.04938271604938271,
+            "leaked_chars": 36
+          },
+          "bban": {
+            "gold_chars": 1687,
+            "leakage_rate": 0.16064018968583282,
+            "leaked_chars": 271
+          },
+          "company": {
+            "gold_chars": 61702,
+            "leakage_rate": 0.41695569025315227,
+            "leaked_chars": 25727
+          },
+          "credit_card_number": {
+            "gold_chars": 1415,
+            "leakage_rate": 0.03604240282685511,
+            "leaked_chars": 51
+          },
+          "credit_card_security_code": {
+            "gold_chars": 228,
+            "leakage_rate": 0.8026315789473684,
+            "leaked_chars": 183
+          },
+          "customer_id": {
+            "gold_chars": 940,
+            "leakage_rate": 0.15851063829787237,
+            "leaked_chars": 149
+          },
+          "date": {
+            "gold_chars": 12547,
+            "leakage_rate": 0.03897345979118516,
+            "leaked_chars": 489
+          },
+          "date_of_birth": {
+            "gold_chars": 1361,
+            "leakage_rate": 0.07421013960323297,
+            "leaked_chars": 101
+          },
+          "date_time": {
+            "gold_chars": 771,
+            "leakage_rate": 0.14656290531776917,
+            "leaked_chars": 113
+          },
+          "driver_license_number": {
+            "gold_chars": 805,
+            "leakage_rate": 0.12049689440993794,
+            "leaked_chars": 97
+          },
+          "email": {
+            "gold_chars": 7672,
+            "leakage_rate": 0.05409280500521374,
+            "leaked_chars": 415
+          },
+          "employee_id": {
+            "gold_chars": 984,
+            "leakage_rate": 0.2052845528455285,
+            "leaked_chars": 202
+          },
+          "first_name": {
+            "gold_chars": 827,
+            "leakage_rate": 0.2563482466747279,
+            "leaked_chars": 212
+          },
+          "iban": {
+            "gold_chars": 1549,
+            "leakage_rate": 0.02840542285345382,
+            "leaked_chars": 44
+          },
+          "ipv4": {
+            "gold_chars": 838,
+            "leakage_rate": 0.0,
+            "leaked_chars": 0
+          },
+          "ipv6": {
+            "gold_chars": 2349,
+            "leakage_rate": 0.007662835249042099,
+            "leaked_chars": 18
+          },
+          "last_name": {
+            "gold_chars": 798,
+            "leakage_rate": 0.4486215538847118,
+            "leaked_chars": 358
+          },
+          "local_latlng": {
+            "gold_chars": 1367,
+            "leakage_rate": 0.13094367227505488,
+            "leaked_chars": 179
+          },
+          "name": {
+            "gold_chars": 55538,
+            "leakage_rate": 0.09008246605927472,
+            "leaked_chars": 5003
+          },
+          "passport_number": {
+            "gold_chars": 682,
+            "leakage_rate": 0.02346041055718473,
+            "leaked_chars": 16
+          },
+          "password": {
+            "gold_chars": 658,
+            "leakage_rate": 0.6702127659574468,
+            "leaked_chars": 441
+          },
+          "phone_number": {
+            "gold_chars": 6980,
+            "leakage_rate": 0.04699140401146129,
+            "leaked_chars": 328
+          },
+          "ssn": {
+            "gold_chars": 962,
+            "leakage_rate": 0.04054054054054057,
+            "leaked_chars": 39
+          },
+          "street_address": {
+            "gold_chars": 62966,
+            "leakage_rate": 0.13388177746720453,
+            "leaked_chars": 8430
+          },
+          "swift_bic_code": {
+            "gold_chars": 1232,
+            "leakage_rate": 0.0803571428571429,
+            "leaked_chars": 99
+          },
+          "time": {
+            "gold_chars": 2093,
+            "leakage_rate": 0.1466794075489728,
+            "leaked_chars": 307
+          },
+          "user_name": {
+            "gold_chars": 293,
+            "leakage_rate": 0.5563139931740615,
+            "leaked_chars": 163
+          }
+        },
+        "pred_chars": 445045
+      },
+      "ci95": {
+        "leakage_rate": [
+          0.1814416092006552,
+          0.2025087198758773
+        ],
+        "partial_micro_f1": [
+          0.44656242182430056,
+          0.4668932771451329
+        ],
+        "strict_micro_f1": [
+          0.3372782926181625,
+          0.35732887448189543
+        ],
+        "type_agnostic_micro_f1": [
+          0.49408084766870164,
+          0.5138284753803112
+        ]
+      },
+      "documents": 2891,
+      "gold_spans": 12719,
+      "partial": {
+        "macro_f1": 0.5047475261848177,
+        "micro": {
+          "f1": 0.4561729719421202,
+          "fn": 3151,
+          "fp": 19662,
+          "precision": 0.3273349298665754,
+          "recall": 0.7522603978300181,
+          "tp": 9568
+        },
+        "per_label": {
+          "CREDIT_CARD": {
+            "f1": 0.6170212765957448,
+            "fn": 25,
+            "fp": 47,
+            "precision": 0.5523809523809524,
+            "recall": 0.6987951807228916,
+            "tp": 58
+          },
+          "DATE": {
+            "f1": 0.24955309259921343,
+            "fn": 38,
+            "fp": 6259,
+            "precision": 0.1433068710648782,
+            "recall": 0.9649769585253456,
+            "tp": 1047
+          },
+          "EMAIL": {
+            "f1": 0.5357142857142857,
+            "fn": 20,
+            "fp": 500,
+            "precision": 0.375,
+            "recall": 0.9375,
+            "tp": 300
+          },
+          "IBAN": {
+            "f1": 0.9710144927536232,
+            "fn": 2,
+            "fp": 2,
+            "precision": 0.9710144927536232,
+            "recall": 0.9710144927536232,
+            "tp": 67
+          },
+          "ID_NUMBER": {
+            "f1": 0.1702953222677301,
+            "fn": 133,
+            "fp": 3716,
+            "precision": 0.09608367793724154,
+            "recall": 0.7481060606060606,
+            "tp": 395
+          },
+          "IP_ADDRESS": {
+            "f1": 0.8773234200743494,
+            "fn": 5,
+            "fp": 28,
+            "precision": 0.8082191780821918,
+            "recall": 0.959349593495935,
+            "tp": 118
+          },
+          "LOCATION": {
+            "f1": 0.5051203617502328,
+            "fn": 345,
+            "fp": 3376,
+            "precision": 0.36,
+            "recall": 0.8462566844919787,
+            "tp": 1899
+          },
+          "ORGANIZATION": {
+            "f1": 0.6399590862598021,
+            "fn": 1566,
+            "fp": 546,
+            "precision": 0.7746595130004127,
+            "recall": 0.5451641010746442,
+            "tp": 1877
+          },
+          "OTHER": {
+            "f1": 0.26125724476148016,
+            "fn": 400,
+            "fp": 1257,
+            "precision": 0.18903225806451612,
+            "recall": 0.4227994227994228,
+            "tp": 293
+          },
+          "PERSON": {
+            "f1": 0.7104256059376087,
+            "fn": 591,
+            "fp": 1906,
+            "precision": 0.6164218152545784,
+            "recall": 0.8382594417077176,
+            "tp": 3063
+          },
+          "PHONE": {
+            "f1": 0.5192861255037421,
+            "fn": 26,
+            "fp": 809,
+            "precision": 0.35793650793650794,
+            "recall": 0.9454926624737946,
+            "tp": 451
+          },
+          "URL": {
+            "f1": 0.0,
+            "fn": 0,
+            "fp": 1216,
+            "precision": 0.0,
+            "recall": 0.0,
+            "tp": 0
+          }
+        }
+      },
+      "pred_spans": 29230,
+      "strict": {
+        "macro_f1": 0.4375635316597764,
+        "micro": {
+          "f1": 0.3472311616486686,
+          "fn": 5436,
+          "fp": 21947,
+          "precision": 0.249161820047896,
+          "recall": 0.5726079094268417,
+          "tp": 7283
+        },
+        "per_label": {
+          "CREDIT_CARD": {
+            "f1": 0.5531914893617021,
+            "fn": 31,
+            "fp": 53,
+            "precision": 0.49523809523809526,
+            "recall": 0.6265060240963856,
+            "tp": 52
+          },
+          "DATE": {
+            "f1": 0.1949708020498153,
+            "fn": 267,
+            "fp": 6488,
+            "precision": 0.11196277032575964,
+            "recall": 0.7539170506912443,
+            "tp": 818
+          },
+          "EMAIL": {
+            "f1": 0.4303571428571429,
+            "fn": 79,
+            "fp": 559,
+            "precision": 0.30125,
+            "recall": 0.753125,
+            "tp": 241
+          },
+          "IBAN": {
+            "f1": 0.9710144927536232,
+            "fn": 2,
+            "fp": 2,
+            "precision": 0.9710144927536232,
+            "recall": 0.9710144927536232,
+            "tp": 67
+          },
+          "ID_NUMBER": {
+            "f1": 0.1470144427678379,
+            "fn": 187,
+            "fp": 3770,
+            "precision": 0.08294818778885917,
+            "recall": 0.6458333333333334,
+            "tp": 341
+          },
+          "IP_ADDRESS": {
+            "f1": 0.8624535315985131,
+            "fn": 7,
+            "fp": 30,
+            "precision": 0.7945205479452054,
+            "recall": 0.943089430894309,
+            "tp": 116
+          },
+          "LOCATION": {
+            "f1": 0.2888682005585849,
+            "fn": 1158,
+            "fp": 4189,
+            "precision": 0.20587677725118483,
+            "recall": 0.4839572192513369,
+            "tp": 1086
+          },
+          "ORGANIZATION": {
+            "f1": 0.5506307534947152,
+            "fn": 1828,
+            "fp": 808,
+            "precision": 0.6665290961617829,
+            "recall": 0.469067673540517,
+            "tp": 1615
+          },
+          "OTHER": {
+            "f1": 0.23183236736513602,
+            "fn": 433,
+            "fp": 1290,
+            "precision": 0.16774193548387098,
+            "recall": 0.37518037518037517,
+            "tp": 260
+          },
+          "PERSON": {
+            "f1": 0.5230198306853763,
+            "fn": 1399,
+            "fp": 2714,
+            "precision": 0.4538136445964983,
+            "recall": 0.6171319102353585,
+            "tp": 2255
+          },
+          "PHONE": {
+            "f1": 0.4974093264248705,
+            "fn": 45,
+            "fp": 828,
+            "precision": 0.34285714285714286,
+            "recall": 0.9056603773584906,
+            "tp": 432
+          },
+          "URL": {
+            "f1": 0.0,
+            "fn": 0,
+            "fp": 1216,
+            "precision": 0.0,
+            "recall": 0.0,
+            "tp": 0
+          }
+        }
+      },
+      "type_agnostic": {
+        "macro_f1": 0.553472108431922,
+        "micro": {
+          "f1": 0.5038499129895826,
+          "fn": 2151,
+          "fp": 18662,
+          "precision": 0.3615463564830653,
+          "recall": 0.8308829310480383,
+          "tp": 10568
+        },
+        "per_label": {
+          "CREDIT_CARD": {
+            "f1": 0.7788461538461539,
+            "fn": 2,
+            "fp": 44,
+            "precision": 0.648,
+            "recall": 0.9759036144578314,
+            "tp": 81
+          },
+          "DATE": {
+            "f1": 0.25560266505148393,
+            "fn": 30,
+            "fp": 6115,
+            "precision": 0.14714086471408647,
+            "recall": 0.9723502304147466,
+            "tp": 1055
+          },
+          "EMAIL": {
+            "f1": 0.5478961504028648,
+            "fn": 14,
+            "fp": 491,
+            "precision": 0.383939774153074,
+            "recall": 0.95625,
+            "tp": 306
+          },
+          "IBAN": {
+            "f1": 0.9710144927536232,
+            "fn": 2,
+            "fp": 2,
+            "precision": 0.9710144927536232,
+            "recall": 0.9710144927536232,
+            "tp": 67
+          },
+          "ID_NUMBER": {
+            "f1": 0.20406398616515348,
+            "fn": 56,
+            "fp": 3626,
+            "precision": 0.11517813567593949,
+            "recall": 0.8939393939393939,
+            "tp": 472
+          },
+          "IP_ADDRESS": {
+            "f1": 0.8897058823529413,
+            "fn": 2,
+            "fp": 28,
+            "precision": 0.8120805369127517,
+            "recall": 0.983739837398374,
+            "tp": 121
+          },
+          "LOCATION": {
+            "f1": 0.5481696841548831,
+            "fn": 170,
+            "fp": 3249,
+            "precision": 0.38962990794664665,
+            "recall": 0.9242424242424242,
+            "tp": 2074
+          },
+          "ORGANIZATION": {
+            "f1": 0.7230339845673945,
+            "fn": 1241,
+            "fp": 446,
+            "precision": 0.831570996978852,
+            "recall": 0.6395585245425501,
+            "tp": 2202
+          },
+          "OTHER": {
+            "f1": 0.42416225749559083,
+            "fn": 212,
+            "fp": 1094,
+            "precision": 0.3053968253968254,
+            "recall": 0.6940836940836941,
+            "tp": 481
+          },
+          "PERSON": {
+            "f1": 0.7664543524416136,
+            "fn": 405,
+            "fp": 1575,
+            "precision": 0.6735074626865671,
+            "recall": 0.8891625615763546,
+            "tp": 3249
+          },
+          "PHONE": {
+            "f1": 0.5327156919513607,
+            "fn": 17,
+            "fp": 790,
+            "precision": 0.368,
+            "recall": 0.9643605870020965,
+            "tp": 460
+          },
+          "URL": {
+            "f1": 0.0,
+            "fn": 0,
+            "fp": 1202,
+            "precision": 0.0,
+            "recall": 0.0,
+            "tp": 0
+          }
+        }
+      }
+    },
+    "supported": {
+      "chars": {
+        "char_precision": 0.4214899616892674,
+        "char_recall": 0.8076588562522067,
+        "covered_gold_chars": 187582,
+        "gold_chars": 232254,
+        "leakage_rate": 0.19234114374779332,
+        "per_gold_label": {
+          "CREDIT_CARD": {
+            "gold_chars": 1415,
+            "leakage_rate": 0.03604240282685511,
+            "leaked_chars": 51
+          },
+          "DATE": {
+            "gold_chars": 14679,
+            "leakage_rate": 0.04789154574562304,
+            "leaked_chars": 703
+          },
+          "EMAIL": {
+            "gold_chars": 7672,
+            "leakage_rate": 0.05409280500521374,
+            "leaked_chars": 415
+          },
+          "IBAN": {
+            "gold_chars": 1549,
+            "leakage_rate": 0.02840542285345382,
+            "leaked_chars": 44
+          },
+          "ID_NUMBER": {
+            "gold_chars": 6060,
+            "leakage_rate": 0.12772277227722773,
+            "leaked_chars": 774
+          },
+          "IP_ADDRESS": {
+            "gold_chars": 3187,
+            "leakage_rate": 0.005647944775651115,
+            "leaked_chars": 18
+          },
+          "LOCATION": {
+            "gold_chars": 64333,
+            "leakage_rate": 0.13381934621422908,
+            "leaked_chars": 8609
+          },
+          "ORGANIZATION": {
+            "gold_chars": 61702,
+            "leakage_rate": 0.41695569025315227,
+            "leaked_chars": 25727
+          },
+          "OTHER": {
+            "gold_chars": 7514,
+            "leakage_rate": 0.3233963268565345,
+            "leaked_chars": 2430
+          },
+          "PERSON": {
+            "gold_chars": 57163,
+            "leakage_rate": 0.09749313367038115,
+            "leaked_chars": 5573
+          },
+          "PHONE": {
+            "gold_chars": 6980,
+            "leakage_rate": 0.04699140401146129,
+            "leaked_chars": 328
+          }
+        },
+        "pred_chars": 445045
+      },
+      "ci95": {
+        "leakage_rate": [
+          0.1814416092006552,
+          0.2025087198758773
+        ],
+        "partial_micro_f1": [
+          0.44656242182430056,
+          0.4668932771451329
+        ],
+        "strict_micro_f1": [
+          0.3372782926181625,
+          0.35732887448189543
+        ],
+        "type_agnostic_micro_f1": [
+          0.49408084766870164,
+          0.5138284753803112
+        ]
+      },
+      "documents": 2891,
+      "gold_spans": 12719,
+      "partial": {
+        "macro_f1": 0.5047475261848177,
+        "micro": {
+          "f1": 0.4561729719421202,
+          "fn": 3151,
+          "fp": 19662,
+          "precision": 0.3273349298665754,
+          "recall": 0.7522603978300181,
+          "tp": 9568
+        },
+        "per_label": {
+          "CREDIT_CARD": {
+            "f1": 0.6170212765957448,
+            "fn": 25,
+            "fp": 47,
+            "precision": 0.5523809523809524,
+            "recall": 0.6987951807228916,
+            "tp": 58
+          },
+          "DATE": {
+            "f1": 0.24955309259921343,
+            "fn": 38,
+            "fp": 6259,
+            "precision": 0.1433068710648782,
+            "recall": 0.9649769585253456,
+            "tp": 1047
+          },
+          "EMAIL": {
+            "f1": 0.5357142857142857,
+            "fn": 20,
+            "fp": 500,
+            "precision": 0.375,
+            "recall": 0.9375,
+            "tp": 300
+          },
+          "IBAN": {
+            "f1": 0.9710144927536232,
+            "fn": 2,
+            "fp": 2,
+            "precision": 0.9710144927536232,
+            "recall": 0.9710144927536232,
+            "tp": 67
+          },
+          "ID_NUMBER": {
+            "f1": 0.1702953222677301,
+            "fn": 133,
+            "fp": 3716,
+            "precision": 0.09608367793724154,
+            "recall": 0.7481060606060606,
+            "tp": 395
+          },
+          "IP_ADDRESS": {
+            "f1": 0.8773234200743494,
+            "fn": 5,
+            "fp": 28,
+            "precision": 0.8082191780821918,
+            "recall": 0.959349593495935,
+            "tp": 118
+          },
+          "LOCATION": {
+            "f1": 0.5051203617502328,
+            "fn": 345,
+            "fp": 3376,
+            "precision": 0.36,
+            "recall": 0.8462566844919787,
+            "tp": 1899
+          },
+          "ORGANIZATION": {
+            "f1": 0.6399590862598021,
+            "fn": 1566,
+            "fp": 546,
+            "precision": 0.7746595130004127,
+            "recall": 0.5451641010746442,
+            "tp": 1877
+          },
+          "OTHER": {
+            "f1": 0.26125724476148016,
+            "fn": 400,
+            "fp": 1257,
+            "precision": 0.18903225806451612,
+            "recall": 0.4227994227994228,
+            "tp": 293
+          },
+          "PERSON": {
+            "f1": 0.7104256059376087,
+            "fn": 591,
+            "fp": 1906,
+            "precision": 0.6164218152545784,
+            "recall": 0.8382594417077176,
+            "tp": 3063
+          },
+          "PHONE": {
+            "f1": 0.5192861255037421,
+            "fn": 26,
+            "fp": 809,
+            "precision": 0.35793650793650794,
+            "recall": 0.9454926624737946,
+            "tp": 451
+          },
+          "URL": {
+            "f1": 0.0,
+            "fn": 0,
+            "fp": 1216,
+            "precision": 0.0,
+            "recall": 0.0,
+            "tp": 0
+          }
+        }
+      },
+      "pred_spans": 29230,
+      "strict": {
+        "macro_f1": 0.4375635316597764,
+        "micro": {
+          "f1": 0.3472311616486686,
+          "fn": 5436,
+          "fp": 21947,
+          "precision": 0.249161820047896,
+          "recall": 0.5726079094268417,
+          "tp": 7283
+        },
+        "per_label": {
+          "CREDIT_CARD": {
+            "f1": 0.5531914893617021,
+            "fn": 31,
+            "fp": 53,
+            "precision": 0.49523809523809526,
+            "recall": 0.6265060240963856,
+            "tp": 52
+          },
+          "DATE": {
+            "f1": 0.1949708020498153,
+            "fn": 267,
+            "fp": 6488,
+            "precision": 0.11196277032575964,
+            "recall": 0.7539170506912443,
+            "tp": 818
+          },
+          "EMAIL": {
+            "f1": 0.4303571428571429,
+            "fn": 79,
+            "fp": 559,
+            "precision": 0.30125,
+            "recall": 0.753125,
+            "tp": 241
+          },
+          "IBAN": {
+            "f1": 0.9710144927536232,
+            "fn": 2,
+            "fp": 2,
+            "precision": 0.9710144927536232,
+            "recall": 0.9710144927536232,
+            "tp": 67
+          },
+          "ID_NUMBER": {
+            "f1": 0.1470144427678379,
+            "fn": 187,
+            "fp": 3770,
+            "precision": 0.08294818778885917,
+            "recall": 0.6458333333333334,
+            "tp": 341
+          },
+          "IP_ADDRESS": {
+            "f1": 0.8624535315985131,
+            "fn": 7,
+            "fp": 30,
+            "precision": 0.7945205479452054,
+            "recall": 0.943089430894309,
+            "tp": 116
+          },
+          "LOCATION": {
+            "f1": 0.2888682005585849,
+            "fn": 1158,
+            "fp": 4189,
+            "precision": 0.20587677725118483,
+            "recall": 0.4839572192513369,
+            "tp": 1086
+          },
+          "ORGANIZATION": {
+            "f1": 0.5506307534947152,
+            "fn": 1828,
+            "fp": 808,
+            "precision": 0.6665290961617829,
+            "recall": 0.469067673540517,
+            "tp": 1615
+          },
+          "OTHER": {
+            "f1": 0.23183236736513602,
+            "fn": 433,
+            "fp": 1290,
+            "precision": 0.16774193548387098,
+            "recall": 0.37518037518037517,
+            "tp": 260
+          },
+          "PERSON": {
+            "f1": 0.5230198306853763,
+            "fn": 1399,
+            "fp": 2714,
+            "precision": 0.4538136445964983,
+            "recall": 0.6171319102353585,
+            "tp": 2255
+          },
+          "PHONE": {
+            "f1": 0.4974093264248705,
+            "fn": 45,
+            "fp": 828,
+            "precision": 0.34285714285714286,
+            "recall": 0.9056603773584906,
+            "tp": 432
+          },
+          "URL": {
+            "f1": 0.0,
+            "fn": 0,
+            "fp": 1216,
+            "precision": 0.0,
+            "recall": 0.0,
+            "tp": 0
+          }
+        }
+      },
+      "type_agnostic": {
+        "macro_f1": 0.553472108431922,
+        "micro": {
+          "f1": 0.5038499129895826,
+          "fn": 2151,
+          "fp": 18662,
+          "precision": 0.3615463564830653,
+          "recall": 0.8308829310480383,
+          "tp": 10568
+        },
+        "per_label": {
+          "CREDIT_CARD": {
+            "f1": 0.7788461538461539,
+            "fn": 2,
+            "fp": 44,
+            "precision": 0.648,
+            "recall": 0.9759036144578314,
+            "tp": 81
+          },
+          "DATE": {
+            "f1": 0.25560266505148393,
+            "fn": 30,
+            "fp": 6115,
+            "precision": 0.14714086471408647,
+            "recall": 0.9723502304147466,
+            "tp": 1055
+          },
+          "EMAIL": {
+            "f1": 0.5478961504028648,
+            "fn": 14,
+            "fp": 491,
+            "precision": 0.383939774153074,
+            "recall": 0.95625,
+            "tp": 306
+          },
+          "IBAN": {
+            "f1": 0.9710144927536232,
+            "fn": 2,
+            "fp": 2,
+            "precision": 0.9710144927536232,
+            "recall": 0.9710144927536232,
+            "tp": 67
+          },
+          "ID_NUMBER": {
+            "f1": 0.20406398616515348,
+            "fn": 56,
+            "fp": 3626,
+            "precision": 0.11517813567593949,
+            "recall": 0.8939393939393939,
+            "tp": 472
+          },
+          "IP_ADDRESS": {
+            "f1": 0.8897058823529413,
+            "fn": 2,
+            "fp": 28,
+            "precision": 0.8120805369127517,
+            "recall": 0.983739837398374,
+            "tp": 121
+          },
+          "LOCATION": {
+            "f1": 0.5481696841548831,
+            "fn": 170,
+            "fp": 3249,
+            "precision": 0.38962990794664665,
+            "recall": 0.9242424242424242,
+            "tp": 2074
+          },
+          "ORGANIZATION": {
+            "f1": 0.7230339845673945,
+            "fn": 1241,
+            "fp": 446,
+            "precision": 0.831570996978852,
+            "recall": 0.6395585245425501,
+            "tp": 2202
+          },
+          "OTHER": {
+            "f1": 0.42416225749559083,
+            "fn": 212,
+            "fp": 1094,
+            "precision": 0.3053968253968254,
+            "recall": 0.6940836940836941,
+            "tp": 481
+          },
+          "PERSON": {
+            "f1": 0.7664543524416136,
+            "fn": 405,
+            "fp": 1575,
+            "precision": 0.6735074626865671,
+            "recall": 0.8891625615763546,
+            "tp": 3249
+          },
+          "PHONE": {
+            "f1": 0.5327156919513607,
+            "fn": 17,
+            "fp": 790,
+            "precision": 0.368,
+            "recall": 0.9643605870020965,
+            "tp": 460
+          },
+          "URL": {
+            "f1": 0.0,
+            "fn": 0,
+            "fp": 1202,
+            "precision": 0.0,
+            "recall": 0.0,
+            "tp": 0
+          }
+        }
+      }
+    }
+  }
+}

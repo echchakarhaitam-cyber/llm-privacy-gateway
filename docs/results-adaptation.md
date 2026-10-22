@@ -18,6 +18,7 @@ Gretel train file: 26,019 documents, SHA-256 `2858af81ec59…`. **Documents whos
 | `crf_g500` (c) Gretel 500 only | 0.774 [0.764, 0.783] | 0.770 [0.764, 0.776] | 0.334 [0.322, 0.347] | 0.359 [0.348, 0.370] | 0.352 [0.345, 0.359] | 0.731 [0.720, 0.740] |
 | `crf_n5k_g100` (b) Nemotron 5000 + Gretel 100 | 0.068 [0.062, 0.074] | 0.080 [0.076, 0.084] | 0.338 [0.326, 0.349] | 0.939 [0.934, 0.943] | 0.933 [0.930, 0.936] | 0.606 [0.596, 0.617] |
 | `crf_n5k_g500` (b) Nemotron 5000 + Gretel 500 | 0.070 [0.064, 0.076] | 0.081 [0.077, 0.085] | 0.282 [0.270, 0.294] | 0.936 [0.931, 0.940] | 0.930 [0.927, 0.933] | 0.697 [0.688, 0.706] |
+| `crf_n5k_g500+regex+presidio` (b) adapted CRF + regex + Presidio | 0.052 [0.047, 0.057] | 0.061 [0.057, 0.065] | 0.192 [0.181, 0.203] | 0.914 [0.909, 0.920] | 0.909 [0.905, 0.912] | 0.504 [0.494, 0.514] |
 
 **Paired differences against (a)** (new model minus (a); a negative leakage difference is an improvement; paired bootstrap, same document resamples)
 
@@ -26,6 +27,7 @@ Gretel train file: 26,019 documents, SHA-256 `2858af81ec59…`. **Documents whos
 | `crf_g500` | +0.709 [+0.698, +0.720] | +0.694 [+0.687, +0.701] | -0.078 [-0.092, -0.063] | -0.582 [-0.593, -0.571] | -0.583 [-0.590, -0.576] | +0.263 [+0.250, +0.276] |
 | `crf_n5k_g100` | +0.003 [+0.001, +0.005] | +0.004 [+0.002, +0.006] | -0.074 [-0.083, -0.065] | -0.001 [-0.003, +0.001] | -0.002 [-0.003, -0.001] | +0.138 [+0.131, +0.146] |
 | `crf_n5k_g500` | +0.005 [+0.002, +0.008] | +0.005 [+0.003, +0.007] | -0.130 [-0.141, -0.118] | -0.005 [-0.007, -0.002] | -0.004 [-0.006, -0.003] | +0.229 [+0.220, +0.239] |
+| `crf_n5k_g500+regex+presidio` | -0.013 [-0.016, -0.010] | -0.015 [-0.018, -0.013] | -0.220 [-0.230, -0.209] | -0.026 [-0.030, -0.022] | -0.026 [-0.029, -0.023] | +0.036 [+0.027, +0.044] |
 
 **Training cost** (this laptop)
 
@@ -35,16 +37,27 @@ Gretel train file: 26,019 documents, SHA-256 `2858af81ec59…`. **Documents whos
 | `crf_n5k_g100` | 5100 | 20.9 | 20.9 | 1502 |
 | `crf_n5k_g500` | 5500 | 23.2 | 23.1 | 1648 |
 
+Rows marked (b) or (c) are adapted models, evaluated on sets that include the Gretel test set that was also used to pick the best of them; their Gretel numbers are descriptive, not a validated selection.
+
 ## Observations
 
 Generated from the tables above.
 
-- `crf_g500` on `nemotron_dev_2k`: leakage 0.065 → 0.774 (relative reduction -1096.6%; the paired CI says higher); type-agnostic F1 -0.582.
-- `crf_g500` on `nemotron_test_5k`: leakage 0.076 → 0.770 (relative reduction -909.6%; the paired CI says higher); type-agnostic F1 -0.583.
-- `crf_g500` on `gretel_en_test`: leakage 0.412 → 0.334 (relative reduction 18.8%; the paired CI says lower); type-agnostic F1 +0.263.
-- `crf_n5k_g100` on `nemotron_dev_2k`: leakage 0.065 → 0.068 (relative reduction -4.7%; the paired CI says higher); type-agnostic F1 -0.001.
-- `crf_n5k_g100` on `nemotron_test_5k`: leakage 0.076 → 0.080 (relative reduction -4.9%; the paired CI says higher); type-agnostic F1 -0.002.
-- `crf_n5k_g100` on `gretel_en_test`: leakage 0.412 → 0.338 (relative reduction 18.0%; the paired CI says lower); type-agnostic F1 +0.138.
-- `crf_n5k_g500` on `nemotron_dev_2k`: leakage 0.065 → 0.070 (relative reduction -8.0%; the paired CI says higher); type-agnostic F1 -0.005.
-- `crf_n5k_g500` on `nemotron_test_5k`: leakage 0.076 → 0.081 (relative reduction -6.6%; the paired CI says higher); type-agnostic F1 -0.004.
-- `crf_n5k_g500` on `gretel_en_test`: leakage 0.412 → 0.282 (relative reduction 31.5%; the paired CI says lower); type-agnostic F1 +0.229.
+- `crf_g500` on `nemotron_dev_2k`: leakage 0.065 → 0.774 (relative change +1096.6%; the paired CI says higher); type-agnostic F1 -0.582.
+- `crf_g500` on `nemotron_test_5k`: leakage 0.076 → 0.770 (relative change +909.6%; the paired CI says higher); type-agnostic F1 -0.583.
+- `crf_g500` on `gretel_en_test`: leakage 0.412 → 0.334 (relative change -18.8%; the paired CI says lower); type-agnostic F1 +0.263.
+- `crf_n5k_g100` on `nemotron_dev_2k`: leakage 0.065 → 0.068 (relative change +4.7%; the paired CI says higher); type-agnostic F1 -0.001.
+- `crf_n5k_g100` on `nemotron_test_5k`: leakage 0.076 → 0.080 (relative change +4.9%; the paired CI says higher); type-agnostic F1 -0.002.
+- `crf_n5k_g100` on `gretel_en_test`: leakage 0.412 → 0.338 (relative change -18.0%; the paired CI says lower); type-agnostic F1 +0.138.
+- `crf_n5k_g500` on `nemotron_dev_2k`: leakage 0.065 → 0.070 (relative change +8.0%; the paired CI says higher); type-agnostic F1 -0.005.
+- `crf_n5k_g500` on `nemotron_test_5k`: leakage 0.076 → 0.081 (relative change +6.6%; the paired CI says higher); type-agnostic F1 -0.004.
+- `crf_n5k_g500` on `gretel_en_test`: leakage 0.412 → 0.282 (relative change -31.5%; the paired CI says lower); type-agnostic F1 +0.229.
+- `crf_n5k_g500+regex+presidio` on `nemotron_dev_2k`: leakage 0.065 → 0.052 (relative change -20.1%; the paired CI says lower); type-agnostic F1 -0.026.
+- `crf_n5k_g500+regex+presidio` on `nemotron_test_5k`: leakage 0.076 → 0.061 (relative change -20.1%; the paired CI says lower); type-agnostic F1 -0.026.
+- `crf_n5k_g500+regex+presidio` on `gretel_en_test`: leakage 0.412 → 0.192 (relative change -53.3%; the paired CI says lower); type-agnostic F1 +0.036.
+- On `nemotron_dev_2k`: `crf_n5k_g500` leaks more than `crf+regex+presidio` (0.070 vs 0.050).
+- On `nemotron_dev_2k`: `crf_n5k_g500+regex+presidio` leaks more than `crf+regex+presidio` (0.052 vs 0.050).
+- On `nemotron_test_5k`: `crf_n5k_g500` leaks more than `crf+regex+presidio` (0.081 vs 0.060).
+- On `nemotron_test_5k`: `crf_n5k_g500+regex+presidio` leaks more than `crf+regex+presidio` (0.061 vs 0.060).
+- On `gretel_en_test`: `crf_n5k_g500` leaks less than `crf+regex+presidio` (0.282 vs 0.318).
+- On `gretel_en_test`: `crf_n5k_g500+regex+presidio` leaks less than `crf+regex+presidio` (0.192 vs 0.318).

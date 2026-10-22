@@ -9,11 +9,11 @@ gateway is described in [GATEWAY.md](GATEWAY.md), the data in [DATA.md](DATA.md)
 
 ## Summary
 
-On three synthetic evaluation sets (dev, Nemotron test, Gretel), the best off-the-shelf configuration (`regex+presidio`) leaves 0.369, 0.351, 0.509 of the gold PII characters uncovered. A CRF trained on 5,000 Nemotron documents gives 0.065, 0.076, 0.412, and the union `crf+regex+presidio` 0.050, 0.060, 0.318: the gain is large in-domain and smaller out of distribution. Adding Gretel training documents moves the Gretel leakage of the CRF from 0.412 to 0.282 (`crf_n5k_g500`). Under every masking strategy the privacy of the output is set by the detector, not by the strategy (RQ7). Fail-closed: 0 unscreened requests forwarded and 0 fault-induced leaks over 1783 injected faults. Fail-open: the worst condition (exception, q = 0.2) leaked 207 of 1000 requests. Fail-closed availability at q = 0.2 with a detector fault was at least 0.792.
+On three synthetic evaluation sets (dev, Nemotron test, Gretel), the best off-the-shelf configuration (`regex+presidio`) leaves 0.369, 0.351, 0.509 of the gold PII characters uncovered. A CRF trained on 5,000 Nemotron documents gives 0.065, 0.076, 0.412, and the union `crf+regex+presidio` 0.050, 0.060, 0.318: the gain is large in-domain and smaller out of distribution. Adding Gretel training documents moves the Gretel leakage of the CRF from 0.412 to 0.282 (`crf_n5k_g500`); on Gretel, `crf_n5k_g500` leaks less than `crf+regex+presidio` (0.282 vs 0.318). Under every masking strategy the privacy of the output is set by the detector, not by the strategy (RQ7). Fail-closed: 0 unscreened requests forwarded and 0 fault-induced leaks over 1783 injected faults. Fail-open: the worst condition (exception, q = 0.2) leaked 207 of 1000 requests. Fail-closed availability at q = 0.2 with a detector fault was at least 0.792.
 
 ## Headline: leakage by detector and set
 
-Character leakage = share of gold PII characters left uncovered by the detected spans (lower is better), with 95 % document-bootstrap intervals. The last row is the RQ11 model with the lowest Gretel leakage (`crf_n5k_g500`); that choice is descriptive and was made on the Gretel test set itself.
+Character leakage = share of gold PII characters left uncovered by the detected spans (lower is better), with 95 % document-bootstrap intervals. The rows after `crf+regex+presidio` are adapted models (RQ11): `crf_n5k_g500` is the single RQ11 model with the lowest Gretel leakage, a choice made on the Gretel test set itself; `crf_n5k_g500+regex+presidio` was pre-declared as a descriptive addition. Rows marked (b) or (c) are adapted models, evaluated on sets that include the Gretel test set that was also used to pick the best of them; their Gretel numbers are descriptive, not a validated selection.
 
 | detector | dev (`nemotron_dev_2k`) | test (`nemotron_test_5k`) | gretel (`gretel_en_test`) |
 |---|---|---|---|
@@ -23,6 +23,7 @@ Character leakage = share of gold PII characters left uncovered by the detected 
 | `crf` | 0.065 [0.059, 0.071] | 0.076 [0.072, 0.081] | 0.412 [0.400, 0.423] |
 | `crf+regex+presidio` | 0.050 [0.045, 0.055] | 0.060 [0.056, 0.064] | 0.318 [0.306, 0.331] |
 | `crf_n5k_g500` — (b) Nemotron 5000 + Gretel 500 | 0.070 [0.064, 0.076] | 0.081 [0.077, 0.085] | 0.282 [0.270, 0.294] |
+| `crf_n5k_g500+regex+presidio` — (b) adapted CRF + regex + Presidio | 0.052 [0.047, 0.057] | 0.061 [0.057, 0.065] | 0.192 [0.181, 0.203] |
 
 ![Leakage by set](figures/leakage_by_set.png)
 
@@ -89,15 +90,24 @@ Protocol and load records: [results-gateway.md](results-gateway.md).
 Does a small amount of target-domain data fix the Gretel leakage? Full tables:
 [results-adaptation.md](results-adaptation.md).
 
-- `crf_g500` on `nemotron_dev_2k`: leakage 0.065 → 0.774 (relative reduction -1096.6%; the paired CI says higher); type-agnostic F1 -0.582.
-- `crf_g500` on `nemotron_test_5k`: leakage 0.076 → 0.770 (relative reduction -909.6%; the paired CI says higher); type-agnostic F1 -0.583.
-- `crf_g500` on `gretel_en_test`: leakage 0.412 → 0.334 (relative reduction 18.8%; the paired CI says lower); type-agnostic F1 +0.263.
-- `crf_n5k_g100` on `nemotron_dev_2k`: leakage 0.065 → 0.068 (relative reduction -4.7%; the paired CI says higher); type-agnostic F1 -0.001.
-- `crf_n5k_g100` on `nemotron_test_5k`: leakage 0.076 → 0.080 (relative reduction -4.9%; the paired CI says higher); type-agnostic F1 -0.002.
-- `crf_n5k_g100` on `gretel_en_test`: leakage 0.412 → 0.338 (relative reduction 18.0%; the paired CI says lower); type-agnostic F1 +0.138.
-- `crf_n5k_g500` on `nemotron_dev_2k`: leakage 0.065 → 0.070 (relative reduction -8.0%; the paired CI says higher); type-agnostic F1 -0.005.
-- `crf_n5k_g500` on `nemotron_test_5k`: leakage 0.076 → 0.081 (relative reduction -6.6%; the paired CI says higher); type-agnostic F1 -0.004.
-- `crf_n5k_g500` on `gretel_en_test`: leakage 0.412 → 0.282 (relative reduction 31.5%; the paired CI says lower); type-agnostic F1 +0.229.
+- `crf_g500` on `nemotron_dev_2k`: leakage 0.065 → 0.774 (relative change +1096.6%; the paired CI says higher); type-agnostic F1 -0.582.
+- `crf_g500` on `nemotron_test_5k`: leakage 0.076 → 0.770 (relative change +909.6%; the paired CI says higher); type-agnostic F1 -0.583.
+- `crf_g500` on `gretel_en_test`: leakage 0.412 → 0.334 (relative change -18.8%; the paired CI says lower); type-agnostic F1 +0.263.
+- `crf_n5k_g100` on `nemotron_dev_2k`: leakage 0.065 → 0.068 (relative change +4.7%; the paired CI says higher); type-agnostic F1 -0.001.
+- `crf_n5k_g100` on `nemotron_test_5k`: leakage 0.076 → 0.080 (relative change +4.9%; the paired CI says higher); type-agnostic F1 -0.002.
+- `crf_n5k_g100` on `gretel_en_test`: leakage 0.412 → 0.338 (relative change -18.0%; the paired CI says lower); type-agnostic F1 +0.138.
+- `crf_n5k_g500` on `nemotron_dev_2k`: leakage 0.065 → 0.070 (relative change +8.0%; the paired CI says higher); type-agnostic F1 -0.005.
+- `crf_n5k_g500` on `nemotron_test_5k`: leakage 0.076 → 0.081 (relative change +6.6%; the paired CI says higher); type-agnostic F1 -0.004.
+- `crf_n5k_g500` on `gretel_en_test`: leakage 0.412 → 0.282 (relative change -31.5%; the paired CI says lower); type-agnostic F1 +0.229.
+- `crf_n5k_g500+regex+presidio` on `nemotron_dev_2k`: leakage 0.065 → 0.052 (relative change -20.1%; the paired CI says lower); type-agnostic F1 -0.026.
+- `crf_n5k_g500+regex+presidio` on `nemotron_test_5k`: leakage 0.076 → 0.061 (relative change -20.1%; the paired CI says lower); type-agnostic F1 -0.026.
+- `crf_n5k_g500+regex+presidio` on `gretel_en_test`: leakage 0.412 → 0.192 (relative change -53.3%; the paired CI says lower); type-agnostic F1 +0.036.
+- On `nemotron_dev_2k`: `crf_n5k_g500` leaks more than `crf+regex+presidio` (0.070 vs 0.050).
+- On `nemotron_dev_2k`: `crf_n5k_g500+regex+presidio` leaks more than `crf+regex+presidio` (0.052 vs 0.050).
+- On `nemotron_test_5k`: `crf_n5k_g500` leaks more than `crf+regex+presidio` (0.081 vs 0.060).
+- On `nemotron_test_5k`: `crf_n5k_g500+regex+presidio` leaks more than `crf+regex+presidio` (0.061 vs 0.060).
+- On `gretel_en_test`: `crf_n5k_g500` leaks less than `crf+regex+presidio` (0.282 vs 0.318).
+- On `gretel_en_test`: `crf_n5k_g500+regex+presidio` leaks less than `crf+regex+presidio` (0.192 vs 0.318).
 
 ### Final error analysis
 - `nemotron_dev_2k`: 955 of 15567 gold spans leak (0.061); largest mapped label OTHER (63.2%), largest raw label `occupation` (37.0%), largest position prose (86.5%).

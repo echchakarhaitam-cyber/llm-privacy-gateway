@@ -52,6 +52,9 @@ OUT = Path("results/m7")
 MODELS = Path("models/m7")
 SUBSETS = DATA / "processed" / "train"
 M4_OUT = Path("results/m4")
+M3_OUT = Path("results/m3")
+ENSEMBLE = "crf_n5k_g500+regex+presidio"
+ENSEMBLE_MEMBERS = ("crf_n5k_g500", "regex", "presidio")
 SEED = 0
 K_VALUES = (100, 500)
 C1, C2 = 0.1, 0.01                      # the M4 selection (results/m4/crf_grid.json)
@@ -163,12 +166,47 @@ def cmd_evaluate() -> None:
             cmd_compare(DATA, OUT, M4_OUT, set_name, name, BASELINE)
 
 
+def cmd_ensemble() -> None:
+    """Milestone 8 (pre-declared, descriptive): the adapted CRF in the same union as M4's best.
+
+    Built from stored predictions only: ``crf_n5k_g500`` (results/m7) + ``regex`` and
+    ``presidio`` (results/m3), combined by the same union ensemble as ``crf+regex+presidio``.
+    Scored on all three sets, so on the Gretel test set that was also used to pick
+    ``crf_n5k_g500``: the numbers are descriptive, not a validated selection.
+    """
+    from privgate.bench.cli import _member_dir
+    from privgate.bench.runner import METRICS, PREDICTIONS, compose_ensemble, read_predictions
+    from privgate.spans import EntityType
+
+    for set_name in SET_NAMES:
+        docs, sha, raw = _load(DATA, set_name)
+        t0 = time.perf_counter()
+        member_preds, member_timings, configs, supported = [], [], {}, set()
+        for member_name in ENSEMBLE_MEMBERS:
+            member = _member_dir(OUT, M3_OUT, set_name, member_name)
+            meta = json.loads((member / METRICS).read_text(encoding="utf-8"))
+            if meta["set_sha256"] != sha:
+                raise SystemExit(f"{member} was scored on another version of {set_name}")
+            preds, timings = read_predictions(member / PREDICTIONS, docs)
+            member_preds.append(preds)
+            member_timings.append(timings)
+            configs[member_name] = meta["config"]
+            supported |= {EntityType(lab) for lab in meta["supported_labels"]}
+        preds, timings = compose_ensemble(member_preds, member_timings)
+        _score(OUT, set_name, ENSEMBLE, list(ENSEMBLE_MEMBERS),
+               {"members": configs, "note": "descriptive addition declared before evaluation"},
+               frozenset(supported), docs, sha, raw, preds, timings, time.perf_counter() - t0)
+        for other in (BASELINE, "crf+regex+presidio"):
+            cmd_compare(DATA, OUT, M4_OUT, set_name, ENSEMBLE, other)
+        cmd_compare(DATA, OUT, M4_OUT, set_name, "crf_n5k_g500", "crf+regex+presidio")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("command", choices=("prepare", "train", "evaluate"))
+    parser.add_argument("command", choices=("prepare", "train", "evaluate", "ensemble"))
     parser.add_argument("--budget-minutes", type=float, default=BUDGET_MINUTES)
     args = parser.parse_args(argv)
-    {"prepare": cmd_prepare, "evaluate": cmd_evaluate,
+    {"prepare": cmd_prepare, "evaluate": cmd_evaluate, "ensemble": cmd_ensemble,
      "train": lambda: cmd_train(args.budget_minutes)}[args.command]()
     return 0
 

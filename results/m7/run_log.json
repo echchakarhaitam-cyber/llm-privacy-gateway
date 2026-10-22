@@ -53,7 +53,25 @@
       "seconds": 5.146,
       "set": "gretel_en_test",
       "step": "score"
+    },
+    {
+      "detector": "crf_n5k_g500+regex+presidio",
+      "seconds": 6.731,
+      "set": "nemotron_dev_2k",
+      "step": "score"
+    },
+    {
+      "detector": "crf_n5k_g500+regex+presidio",
+      "seconds": 14.196,
+      "set": "nemotron_test_5k",
+      "step": "score"
+    },
+    {
+      "detector": "crf_n5k_g500+regex+presidio",
+      "seconds": 6.52,
+      "set": "gretel_en_test",
+      "step": "score"
     }
   ],
-  "total_seconds": 56.088
+  "total_seconds": 83.535
 }
