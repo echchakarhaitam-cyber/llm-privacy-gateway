@@ -548,14 +548,28 @@ Generated from the tables above.
 """
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    import argparse
+
+    from readme_builder import build_readme  # scripts/readme_builder.py
+
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--readme", action="store_true", help="also write README.md")
+    args = parser.parse_args(argv)
     root, docs = Path("results"), Path("docs")
     ok = figure(root, docs / "figures" / "leakage_by_set.png")
     print("figure:", "written" if ok else "skipped (matplotlib missing)")
-    for name, text in (("results.md", build_results(root)),
-                       ("results-adaptation.md", build_adaptation(root))):
-        (docs / name).write_text(text, encoding="utf-8", newline="\n")
-        print(f"wrote docs/{name}")
+    outputs = [(docs / "results.md", build_results(root)),
+               (docs / "results-adaptation.md", build_adaptation(root))]
+    if args.readme:
+        facts = load(root / "readme_facts.json") or {}
+        outputs.append((Path("README.md"), build_readme(root, facts)))
+    for path, text in outputs:
+        wrong = wrong_comparisons(text)
+        if wrong:
+            raise SystemExit(f"{path}: a comparison contradicts its numbers: {wrong}")
+        path.write_text(text, encoding="utf-8", newline="\n")
+        print(f"wrote {path} ({text.count(chr(10))} lines)")
     return 0
 
 

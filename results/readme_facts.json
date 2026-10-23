@@ -1,0 +1,73 @@
+{
+  "quickstart_detect": {
+    "code": "from privgate.detectors.regex import RegexDetector\nfrom privgate.masking import mask, unmask\n\ntext = \"Contact Anna Lee at anna.lee@example.org or +33 6 12 34 56 78. Card: 4111 1111 1111 1111.\"\nspans = RegexDetector().detect(text)\nprint([(s.label.value, text[s.start:s.end]) for s in spans])\n\nmasked = mask(text, spans, \"typed\")                 # reversible placeholders\nprint(masked.text)\nprint(dict(masked.mapping))\nprint(unmask(\"Please write to <EMAIL_1>.\", masked.mapping))\n",
+    "output": "[('EMAIL', 'anna.lee@example.org'), ('PHONE', '+33 6 12 34 56 78'), ('CREDIT_CARD', '4111 1111 1111 1111')]\nContact Anna Lee at <EMAIL_1> or <PHONE_1>. Card: <CREDIT_CARD_1>.\n{'<EMAIL_1>': 'anna.lee@example.org', '<PHONE_1>': '+33 6 12 34 56 78', '<CREDIT_CARD_1>': '4111 1111 1111 1111'}\nPlease write to anna.lee@example.org."
+  },
+  "quickstart_gateway": {
+    "command": "python -m privgate.gateway --mock-upstream --detector regex --port 8088",
+    "curl": "curl -s -i http://127.0.0.1:8088/v1/chat/completions -H 'Content-Type: application/json' -d '{\"model\": \"demo\", \"messages\": [{\"role\": \"user\", \"content\": \"Email anna.lee@example.org and call +33 6 12 34 56 78.\"}]}'",
+    "healthz": {
+      "detectors": [
+        {
+          "name": "regex",
+          "ready": true
+        }
+      ],
+      "fail_open": false,
+      "status": "ok"
+    },
+    "response_headers": [
+      "HTTP/1.1 200 OK",
+      "x-privgate-request-id: e04a031b8e334a868fbd99dc799f585b"
+    ],
+    "response_json": {
+      "choices": [
+        {
+          "finish_reason": "stop",
+          "index": 0,
+          "message": {
+            "content": "ECHO: Email anna.lee@example.org and call +33 6 12 34 56 78.",
+            "role": "assistant"
+          }
+        }
+      ],
+      "created": 0,
+      "id": "mock-1",
+      "model": "demo",
+      "object": "chat.completion",
+      "privgate": {
+        "masked_entities": {
+          "EMAIL": 1,
+          "PHONE": 1
+        },
+        "request_id": "e04a031b8e334a868fbd99dc799f585b",
+        "screened": true
+      },
+      "usage": {
+        "completion_tokens": 10,
+        "prompt_tokens": 8,
+        "total_tokens": 18
+      }
+    }
+  },
+  "tests": {
+    "data_or_models": {
+      "command": "pytest -q -m \"data or models\"",
+      "returncode": 0,
+      "seconds": 88.4,
+      "summary": "11 passed, 570 deselected in 86.22s (0:01:26)"
+    },
+    "default": {
+      "command": "pytest -q",
+      "returncode": 0,
+      "seconds": 35.7,
+      "summary": "567 passed, 14 deselected in 33.42s"
+    },
+    "slow": {
+      "command": "pytest -q -m slow",
+      "returncode": 0,
+      "seconds": 66.2,
+      "summary": "3 passed, 578 deselected in 64.00s (0:01:04)"
+    }
+  }
+}
